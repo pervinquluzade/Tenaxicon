@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tenaxicon — C1/C2 İngilis lüğəti, gündəlik</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Tenaxicon">
 <style>
   :root {
     --ink: #1C2541;
@@ -39,6 +42,35 @@
 
   header.app-head {
     margin-bottom: 22px;
+    position: relative;
+  }
+
+  /* Qlobal İnterfeys Dil Seçici */
+  .ui-lang-selector {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    gap: 4px;
+    background: var(--paper-card);
+    border: 1px solid var(--paper-line);
+    padding: 2px;
+    border-radius: 20px;
+  }
+  .ui-lang-btn {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 700;
+    border: none;
+    background: none;
+    padding: 4px 10px;
+    border-radius: 14px;
+    cursor: pointer;
+    color: var(--ink-soft);
+  }
+  .ui-lang-btn.active {
+    background: var(--ink);
+    color: var(--paper);
   }
 
   .eyebrow {
@@ -62,6 +94,7 @@
     font-size: 14px;
     color: var(--ink-soft);
     margin: 0;
+    max-width: 80%;
   }
 
   /* Tabs */
@@ -331,29 +364,6 @@
     color: var(--ink-soft);
     margin-right: 2px;
   }
-  .score-pip {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: 1.5px solid var(--paper-line);
-    background: var(--paper-card);
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--ink-soft);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .score-pip:hover { border-color: var(--ink-soft); }
-  .score-pip.active.s1, .score-pip.active.s2 { background: var(--teal); border-color: var(--teal); color: #fff; }
-  .score-pip.active.s3 { background: #C9A227; border-color: #C9A227; color: #fff; }
-  .score-pip.active.s4, .score-pip.active.s5 { background: var(--clay); border-color: var(--clay); color: #fff; }
-  .score-hint {
-    font-size: 11.5px;
-    color: var(--ink-soft);
-    margin-left: 4px;
-  }
 
   /* Sub-tabs for games */
   .game-subtabs {
@@ -466,9 +476,6 @@
   }
   .quiz-opt.correct { background: var(--teal-soft); border-color: var(--teal); color: var(--teal); }
   .quiz-opt.wrong { background: var(--clay-soft); border-color: var(--clay); color: var(--clay); }
-  .quiz-score-line {
-    font-size: 14px;
-  }
   .quiz-result {
     display: none;
     text-align: center;
@@ -542,23 +549,6 @@
     font-size: 13px;
     color: var(--clay);
   }
-  .learned-row-score {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-shrink: 0;
-  }
-  .learned-score-badge {
-    font-size: 12px;
-    font-weight: 700;
-    padding: 3px 10px;
-    border-radius: 999px;
-    color: #fff;
-  }
-  .learned-score-badge.s1, .learned-score-badge.s2 { background: var(--teal); }
-  .learned-score-badge.s3 { background: #C9A227; }
-  .learned-score-badge.s4, .learned-score-badge.s5 { background: var(--clay); }
-  .learned-score-badge.none { background: var(--ink-soft); }
 
   .game-empty {
     padding: 28px 20px;
@@ -718,9 +708,13 @@
 <div class="wrap">
 
   <header class="app-head">
-    <p class="eyebrow">Gün <span id="day-count">1</span> · C1 / C2</p>
-    <h1>Tenaxicon</h1>
-    <p class="sub">Gündəlik beş C1/C2 İngilis sözü, Azərbaycan mənaları ilə — sonra özünü yoxla.</p>
+    <div class="ui-lang-selector" role="group" aria-label="Interface Language">
+      <button class="ui-lang-btn active" id="ui-lang-az" data-uilang="az">AZ</button>
+      <button class="ui-lang-btn" id="ui-lang-en" data-uilang="en">EN</button>
+    </div>
+    <p class="eyebrow"><span id="txt-day-label">Gün</span> <span id="day-count">1</span> · C1 / C2</p>
+    <h1 id="txt-app-title">Tenaxicon</h1>
+    <p class="sub" id="txt-app-sub">Gündəlik beş C1/C2 İngilis sözü, Azərbaycan mənaları ilə — sonra özünü yoxla.</p>
   </header>
 
   <nav class="tabs" role="tablist">
@@ -732,11 +726,11 @@
 
   <!-- DAILY WORDS VIEW -->
   <section class="view active" id="view-words" role="tabpanel">
-    <h2 class="sr-only">Azərbaycan və İngilis dilində günün beş lüğət sözü</h2>
+    <h2 class="sr-only">Vocabulary</h2>
 
     <div class="stat-strip">
-      <div class="stat"><b id="learned-count">0</b>/5 öyrənildi</div>
-      <div class="stat">Seria: <b id="streak-count">1</b> gün</div>
+      <div class="stat"><b id="learned-count">0</b>/5 <span id="txt-stat-learned">öyrənildi</span></div>
+      <div class="stat"><span id="txt-stat-streak">Seria:</span> <b id="streak-count">1</b> <span id="txt-stat-days">gün</span></div>
     </div>
 
     <div id="word-list"></div>
@@ -749,38 +743,38 @@
 
   <!-- MY WORDS VIEW -->
   <section class="view" id="view-mywords" role="tabpanel">
-    <h2 class="sr-only">Sözlərim siyahısı</h2>
+    <h2 class="sr-only">My Words</h2>
     <div class="stat-strip">
-      <div class="stat">Siyahında: <b id="mywords-count">0</b> söz</div>
+      <div class="stat"><span id="txt-mywords-stat">Siyahında:</span> <b id="mywords-count">0</b> <span id="txt-mywords-wordunit">söz</span></div>
     </div>
-    <p class="mywords-hint">Günün sözlərindən ⊕ düyməsinə basaraq sözlərini bu siyahıya əlavə edə bilərsən. Çətin sözlər oyunlarda daha tez çıxır.</p>
+    <p class="mywords-hint" id="txt-mywords-hint">Günün sözlərindən ⊕ düyməsinə basaraq sözlərini bu siyahıya əlavə edə bilərsən. Çətin sözlər oyunlarda daha tez çıxır.</p>
     <div id="mywords-list"></div>
   </section>
 
   <!-- GAME VIEW -->
   <section class="view" id="view-game" role="tabpanel">
-    <h2 class="sr-only">Lüğət oyunları: uyğunlaşdır, flaş kart, quiz, imla, tərcümə</h2>
+    <h2 class="sr-only">Games</h2>
 
-    <div class="game-subtabs" role="tablist" aria-label="Oyun seç">
-      <button class="subtab-pill active" data-sub="match">Uyğunlaşdır</button>
-      <button class="subtab-pill" data-sub="flash">Flaş kart</button>
-      <button class="subtab-pill" data-sub="quiz">Quiz</button>
-      <button class="subtab-pill" data-sub="spell">İmla</button>
-      <button class="subtab-pill" data-sub="translate">Tərcümə</button>
+    <div class="game-subtabs" role="tablist" aria-label="Game Mode">
+      <button class="subtab-pill active" id="subtab-match" data-sub="match">Uyğunlaşdır</button>
+      <button class="subtab-pill" id="subtab-flash" data-sub="flash">Flaş kart</button>
+      <button class="subtab-pill" id="subtab-quiz" data-sub="quiz">Quiz</button>
+      <button class="subtab-pill" id="subtab-spell" data-sub="spell">İmla</button>
+      <button class="subtab-pill" id="subtab-translate" data-sub="translate">Tərcümə</button>
     </div>
 
     <!-- MATCH -->
     <div class="game-subview active" id="sub-match">
-      <div class="lang-select-row" role="group" aria-label="Oyun dili seç">
-        <button class="lang-pill active" data-lang="en">İngiliscə uyğunlaşdır</button>
-        <button class="lang-pill" data-lang="az">Azərbaycanca uyğunlaşdır</button>
+      <div class="lang-select-row" role="group" aria-label="Game Mode Language">
+        <button class="lang-pill active" id="match-lang-en" data-lang="en">İngiliscə uyğunlaşdır</button>
+        <button class="lang-pill" id="match-lang-az" data-lang="az">Azərbaycanca uyğunlaşdır</button>
       </div>
 
       <div class="game-meta">
         <div class="game-stats">
-          <div class="stat">Hərəkət: <b id="moves">0</b></div>
-          <div class="stat">Uyğun: <b id="matches">0</b>/<span id="matches-total">8</span></div>
-          <div class="stat">Vaxt: <b id="timer">0:00</b></div>
+          <div class="stat"><span id="txt-match-moves">Hərəkət:</span> <b id="moves">0</b></div>
+          <div class="stat"><span id="txt-match-matches">Uyğun:</span> <b id="matches">0</b>/<span id="matches-total">8</span></div>
+          <div class="stat"><span id="txt-match-time">Vaxt:</span> <b id="timer">0:00</b></div>
         </div>
         <button class="btn" id="restart-btn">Yeni oyun</button>
       </div>
@@ -795,9 +789,7 @@
       <div class="flash-wrap">
         <div class="flash-progress" id="flash-progress">Kart 1 / 8</div>
         <div class="flashcard" id="flashcard"></div>
-        <div class="flash-rate-row" id="flash-rate-row" role="group" aria-label="Bu sözü nə qədər asanlıqla xatırladın?">
-          <span class="score-label">Nə qədər asanlıqla xatırladın?</span>
-        </div>
+        <div class="flash-rate-row" id="flash-rate-row"></div>
         <div class="flash-nav-row">
           <button class="btn" id="flash-prev-btn">Geri</button>
           <button class="btn primary" id="flash-next-btn">Növbəti</button>
@@ -825,9 +817,9 @@
         <div class="spell-progress" id="spell-progress">Söz 1 / 8</div>
         <div class="spell-clue" id="spell-clue"></div>
         <form class="spell-input-row" id="spell-form">
-          <label class="sr-only" for="spell-input">İngilis sözünü yaz</label>
+          <label class="sr-only" for="spell-input">Write English word</label>
           <input class="spell-input" id="spell-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="İngilis sözünü yaz" />
-          <button class="btn primary" type="submit">Yoxla</button>
+          <button class="btn primary" id="spell-submit-btn" type="submit">Yoxla</button>
         </form>
         <div class="spell-feedback" id="spell-feedback"></div>
         <div class="btn-row">
@@ -842,7 +834,7 @@
       <div class="translate-wrap">
         <div class="translate-status" id="translate-status">Mətn yüklənir…</div>
         <div class="translate-passage" id="translate-passage"></div>
-        <div class="translate-label">İngilis dilinə tərcümən:</div>
+        <div class="translate-label" id="txt-trans-label">İngilis dilinə tərcümən:</div>
         <textarea class="translate-input" id="translate-input" placeholder="Azərbaycan mətni oxu, İngiliscəyə çevir…" rows="4"></textarea>
         <div class="btn-row">
           <button class="btn primary" id="translate-check-btn">Yoxla</button>
@@ -855,24 +847,24 @@
 
   <!-- LEARNED VIEW -->
   <section class="view" id="view-learned" role="tabpanel">
-    <h2 class="sr-only">Öyrəndiyiniz sözlərin siyahısı</h2>
+    <h2 class="sr-only">Learned</h2>
 
     <div class="stat-strip">
-      <div class="stat"><b id="learned-total-count">0</b> söz öyrənilib</div>
+      <div class="stat"><b id="learned-total-count">0</b> <span id="txt-learned-total-lbl">söz öyrənilib</span></div>
     </div>
 
     <div id="learned-list"></div>
-    <p id="learned-empty" class="sub" style="display: none;">Hələ heç bir söz öyrənilmiş kimi işarələnməyib. "Günün sözləri" bölməsindən sözləri işarələ.</p>
+    <p id="learned-empty" class="sub">Hələ heç bir söz öyrənilmiş kimi işarələnməyib. "Günün sözləri" bölməsindən sözləri işarələ.</p>
   </section>
 
-  <footer class="app-foot">
+  <footer class="app-foot" id="txt-footer">
     İrəliləyiş bu cihazda saxlanılır. Yarın yeni beş söz gözləyir.
   </footer>
 
 </div>
 
 <script>
-/* ---------- Vocabulary bank (word, level, part of speech, EN def, EN example, AZ word, AZ def) ---------- */
+/* ---------- Vocabulary bank ---------- */
 const VOCAB = [
   { word: "ubiquitous", level: "C2", pos: "adj.", def: "present, appearing, or found everywhere", example: "Smartphones have become ubiquitous in modern life.", az_word: "hər yerdə olan", az_def: "hər yerdə mövcud olan, rast gəlinən" },
   { word: "ephemeral", level: "C2", pos: "adj.", def: "lasting for a very short time", example: "Fame on social media can feel ephemeral.", az_word: "keçici", az_def: "qısa müddət davam edən, müvəqqəti" },
@@ -896,30 +888,150 @@ const VOCAB = [
   { word: "succinct", level: "C1", pos: "adj.", def: "expressed clearly and in few words", example: "Her report was succinct but covered everything important.", az_word: "qısa və dəqiq", az_def: "az sözlə dəqiq ifadə olunan" }
 ];
 
-/* ---------- Storage helpers (window.storage with localStorage-style fallback) ---------- */
+/* ---------- Localization Dictionary ---------- */
+const LANG_PACKS = {
+  az: {
+    app_title: "Tenaxicon",
+    app_sub: "Gündəlik beş C1/C2 İngilis sözü, Azərbaycan mənaları ilə — sonra özünü yoxla.",
+    day_label: "Gün",
+    tab_words: "Günün sözləri",
+    tab_mywords: "Sözlərim",
+    tab_game: "Oyunlar",
+    tab_learned: "Öyrəndiklərim",
+    stat_learned: "öyrənildi",
+    stat_streak: "Seria:",
+    stat_days: "gün",
+    btn_next_batch: "Yeni 5 söz",
+    btn_goto_game: "Oyunda məşq et",
+    mywords_stat: "Siyahında:",
+    mywords_wordunit: "söz",
+    mywords_hint: "Günün sözlərindən ⊕ düyməsinə basaraq sözlərini bu siyahıya əlavə edə bilərsən. Çətin sözlər oyunlarda daha tez çıxır.",
+    mywords_empty: "Hələ söz əlavə edilməyib. 'Günün sözləri' bölməsindəki kartlarda ⊕ düyməsinə bas.",
+    game_match: "Uyğunlaşdır",
+    game_flash: "Flaş kart",
+    game_quiz: "Quiz",
+    game_spell: "İmla",
+    game_translate: "Tərcümə",
+    match_en: "İngiliscə uyğunlaşdır",
+    match_az: "Azərbaycanca uyğunlaşdır",
+    match_moves: "Hərəkət:",
+    match_matches: "Uyğun:",
+    match_time: "Vaxt:",
+    btn_new_game: "Yeni oyun",
+    game_need_more: "Oyun üçün ən az 2 söz lazımdır. 'Günün sözləri' bölməsindən daha çox söz əldə et.",
+    flash_hint_touch: "mənasını görmək üçün toxun",
+    flash_know: "Bu sözü bilirsən?",
+    btn_yes: "✓ Bəli",
+    btn_no: "✗ Xeyr",
+    btn_back: "Geri",
+    btn_next: "Növbəti",
+    btn_shuffle: "Qarışdır",
+    flash_empty: "Hələ heç bir söz yoxdur. Əvvəlcə 'Günün sözləri' bölməsindən sözlər əldə et.",
+    quiz_score: "Nəticə:",
+    quiz_correct_unit: "düzgün.",
+    btn_new_quiz: "Yeni quiz",
+    spell_placeholder: "İngilis sözünü yaz",
+    spell_btn_check: "Yoxla",
+    spell_btn_skip: "Keç",
+    spell_btn_new_set: "Yeni dəst",
+    spell_correct: "Düzgün — ",
+    spell_wrong: "Səhv — düzgün yazılışı: ",
+    spell_complete: "Əla! Bütün sözlərdən keçdin. Davam etmək üçün yeni dəst başlat.",
+    trans_label: "İngilis dilinə tərcümən:",
+    trans_placeholder: "Azərbaycan mətni oxu, İngiliscəyə çevir…",
+    trans_btn_check: "Yoxla",
+    trans_btn_new: "Yeni mətn",
+    trans_status_init: "Bu Azərbaycan mətni İngiliscəyə tərcümə et:",
+    trans_your: "Sənin tərcümən:",
+    trans_ref: "Düzgün versiya:",
+    trans_status_res: "Nəticə müqayisəsi:",
+    learned_total_lbl: "söz öyrənilib",
+    learned_empty: "Hələ heç bir söz öyrənilmiş kimi işarələnməyib. 'Günün sözləri' bölməsindən sözləri işarələ.",
+    learned_tag: "✓ öyrənildi",
+    hard_tag: "çətin",
+    custom_tag: "Mənim",
+    footer: "İrəliləyiş bu cihazda saxlanılır. Yarın yeni beş söz gözləyir."
+  },
+  en: {
+    app_title: "Tenaxicon",
+    app_sub: "Five daily C1/C2 English words with Azerbaijani meanings — then test yourself.",
+    day_label: "Day",
+    tab_words: "Daily Words",
+    tab_mywords: "My Words",
+    tab_game: "Games",
+    tab_learned: "Learned Words",
+    stat_learned: "learned",
+    stat_streak: "Streak:",
+    stat_days: "days",
+    btn_next_batch: "New 5 Words",
+    btn_goto_game: "Practice in Games",
+    mywords_stat: "In your list:",
+    mywords_wordunit: "words",
+    mywords_hint: "You can add words from Daily Words by clicking the ⊕ button. Harder words appear sooner in games.",
+    mywords_empty: "No words added yet. Click the ⊕ button on the daily word cards.",
+    game_match: "Match",
+    game_flash: "Flashcards",
+    game_quiz: "Quiz",
+    game_spell: "Spelling",
+    game_translate: "Translation",
+    match_en: "Match in English",
+    match_az: "Match in Azerbaijani",
+    match_moves: "Moves:",
+    match_matches: "Matches:",
+    match_time: "Time:",
+    btn_new_game: "New Game",
+    game_need_more: "At least 2 words are required to play. Get more words from the 'Daily Words' tab.",
+    flash_hint_touch: "tap to reveal meaning",
+    flash_know: "Do you know this word?",
+    btn_yes: "✓ Yes",
+    btn_no: "✗ No",
+    btn_back: "Back",
+    btn_next: "Next",
+    btn_shuffle: "Shuffle",
+    flash_empty: "No words available yet. First, unlock words from the 'Daily Words' section.",
+    quiz_score: "Result:",
+    quiz_correct_unit: "correct.",
+    btn_new_quiz: "New Quiz",
+    spell_placeholder: "Type the English word",
+    spell_btn_check: "Check",
+    spell_btn_skip: "Skip",
+    spell_btn_new_set: "New Set",
+    spell_correct: "Correct — ",
+    spell_wrong: "Wrong — correct spelling: ",
+    spell_complete: "Excellent! You went through all the words. Start a new set to continue.",
+    trans_label: "Your translation into English:",
+    trans_placeholder: "Read the Azerbaijani text, convert to English…",
+    trans_btn_check: "Check",
+    trans_btn_new: "New Text",
+    trans_status_init: "Translate this Azerbaijani text into English:",
+    trans_your: "Your translation:",
+    trans_ref: "Correct version:",
+    trans_status_res: "Result comparison:",
+    learned_total_lbl: "words learned",
+    learned_empty: "No words have been marked as learned yet. Check them from the 'Daily Words' tab.",
+    learned_tag: "✓ learned",
+    hard_tag: "hard",
+    custom_tag: "My Own",
+    footer: "Progress is saved on this device. Five new words await tomorrow."
+  }
+};
+
+/* ---------- Storage helpers ---------- */
 const STORAGE_AVAILABLE = (typeof window.storage !== 'undefined');
 const memCache = {};
 
 async function storeGet(key) {
-  try {
-    if (STORAGE_AVAILABLE) {
-      const r = await window.storage.get(key, false);
-      return r ? JSON.parse(r.value) : null;
-    }
-  } catch (e) { /* fall through */ }
+  try { if (STORAGE_AVAILABLE) { const r = await window.storage.get(key, false); return r ? JSON.parse(r.value) : null; } } catch (e) {}
   return memCache[key] !== undefined ? memCache[key] : null;
 }
 async function storeSet(key, value) {
   memCache[key] = value;
-  try {
-    if (STORAGE_AVAILABLE) {
-      await window.storage.set(key, JSON.stringify(value), false);
-    }
-  } catch (e) { /* ignore, memory cache still holds it */ }
+  try { if (STORAGE_AVAILABLE) { await window.storage.set(key, JSON.stringify(value), false); } } catch (e) {}
 }
 
 /* ---------- App state ---------- */
 let state = {
+  uiLang: 'az', // Default UI language
   dayCount: 1,
   streak: 1,
   batchIndex: 0,
@@ -927,7 +1039,7 @@ let state = {
   learnedWords: {},
   recallScores: {},
   autoLearned: {},
-  myWords: []   // user-added custom words: [{word, az, hard}]
+  myWords: []
 };
 
 function shuffle(arr) {
@@ -940,24 +1052,17 @@ function shuffle(arr) {
 }
 
 function pickBatch(index) {
-  const order = shuffle(VOCAB.map((_, i) => i));
   const startSeeded = [...VOCAB];
-  // deterministic-ish rotation per batch so "new 5" feels fresh each click
   const rotated = startSeeded.slice(index % VOCAB.length).concat(startSeeded.slice(0, index % VOCAB.length));
   return shuffle(rotated).slice(0, 5);
 }
 
 async function loadState() {
   const saved = await storeGet('tenaxicon-state');
-  if (saved) {
-    state = Object.assign(state, saved);
-  }
-  if (!state.todaysWords || state.todaysWords.length === 0) {
-    state.todaysWords = pickBatch(0).map(w => w.word);
-  }
-  if (!state.autoLearned) {
-    state.autoLearned = {};
-  }
+  if (saved) { state = Object.assign(state, saved); }
+  if (!state.uiLang) { state.uiLang = 'az'; }
+  if (!state.todaysWords || state.todaysWords.length === 0) { state.todaysWords = pickBatch(0).map(w => w.word); }
+  if (!state.autoLearned) { state.autoLearned = {}; }
 }
 
 async function saveState() {
@@ -968,12 +1073,85 @@ function getWordData(wordStr) {
   const vocabMatch = VOCAB.find(w => w.word === wordStr);
   if (vocabMatch) return vocabMatch;
   const custom = (state.myWords || []).find(w => w.word === wordStr);
-  if (custom) return { word: custom.word, level: 'Mənim', pos: '', def: custom.en || custom.az, example: '', az_word: custom.az, az_def: custom.az };
+  if (custom) return { word: custom.word, level: LANG_PACKS[state.uiLang].custom_tag, pos: '', def: custom.en || custom.az, example: '', az_word: custom.az, az_def: custom.az };
   return null;
+}
+
+/* ---------- UI Translation Renderer ---------- */
+function applyUILanguage() {
+  const p = LANG_PACKS[state.uiLang];
+  
+  // Header & Footer
+  document.getElementById('txt-day-label').textContent = p.day_label;
+  document.getElementById('txt-app-title').textContent = p.app_title;
+  document.getElementById('txt-app-sub').textContent = p.app_sub;
+  document.getElementById('txt-footer').textContent = p.footer;
+
+  // Tabs
+  document.getElementById('tab-words').textContent = p.tab_words;
+  document.getElementById('tab-mywords').textContent = p.tab_mywords;
+  document.getElementById('tab-game').textContent = p.tab_game;
+  document.getElementById('tab-learned').textContent = p.tab_learned;
+
+  // Daily words View
+  document.getElementById('txt-stat-learned').textContent = p.stat_learned;
+  document.getElementById('txt-stat-streak').textContent = p.stat_streak;
+  document.getElementById('txt-stat-days').textContent = p.stat_days;
+  document.getElementById('next-batch-btn').textContent = p.btn_next_batch;
+  document.getElementById('goto-game-btn').textContent = p.btn_goto_game;
+
+  // My Words View
+  document.getElementById('txt-mywords-stat').textContent = p.mywords_stat;
+  document.getElementById('txt-mywords-wordunit').textContent = p.mywords_wordunit;
+  document.getElementById('txt-mywords-hint').textContent = p.mywords_hint;
+
+  // Game Subtabs
+  document.getElementById('subtab-match').textContent = p.game_match;
+  document.getElementById('subtab-flash').textContent = p.game_flash;
+  document.getElementById('subtab-quiz').textContent = p.game_quiz;
+  document.getElementById('subtab-spell').textContent = p.game_spell;
+  document.getElementById('subtab-translate').textContent = p.game_translate;
+
+  // Match Game View
+  document.getElementById('match-lang-en').textContent = p.match_en;
+  document.getElementById('match-lang-az').textContent = p.match_az;
+  document.getElementById('txt-match-moves').textContent = p.match_moves;
+  document.getElementById('txt-match-matches').textContent = p.match_matches;
+  document.getElementById('txt-match-time').textContent = p.match_time;
+  document.getElementById('restart-btn').textContent = p.btn_new_game;
+
+  // Flashcards View
+  document.getElementById('flash-prev-btn').textContent = p.btn_back;
+  document.getElementById('flash-next-btn').textContent = p.btn_next;
+  document.getElementById('flash-shuffle-btn').textContent = p.btn_shuffle;
+
+  // Quiz View
+  document.getElementById('quiz-restart-btn').textContent = p.btn_new_quiz;
+
+  // Spelling View
+  document.getElementById('spell-input').placeholder = p.spell_placeholder;
+  document.getElementById('spell-submit-btn').textContent = p.spell_btn_check;
+  document.getElementById('spell-skip-btn').textContent = p.btn_skip;
+  document.getElementById('spell-restart-btn').textContent = p.spell_btn_new_set;
+
+  // Translation View
+  document.getElementById('txt-trans-label').textContent = p.trans_label;
+  document.getElementById('translate-input').placeholder = p.trans_placeholder;
+  document.getElementById('translate-new-btn').textContent = p.trans_btn_new;
+
+  // Learned View
+  document.getElementById('txt-learned-total-lbl').textContent = p.learned_total_lbl;
+  document.getElementById('learned-empty').textContent = p.learned_empty;
+
+  // Active Lang Button Selector
+  document.querySelectorAll('.ui-lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-uilang') === state.uiLang);
+  });
 }
 
 /* ---------- Render: daily words ---------- */
 function renderWordList() {
+  const p = LANG_PACKS[state.uiLang];
   const list = document.getElementById('word-list');
   list.innerHTML = '';
   const learnedCount = state.todaysWords.filter(w => state.learnedWords[w]).length;
@@ -995,11 +1173,11 @@ function renderWordList() {
           <p class="headword">${w.word}</p>
           <span class="level-tag">${w.level}</span>
           <span class="pos">${w.pos}</span>
-          ${isLearned ? '<span class="learned-badge">✓ öyrənildi</span>' : ''}
+          ${isLearned ? `<span class="learned-badge">${p.learned_tag}</span>` : ''}
         </div>
         <div style="display:flex;gap:6px;align-items:center;flex-shrink:0;">
-          <button class="mywords-pin-btn ${isInMyWords ? 'pinned' : ''}" data-word="${w.word}" title="${isInMyWords ? 'Sözlərindən çıxar' : 'Sözlərimə əlavə et'}" aria-label="${isInMyWords ? 'Sözlərindən çıxar' : 'Sözlərimə əlavə et'}">${isInMyWords ? '★' : '⊕'}</button>
-          <button class="learned-toggle ${isLearned ? 'on' : ''}" data-word="${w.word}" aria-label="${isLearned ? 'Öyrənildi' : 'Öyrənildi kimi işarələ'}" aria-pressed="${isLearned}">✓</button>
+          <button class="mywords-pin-btn ${isInMyWords ? 'pinned' : ''}" data-word="${w.word}" title="Pin/Unpin"> ${isInMyWords ? '★' : '⊕'} </button>
+          <button class="learned-toggle ${isLearned ? 'on' : ''}" data-word="${w.word}">✓</button>
         </div>
       </div>
       <hr class="entry-rule" />
@@ -1031,11 +1209,7 @@ function renderWordList() {
       if (!w) return;
       if (!state.myWords) state.myWords = [];
       const idx = state.myWords.findIndex(m => m.word === wordStr);
-      if (idx >= 0) {
-        state.myWords.splice(idx, 1);
-      } else {
-        state.myWords.push({ word: w.word, az: w.az_word, en: w.def });
-      }
+      if (idx >= 0) { state.myWords.splice(idx, 1); } else { state.myWords.push({ word: w.word, az: w.az_word, en: w.def }); }
       await saveState();
       renderWordList();
     });
@@ -1043,30 +1217,19 @@ function renderWordList() {
 }
 
 document.getElementById('next-batch-btn').addEventListener('click', async () => {
-  state.batchIndex += 1;
-  state.dayCount += 1;
-  state.streak += 1;
+  state.batchIndex += 1; state.dayCount += 1; state.streak += 1;
   state.todaysWords = pickBatch(state.batchIndex).map(w => w.word);
   await saveState();
   renderWordList();
   buildGameFromWords(true);
 });
 
-/* ---------- Tabs ---------- */
-const tabWords = document.getElementById('tab-words');
-const tabMyWords = document.getElementById('tab-mywords');
-const tabGame = document.getElementById('tab-game');
-const tabLearned = document.getElementById('tab-learned');
-const viewWords = document.getElementById('view-words');
-const viewMyWords = document.getElementById('view-mywords');
-const viewGame = document.getElementById('view-game');
-const viewLearned = document.getElementById('view-learned');
-
+/* ---------- Tabs System ---------- */
 const allTabs = [
-  { btn: tabWords, view: viewWords, key: 'words' },
-  { btn: tabMyWords, view: viewMyWords, key: 'mywords' },
-  { btn: tabGame, view: viewGame, key: 'game' },
-  { btn: tabLearned, view: viewLearned, key: 'learned' }
+  { btn: document.getElementById('tab-words'), view: document.getElementById('view-words'), key: 'words' },
+  { btn: document.getElementById('tab-mywords'), view: document.getElementById('view-mywords'), key: 'mywords' },
+  { btn: document.getElementById('tab-game'), view: document.getElementById('view-game'), key: 'game' },
+  { btn: document.getElementById('tab-learned'), view: document.getElementById('view-learned'), key: 'learned' }
 ];
 
 function showTab(which) {
@@ -1079,123 +1242,75 @@ function showTab(which) {
   if (which === 'learned') renderLearnedList();
   if (which === 'mywords') renderMyWordsList();
 }
-tabWords.addEventListener('click', () => showTab('words'));
-tabMyWords.addEventListener('click', () => showTab('mywords'));
-tabGame.addEventListener('click', () => showTab('game'));
-tabLearned.addEventListener('click', () => showTab('learned'));
-document.getElementById('goto-game-btn').addEventListener('click', () => {
-  showTab('game');
-  showSubtab('match');
-  buildGameFromWords(true);
-});
+allTabs.forEach(t => t.btn.addEventListener('click', () => showTab(t.key)));
+document.getElementById('goto-game-btn').addEventListener('click', () => { showTab('game'); showSubtab('match'); buildGameFromWords(true); });
 
 function renderLearnedList() {
+  const p = LANG_PACKS[state.uiLang];
   const list = document.getElementById('learned-list');
   const empty = document.getElementById('learned-empty');
   list.innerHTML = '';
   const learnedWords = Object.keys(state.learnedWords).filter(w => state.learnedWords[w]);
   document.getElementById('learned-total-count').textContent = learnedWords.length;
 
-  if (learnedWords.length === 0) {
-    empty.style.display = 'block';
-    return;
-  }
+  if (learnedWords.length === 0) { empty.style.display = 'block'; return; }
   empty.style.display = 'none';
 
-  learnedWords
-    .map(w => getWordData(w))
-    .filter(Boolean)
-    .sort((a, b) => a.word.localeCompare(b.word))
-    .forEach(w => {
-      const score = state.recallScores[w.word];
-      const isHard = score && score >= 4;
-      const row = document.createElement('div');
-      row.className = 'learned-row';
-      row.innerHTML = `
-        <div class="learned-row-main">
-          <p class="headword">${w.word}</p>
-          <span class="level-tag">${w.level}</span>
-          <span class="learned-row-az">${w.az_word}</span>
-          ${isHard ? '<span class="hard-badge">çətin</span>' : ''}
-        </div>
-      `;
-      list.appendChild(row);
-    });
+  learnedWords.map(w => getWordData(w)).filter(Boolean).sort((a, b) => a.word.localeCompare(b.word)).forEach(w => {
+    const score = state.recallScores[w.word];
+    const isHard = score && score >= 4;
+    const row = document.createElement('div');
+    row.className = 'learned-row';
+    row.innerHTML = `
+      <div class="learned-row-main">
+        <p class="headword">${w.word}</p>
+        <span class="level-tag">${w.level}</span>
+        <span class="learned-row-az">${w.az_word}</span>
+        ${isHard ? `<span class="hard-badge">${p.hard_tag}</span>` : ''}
+      </div>
+    `;
+    list.appendChild(row);
+  });
 }
 
-/* ---------- Game sub-tabs ---------- */
+/* ---------- Game Sub-tabs ---------- */
 const subtabButtons = document.querySelectorAll('.subtab-pill');
 const subviews = {
-  match: document.getElementById('sub-match'),
-  flash: document.getElementById('sub-flash'),
-  quiz: document.getElementById('sub-quiz'),
-  spell: document.getElementById('sub-spell'),
+  match: document.getElementById('sub-match'), flash: document.getElementById('sub-flash'),
+  quiz: document.getElementById('sub-quiz'), spell: document.getElementById('sub-spell'),
   translate: document.getElementById('sub-translate')
 };
 
 function showSubtab(which) {
-  subtabButtons.forEach(btn => {
-    const isActive = btn.getAttribute('data-sub') === which;
-    btn.classList.toggle('active', isActive);
-  });
-  Object.keys(subviews).forEach(key => {
-    subviews[key].classList.toggle('active', key === which);
-  });
+  subtabButtons.forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-sub') === which));
+  Object.keys(subviews).forEach(key => subviews[key].classList.toggle('active', key === which));
   if (which === 'flash') renderFlashcard();
   if (which === 'quiz') startQuiz();
   if (which === 'spell') startSpelling();
   if (which === 'translate') startTranslation();
 }
+subtabButtons.forEach(btn => btn.addEventListener('click', () => showSubtab(btn.getAttribute('data-sub'))));
 
-subtabButtons.forEach(btn => {
-  btn.addEventListener('click', () => showSubtab(btn.getAttribute('data-sub')));
-});
-
-/* ---------- Game ---------- */
-let gameLang = 'en'; // 'en' or 'az'
-let cards = [];
-let flipped = [];
-let matched = [];
-let moves = 0;
-let matchCount = 0;
-let lockBoard = false;
-let timerInterval = null;
-let seconds = 0;
+/* ---------- Match Game Engine ---------- */
+let gameLang = 'en'; let cards = []; let flipped = []; let matched = [];
+let moves = 0; let matchCount = 0; let lockBoard = false; let timerInterval = null; let seconds = 0;
 
 document.querySelectorAll('.lang-pill').forEach(pill => {
   pill.addEventListener('click', () => {
     document.querySelectorAll('.lang-pill').forEach(p => p.classList.remove('active'));
-    pill.classList.add('active');
-    gameLang = pill.getAttribute('data-lang');
+    pill.classList.add('active'); gameLang = pill.getAttribute('data-lang');
     buildGameFromWords(false);
   });
 });
 
-function formatTime(s) {
-  const m = Math.floor(s / 60);
-  const sec = s % 60;
-  return m + ':' + String(sec).padStart(2, '0');
-}
-
+function formatTime(s) { const m = Math.floor(s / 60); const sec = s % 60; return m + ':' + String(sec).padStart(2, '0'); }
 function startTimer() {
-  clearInterval(timerInterval);
-  seconds = 0;
-  document.getElementById('timer').textContent = formatTime(0);
-  timerInterval = setInterval(() => {
-    seconds++;
-    document.getElementById('timer').textContent = formatTime(seconds);
-  }, 1000);
+  clearInterval(timerInterval); seconds = 0; document.getElementById('timer').textContent = formatTime(0);
+  timerInterval = setInterval(() => { seconds++; document.getElementById('timer').textContent = formatTime(seconds); }, 1000);
 }
-
-function pickGameWords() {
-  const pool = shuffle(getPracticePoolData());
-  const boardSize = Math.min(8, pool.length);
-  return pool.slice(0, boardSize);
-}
-
+function pickGameWords() { const pool = shuffle(getPracticePoolData()); return pool.slice(0, Math.min(8, pool.length)); }
 function buildCards() {
-  const chosen = pickGameWords();
-  let deck = [];
+  const chosen = pickGameWords(); let deck = [];
   chosen.forEach((pair, i) => {
     const defText = gameLang === 'az' ? pair.az_def : pair.def;
     deck.push({ key: i, type: 'word', text: pair.word });
@@ -1203,572 +1318,239 @@ function buildCards() {
   });
   return shuffle(deck);
 }
-
 function renderBoard() {
-  const board = document.getElementById('board');
-  board.innerHTML = '';
+  const board = document.getElementById('board'); board.innerHTML = '';
   cards.forEach((card, idx) => {
-    const isFlipped = flipped.includes(idx);
-    const isMatched = matched.includes(idx);
+    const isFlipped = flipped.includes(idx); const isMatched = matched.includes(idx);
     const btn = document.createElement('button');
     btn.className = 'card-btn ' + card.type + (isFlipped ? ' flipped' : '') + (isMatched ? ' matched' : '');
-    btn.setAttribute('aria-label', isFlipped || isMatched ? card.text : 'Hidden card');
-    if (isFlipped || isMatched) {
-      btn.textContent = card.text;
-    } else {
-      btn.innerHTML = '<span class="hidden-icon">?</span>';
-    }
-    if (!isMatched) {
-      btn.addEventListener('click', () => handleCardClick(idx));
-    }
+    if (isFlipped || isMatched) { btn.textContent = card.text; } else { btn.innerHTML = '<span class="hidden-icon">?</span>'; }
+    if (!isMatched) { btn.addEventListener('click', () => handleCardClick(idx)); }
     board.appendChild(btn);
   });
 }
-
 function handleCardClick(idx) {
   if (lockBoard || flipped.includes(idx) || matched.includes(idx)) return;
   if (seconds === 0 && moves === 0 && flipped.length === 0) startTimer();
-
-  flipped.push(idx);
-  renderBoard();
-
+  flipped.push(idx); renderBoard();
   if (flipped.length === 2) {
-    moves++;
-    document.getElementById('moves').textContent = moves;
-    lockBoard = true;
-    const [a, b] = flipped;
-    const cardA = cards[a];
-    const cardB = cards[b];
-
+    moves++; document.getElementById('moves').textContent = moves; lockBoard = true;
+    const [a, b] = flipped; const cardA = cards[a]; const cardB = cards[b];
     if (cardA.key === cardB.key && cardA.type !== cardB.type) {
       setTimeout(() => {
-        matched.push(a, b);
-        matchCount++;
-        document.getElementById('matches').textContent = matchCount;
-        flipped = [];
-        lockBoard = false;
-        renderBoard();
+        matched.push(a, b); matchCount++; document.getElementById('matches').textContent = matchCount;
+        flipped = []; lockBoard = false; renderBoard();
         if (matchCount === cards.length / 2) {
-          clearInterval(timerInterval);
-          const banner = document.getElementById('win-banner');
-          banner.textContent = moves + ' hərəkətdə, ' + formatTime(seconds) + '-a həll edildi!';
+          clearInterval(timerInterval); const banner = document.getElementById('win-banner');
+          banner.textContent = moves + ' ' + (state.uiLang === 'az' ? 'hərəkətdə, ' : 'moves, ') + formatTime(seconds) + '!';
           banner.style.display = 'block';
         }
       }, 500);
-    } else {
-      setTimeout(() => {
-        flipped = [];
-        lockBoard = false;
-        renderBoard();
-      }, 900);
-    }
+    } else { setTimeout(() => { flipped = []; lockBoard = false; renderBoard(); }, 900); }
   }
 }
-
-const MIN_WORDS_FOR_GAME = 2;
-
 function buildGameFromWords(resetTimer) {
-  const poolCount = getPracticePoolData().length;
-  const board = document.getElementById('board');
-  const meta = document.querySelector('#sub-match .game-meta');
-  const langRow = document.querySelector('#sub-match .lang-select-row');
-
-  if (poolCount < MIN_WORDS_FOR_GAME) {
-    if (meta) meta.style.display = 'none';
-    if (langRow) langRow.style.display = 'none';
-    document.getElementById('win-banner').style.display = 'none';
-    board.innerHTML = '';
-    board.className = 'game-empty';
-    board.textContent = 'Oyun üçün ən az ' + MIN_WORDS_FOR_GAME + ' söz lazımdır. "Günün sözləri" bölməsindən daha çox söz əldə et.';
-    return;
+  const poolCount = getPracticePoolData().length; const board = document.getElementById('board');
+  if (poolCount < 2) {
+    document.getElementById('win-banner').style.display = 'none'; board.innerHTML = ''; board.className = 'game-empty';
+    board.textContent = LANG_PACKS[state.uiLang].game_need_more; return;
   }
-  if (meta) meta.style.display = '';
-  if (langRow) langRow.style.display = '';
-  board.className = 'board';
-
-  cards = buildCards();
-  flipped = [];
-  matched = [];
-  moves = 0;
-  matchCount = 0;
-  lockBoard = false;
-  document.getElementById('moves').textContent = '0';
-  document.getElementById('matches').textContent = '0';
-  document.getElementById('matches-total').textContent = cards.length / 2;
-  document.getElementById('win-banner').style.display = 'none';
-  if (resetTimer !== false) {
-    clearInterval(timerInterval);
-    seconds = 0;
-    document.getElementById('timer').textContent = '0:00';
-  }
+  board.className = 'board'; cards = buildCards(); flipped = []; matched = []; moves = 0; matchCount = 0; lockBoard = false;
+  document.getElementById('moves').textContent = '0'; document.getElementById('matches').textContent = '0';
+  document.getElementById('matches-total').textContent = cards.length / 2; document.getElementById('win-banner').style.display = 'none';
+  if (resetTimer !== false) { clearInterval(timerInterval); seconds = 0; document.getElementById('timer').textContent = '0:00'; }
   renderBoard();
 }
-
 document.getElementById('restart-btn').addEventListener('click', () => buildGameFromWords(true));
 
-/* ---------- Shared: weighted practice set (learned words only) ---------- */
-/* Words with high recall scores (hard) are more likely to be picked; unscored words count as a 3. */
+/* ---------- Shared Game Logic ---------- */
 function getPracticePoolData() {
   const todays = state.todaysWords.map(w => getWordData(w)).filter(Boolean);
-  const learned = Object.keys(state.learnedWords)
-    .filter(w => state.learnedWords[w])
-    .map(w => getWordData(w))
-    .filter(Boolean);
-  // Also include user's custom words
-  const myWordsData = (state.myWords || []).map(w => ({
-    word: w.word, level: 'Mənim', pos: '', def: w.en || w.az, example: '',
-    az_word: w.az, az_def: w.az
-  }));
-  const combined = [];
-  const seen = new Set();
-  todays.concat(learned).concat(myWordsData).forEach(w => {
-    if (!seen.has(w.word)) {
-      seen.add(w.word);
-      combined.push(w);
-    }
-  });
+  const learned = Object.keys(state.learnedWords).filter(w => state.learnedWords[w]).map(w => getWordData(w)).filter(Boolean);
+  const myWordsData = (state.myWords || []).map(w => ({ word: w.word, level: LANG_PACKS[state.uiLang].custom_tag, pos: '', def: w.en || w.az, example: '', az_word: w.az, az_def: w.az }));
+  const combined = []; const seen = new Set();
+  todays.concat(learned).concat(myWordsData).forEach(w => { if (!seen.has(w.word)) { seen.add(w.word); combined.push(w); } });
   return combined;
 }
-
 function weightedPracticeSet(count) {
-  const pool = shuffle(getPracticePoolData());
-  const weighted = [];
-  pool.forEach(w => {
-    const score = state.recallScores[w.word] || 3;
-    const weight = Math.max(1, score); // score 1 (easy) -> weight 1, score 5 (hard) -> weight 5
-    for (let i = 0; i < weight; i++) weighted.push(w);
-  });
-  const result = [];
-  const used = new Set();
-  const shuffledWeighted = shuffle(weighted);
-  for (const w of shuffledWeighted) {
-    if (!used.has(w.word)) {
-      used.add(w.word);
-      result.push(w);
-    }
-    if (result.length >= count) break;
-  }
-  // top up from the same pool if weighting didn't fill it
-  if (result.length < count) {
-    shuffle(pool).forEach(w => {
-      if (result.length < count && !used.has(w.word)) {
-        used.add(w.word);
-        result.push(w);
-      }
-    });
-  }
+  const pool = shuffle(getPracticePoolData()); const weighted = [];
+  pool.forEach(w => { const score = state.recallScores[w.word] || 3; for (let i = 0; i < Math.max(1, score); i++) weighted.push(w); });
+  const result = []; const used = new Set(); const shuffledWeighted = shuffle(weighted);
+  for (const w of shuffledWeighted) { if (!used.has(w.word)) { used.add(w.word); result.push(w); } if (result.length >= count) break; }
+  if (result.length < count) { shuffle(pool).forEach(w => { if (result.length < count && !used.has(w.word)) { used.add(w.word); result.push(w); } }); }
   return result;
 }
-
 async function setRecallScore(word, score) {
   state.recallScores[word] = score;
-  if (score === 1 || score === 2) {
-    if (!state.learnedWords[word]) {
-      state.autoLearned[word] = true;
-    }
-    state.learnedWords[word] = true;
-  } else if (state.autoLearned[word]) {
-    state.learnedWords[word] = false;
-    delete state.autoLearned[word];
-  }
+  if (score === 1 || score === 2) { if (!state.learnedWords[word]) { state.autoLearned[word] = true; } state.learnedWords[word] = true; } 
+  else if (state.autoLearned[word]) { state.learnedWords[word] = false; delete state.autoLearned[word]; }
   await saveState();
 }
 
-/* ---------- Flashcards ---------- */
-let flashDeck = [];
-let flashIndex = 0;
-let flashShowingBack = false;
-
-function buildFlashDeck() {
-  flashDeck = weightedPracticeSet(8);
-  flashIndex = 0;
-  flashShowingBack = false;
-}
+/* ---------- Flashcards Game ---------- */
+let flashDeck = []; let flashIndex = 0; let flashShowingBack = false;
 
 function renderFlashcard() {
-  if (flashDeck.length === 0) buildFlashDeck();
-  const navRow = document.querySelector('.flash-nav-row');
-  const progressEl = document.getElementById('flash-progress');
-  const card = document.getElementById('flashcard');
-  const rateRow = document.getElementById('flash-rate-row');
-
+  const p = LANG_PACKS[state.uiLang];
+  if (flashDeck.length === 0) flashDeck = weightedPracticeSet(8);
+  const progressEl = document.getElementById('flash-progress'); const card = document.getElementById('flashcard'); const rateRow = document.getElementById('flash-rate-row');
   if (flashDeck.length === 0) {
-    progressEl.textContent = '';
-    rateRow.classList.remove('show');
-    if (navRow) navRow.style.display = 'none';
-    card.className = 'game-empty';
-    card.onclick = null;
-    card.textContent = 'Hələ heç bir söz yoxdur. Əvvəlcə "Günün sözləri" bölməsindən sözlər əldə et.';
-    return;
+    progressEl.textContent = ''; rateRow.classList.remove('show'); card.className = 'game-empty'; card.onclick = null;
+    card.textContent = p.flash_empty; return;
   }
-  if (navRow) navRow.style.display = '';
-  card.className = 'flashcard';
-
-  const w = flashDeck[flashIndex];
-  progressEl.textContent = 'Kart ' + (flashIndex + 1) + ' / ' + flashDeck.length;
-
+  card.className = 'flashcard'; const w = flashDeck[flashIndex];
+  progressEl.textContent = (state.uiLang === 'az' ? 'Kart ' : 'Card ') + (flashIndex + 1) + ' / ' + flashDeck.length;
   if (!flashShowingBack) {
-    card.innerHTML = `
-      <div class="flash-front">
-        <p class="flash-word">${w.word}</p>
-        <p class="flash-hint">${w.level} · ${w.pos} — mənasını görmək üçün toxun</p>
-      </div>
-    `;
+    card.innerHTML = `<div class="flash-front"><p class="flash-word">${w.word}</p><p class="flash-hint">${w.level} · ${w.pos} — ${p.flash_hint_touch}</p></div>`;
     rateRow.classList.remove('show');
   } else {
-    card.innerHTML = `
-      <div class="flash-back">
-        <div class="az-block" style="margin-bottom:10px;">
-          <span class="az-flag-label">AZ</span>
-          <span class="az-word">${w.az_word}</span>
-          <span class="az-def">— ${w.az_def}</span>
-        </div>
-        <p class="flash-def">${w.def}</p>
-      </div>
-    `;
+    card.innerHTML = `<div class="flash-back"><div class="az-block" style="margin-bottom:10px;"><span class="az-flag-label">AZ</span><span class="az-word">${w.az_word}</span><span class="az-def">— ${w.az_def}</span></div><p class="flash-def">${w.def}</p></div>`;
     rateRow.classList.add('show');
-    rateRow.innerHTML = '<span class="score-label">Bu sözü bilirsən?</span>' +
-      `<button class="score-btn easy" data-score="2">✓ Bəli</button>` +
-      `<button class="score-btn hard" data-score="4">✗ Xeyr</button>`;
+    rateRow.innerHTML = `<span class="score-label">${p.flash_know}</span><button class="score-btn easy" data-score="2">${p.btn_yes}</button><button class="score-btn hard" data-score="4">${p.btn_no}</button>`;
     rateRow.querySelectorAll('.score-btn').forEach(btn => {
       btn.addEventListener('click', async (e) => {
-        e.stopPropagation();
-        await setRecallScore(w.word, parseInt(btn.getAttribute('data-score'), 10));
-        flashIndex = (flashIndex + 1) % flashDeck.length;
-        flashShowingBack = false;
-        renderFlashcard();
+        e.stopPropagation(); await setRecallScore(w.word, parseInt(btn.getAttribute('data-score'), 10));
+        flashIndex = (flashIndex + 1) % flashDeck.length; flashShowingBack = false; renderFlashcard();
       });
     });
   }
-  card.onclick = () => {
-    flashShowingBack = !flashShowingBack;
-    renderFlashcard();
-  };
+  card.onclick = () => { flashShowingBack = !flashShowingBack; renderFlashcard(); };
 }
+document.getElementById('flash-next-btn').addEventListener('click', () => { flashIndex = (flashIndex + 1) % flashDeck.length; flashShowingBack = false; renderFlashcard(); });
+document.getElementById('flash-prev-btn').addEventListener('click', () => { flashIndex = (flashIndex - 1 + flashDeck.length) % flashDeck.length; flashShowingBack = false; renderFlashcard(); });
+document.getElementById('flash-shuffle-btn').addEventListener('click', () => { flashDeck = weightedPracticeSet(8); flashIndex = 0; flashShowingBack = false; renderFlashcard(); });
 
-document.getElementById('flash-next-btn').addEventListener('click', () => {
-  flashIndex = (flashIndex + 1) % flashDeck.length;
-  flashShowingBack = false;
-  renderFlashcard();
-});
-document.getElementById('flash-prev-btn').addEventListener('click', () => {
-  flashIndex = (flashIndex - 1 + flashDeck.length) % flashDeck.length;
-  flashShowingBack = false;
-  renderFlashcard();
-});
-document.getElementById('flash-shuffle-btn').addEventListener('click', () => {
-  buildFlashDeck();
-  renderFlashcard();
-});
+/* ---------- Quiz Game ---------- */
+let quizDeck = []; let quizIndex = 0; let quizCorrect = 0; let quizLocked = false;
 
-/* ---------- Quiz ---------- */
-let quizDeck = [];
-let quizIndex = 0;
-let quizCorrect = 0;
-let quizLocked = false;
-
-function buildQuizDeck() {
-  quizDeck = weightedPracticeSet(8);
-  quizIndex = 0;
-  quizCorrect = 0;
-}
-
-function startQuiz() {
-  buildQuizDeck();
-  const resultEl = document.getElementById('quiz-result');
-  const restartBtn = document.getElementById('quiz-restart-btn');
-  if (quizDeck.length === 0) {
-    document.getElementById('quiz-progress').textContent = '';
-    document.getElementById('quiz-prompt').textContent = '';
-    document.getElementById('quiz-options').innerHTML = '';
-    resultEl.className = 'quiz-result show';
-    resultEl.textContent = 'Hələ heç bir söz yoxdur. Əvvəlcə "Günün sözləri" bölməsindən sözlər əldə et.';
-    return;
-  }
-  resultEl.classList.remove('show');
-  renderQuizQuestion();
-}
-
+function startQuiz() { quizDeck = weightedPracticeSet(8); quizIndex = 0; quizCorrect = 0; document.getElementById('quiz-result').classList.remove('show'); renderQuizQuestion(); }
 function renderQuizQuestion() {
-  quizLocked = false;
-  const total = quizDeck.length;
-  if (quizIndex >= total) {
-    document.getElementById('quiz-progress').textContent = 'Bitdi';
-    document.getElementById('quiz-prompt').textContent = '';
-    document.getElementById('quiz-options').innerHTML = '';
-    const resultEl = document.getElementById('quiz-result');
-    resultEl.textContent = 'Nəticə: ' + quizCorrect + ' / ' + total + ' düzgün.';
-    resultEl.classList.add('show');
-    return;
+  const p = LANG_PACKS[state.uiLang]; quizLocked = false;
+  if (quizDeck.length === 0) {
+    document.getElementById('quiz-progress').textContent = ''; document.getElementById('quiz-prompt').textContent = ''; document.getElementById('quiz-options').innerHTML = '';
+    const r = document.getElementById('quiz-result'); r.className = 'quiz-result show'; r.textContent = p.flash_empty; return;
   }
-  document.getElementById('quiz-result').classList.remove('show');
-  const w = quizDeck[quizIndex];
-  document.getElementById('quiz-progress').textContent = 'Sual ' + (quizIndex + 1) + ' / ' + quizDeck.length;
-  // Show the word, user picks AZ meaning
+  if (quizIndex >= quizDeck.length) {
+    document.getElementById('quiz-progress').textContent = (state.uiLang === 'az' ? 'Bitdi' : 'Finished'); document.getElementById('quiz-prompt').textContent = ''; document.getElementById('quiz-options').innerHTML = '';
+    const r = document.getElementById('quiz-result'); r.textContent = `${p.quiz_score} ${quizCorrect} / ${quizDeck.length} ${p.quiz_correct_unit}`; r.classList.add('show'); return;
+  }
+  const w = quizDeck[quizIndex]; document.getElementById('quiz-progress').textContent = (state.uiLang === 'az' ? 'Sual ' : 'Question ') + (quizIndex + 1) + ' / ' + quizDeck.length;
   document.getElementById('quiz-prompt').innerHTML = `<span class="quiz-prompt-word">${w.word}</span><br><span class="quiz-az-hint">${w.az_word}</span>`;
-
-  const distractors = shuffle(getPracticePoolData().filter(x => x.word !== w.word)).slice(0, 3);
-  const options = shuffle([w, ...distractors]);
-
-  const optsEl = document.getElementById('quiz-options');
-  optsEl.innerHTML = '';
+  const distractors = shuffle(getPracticePoolData().filter(x => x.word !== w.word)).slice(0, 3); const options = shuffle([w, ...distractors]);
+  const optsEl = document.getElementById('quiz-options'); optsEl.innerHTML = '';
   options.forEach(opt => {
-    const btn = document.createElement('button');
-    btn.className = 'quiz-opt';
-    btn.textContent = opt.az_def;
+    const btn = document.createElement('button'); btn.className = 'quiz-opt'; btn.textContent = opt.az_def;
     btn.addEventListener('click', async () => {
-      if (quizLocked) return;
-      quizLocked = true;
-      const isCorrect = opt.word === w.word;
-      btn.classList.add(isCorrect ? 'correct' : 'wrong');
-      if (isCorrect) {
-        quizCorrect++;
-        await setRecallScore(w.word, Math.max(1, (state.recallScores[w.word] || 3) - 1));
-      } else {
-        optsEl.querySelectorAll('.quiz-opt').forEach(o => {
-          if (o.textContent === w.az_def) o.classList.add('correct');
-        });
-        await setRecallScore(w.word, Math.min(5, (state.recallScores[w.word] || 3) + 1));
-      }
-      setTimeout(() => {
-        quizIndex++;
-        renderQuizQuestion();
-      }, 900);
+      if (quizLocked) return; quizLocked = true; const isCorrect = opt.word === w.word; btn.classList.add(isCorrect ? 'correct' : 'wrong');
+      if (isCorrect) { quizCorrect++; await setRecallScore(w.word, Math.max(1, (state.recallScores[w.word] || 3) - 1)); } 
+      else { optsEl.querySelectorAll('.quiz-opt').forEach(o => { if (o.textContent === w.az_def) o.classList.add('correct'); }); await setRecallScore(w.word, Math.min(5, (state.recallScores[w.word] || 3) + 1)); }
+      setTimeout(() => { quizIndex++; renderQuizQuestion(); }, 900);
     });
     optsEl.appendChild(btn);
   });
 }
-
 document.getElementById('quiz-restart-btn').addEventListener('click', startQuiz);
 
-/* ---------- Spelling ---------- */
-let spellDeck = [];
-let spellIndex = 0;
+/* ---------- Spelling Game ---------- */
+let spellDeck = []; let spellIndex = 0;
 
-function buildSpellDeck() {
-  spellDeck = weightedPracticeSet(8);
-  spellIndex = 0;
-}
-
-function startSpelling() {
-  buildSpellDeck();
-  renderSpellWord();
-}
-
+function startSpelling() { spellDeck = weightedPracticeSet(8); spellIndex = 0; renderSpellWord(); }
 function renderSpellWord() {
-  const feedback = document.getElementById('spell-feedback');
-  feedback.textContent = '';
-  feedback.className = 'spell-feedback';
-  const input = document.getElementById('spell-input');
-  input.value = '';
-  input.disabled = false;
-
+  const p = LANG_PACKS[state.uiLang]; const feedback = document.getElementById('spell-feedback'); feedback.textContent = ''; const input = document.getElementById('spell-input'); input.value = ''; input.disabled = false;
   if (spellDeck.length === 0) {
-    document.getElementById('spell-progress').textContent = '';
-    document.getElementById('spell-clue').innerHTML = '';
-    const clueEl = document.getElementById('spell-clue');
-    clueEl.className = 'game-empty';
-    clueEl.textContent = 'Hələ heç bir söz yoxdur. Əvvəlcə "Günün sözləri" bölməsindən sözlər əldə et.';
-    input.disabled = true;
-    document.getElementById('spell-form').style.display = 'none';
-    document.getElementById('spell-skip-btn').style.display = 'none';
-    return;
+    document.getElementById('spell-progress').textContent = ''; const cl = document.getElementById('spell-clue'); cl.className = 'game-empty'; cl.textContent = p.flash_empty;
+    input.disabled = true; document.getElementById('spell-form').style.display = 'none'; document.getElementById('spell-skip-btn').style.display = 'none'; return;
   }
-  document.getElementById('spell-clue').className = 'spell-clue';
-  document.getElementById('spell-form').style.display = '';
-  document.getElementById('spell-skip-btn').style.display = '';
-
+  document.getElementById('spell-clue').className = 'spell-clue'; document.getElementById('spell-form').style.display = ''; document.getElementById('spell-skip-btn').style.display = '';
   if (spellIndex >= spellDeck.length) {
-    document.getElementById('spell-progress').textContent = 'Set complete';
-    document.getElementById('spell-clue').innerHTML = '<p class="def-en">Əla! ' + spellDeck.length + ' sözün hamısından keçdin. Davam etmək üçün yeni dəst başlat.</p>';
-    input.disabled = true;
-    return;
+    document.getElementById('spell-progress').textContent = '100%'; document.getElementById('spell-clue').innerHTML = `<p class="def-en">${p.spell_complete}</p>`; input.disabled = true; return;
   }
-
-  const w = spellDeck[spellIndex];
-  document.getElementById('spell-progress').textContent = 'Söz ' + (spellIndex + 1) + ' / ' + spellDeck.length;
-  document.getElementById('spell-clue').innerHTML = `
-    <div class="az-block" style="margin-bottom:8px;">
-      <span class="az-flag-label">AZ</span>
-      <span class="az-word">${w.az_word}</span>
-      <span class="az-def">— ${w.az_def}</span>
-    </div>
-    <p class="def-en">${w.def}</p>
-  `;
-  input.focus();
+  const w = spellDeck[spellIndex]; document.getElementById('spell-progress').textContent = (state.uiLang === 'az' ? 'Söz ' : 'Word ') + (spellIndex + 1) + ' / ' + spellDeck.length;
+  document.getElementById('spell-clue').innerHTML = `<div class="az-block" style="margin-bottom:8px;"><span class="az-flag-label">AZ</span><span class="az-word">${w.az_word}</span><span class="az-def">— ${w.az_def}</span></div><p class="def-en">${w.def}</p>`; input.focus();
 }
-
 document.getElementById('spell-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  if (spellIndex >= spellDeck.length) return;
-  const w = spellDeck[spellIndex];
-  const input = document.getElementById('spell-input');
-  const feedback = document.getElementById('spell-feedback');
-  const guess = input.value.trim().toLowerCase();
-
+  e.preventDefault(); if (spellIndex >= spellDeck.length) return; const p = LANG_PACKS[state.uiLang];
+  const w = spellDeck[spellIndex]; const input = document.getElementById('spell-input'); const feedback = document.getElementById('spell-feedback'); const guess = input.value.trim().toLowerCase();
   if (guess === w.word.toLowerCase()) {
-    feedback.textContent = 'Düzgün — ' + w.word;
-    feedback.className = 'spell-feedback correct';
-    await setRecallScore(w.word, Math.max(1, (state.recallScores[w.word] || 3) - 1));
-    setTimeout(() => {
-      spellIndex++;
-      renderSpellWord();
-    }, 700);
+    feedback.textContent = p.spell_correct + w.word; feedback.className = 'spell-feedback correct'; await setRecallScore(w.word, Math.max(1, (state.recallScores[w.word] || 3) - 1));
+    setTimeout(() => { spellIndex++; renderSpellWord(); }, 700);
   } else {
-    feedback.textContent = 'Səhv — düzgün yazılışı: "' + w.word + '"';
-    feedback.className = 'spell-feedback wrong';
-    await setRecallScore(w.word, Math.min(5, (state.recallScores[w.word] || 3) + 1));
-    setTimeout(() => {
-      spellIndex++;
-      renderSpellWord();
-    }, 1400);
+    feedback.textContent = p.spell_wrong + '"' + w.word + '"'; feedback.className = 'spell-feedback wrong'; await setRecallScore(w.word, Math.min(5, (state.recallScores[w.word] || 3) + 1));
+    setTimeout(() => { spellIndex++; renderSpellWord(); }, 1400);
   }
 });
-
-document.getElementById('spell-skip-btn').addEventListener('click', () => {
-  spellIndex++;
-  renderSpellWord();
-});
+document.getElementById('spell-skip-btn').addEventListener('click', () => { spellIndex++; renderSpellWord(); });
 document.getElementById('spell-restart-btn').addEventListener('click', startSpelling);
 
-/* ---------- My Words ---------- */
+/* ---------- My Words View ---------- */
 function renderMyWordsList() {
-  const list = document.getElementById('mywords-list');
-  list.innerHTML = '';
-  const myWords = state.myWords || [];
+  const p = LANG_PACKS[state.uiLang]; const list = document.getElementById('mywords-list'); list.innerHTML = ''; const myWords = state.myWords || [];
   document.getElementById('mywords-count').textContent = myWords.length;
-  if (myWords.length === 0) {
-    list.innerHTML = '<p class="sub" style="margin-top:12px;">Hələ söz əlavə edilməyib. "Günün sözləri" bölməsindəki kartlarda ⊕ düyməsinə bas.</p>';
-    return;
-  }
+  if (myWords.length === 0) { list.innerHTML = `<p class="sub" style="margin-top:12px;">${p.mywords_empty}</p>`; return; }
   myWords.forEach((w, i) => {
-    const isLearned = !!state.learnedWords[w.word];
-    const isHard = state.recallScores[w.word] >= 4;
-    const row = document.createElement('div');
-    row.className = 'word-card' + (isLearned ? ' word-card-learned' : '');
+    const isLearned = !!state.learnedWords[w.word]; const isHard = state.recallScores[w.word] >= 4; const row = document.createElement('div'); row.className = 'word-card' + (isLearned ? ' word-card-learned' : '');
     row.innerHTML = `
       <div class="entry-top">
-        <div class="headword-row">
-          <p class="headword">${w.word}</p>
-          <span class="level-tag" style="background:var(--clay-soft);color:var(--clay);">Mənim</span>
-          ${isLearned ? '<span class="learned-badge">✓ öyrənildi</span>' : ''}
-          ${isHard ? '<span class="hard-badge">çətin</span>' : ''}
-        </div>
-        <div style="display:flex;gap:6px;align-items:center;">
-          <button class="learned-toggle ${isLearned ? 'on' : ''}" data-myword="${w.word}" title="${isLearned ? 'Öyrənildi' : 'Öyrənildi kimi işarələ'}">✓</button>
-          <button class="myword-delete-btn" data-idx="${i}" title="Sil" aria-label="Sil">✕</button>
-        </div>
+        <div class="headword-row"><p class="headword">${w.word}</p><span class="level-tag" style="background:var(--clay-soft);color:var(--clay);">${p.custom_tag}</span> ${isLearned ? `<span class="learned-badge">${p.learned_tag}</span>` : ''} ${isHard ? `<span class="hard-badge">${p.hard_tag}</span>` : ''}</div>
+        <div style="display:flex;gap:6px;align-items:center;"><button class="learned-toggle ${isLearned ? 'on' : ''}" data-myword="${w.word}">✓</button><button class="myword-delete-btn" data-idx="${i}">✕</button></div>
       </div>
       <hr class="entry-rule" />
-      <div class="az-block">
-        <span class="az-flag-label">AZ</span>
-        <span class="az-word">${w.az}</span>
-      </div>
-      ${w.en ? `<p class="def-en" style="margin-top:8px;">${w.en}</p>` : ''}
+      <div class="az-block"><span class="az-flag-label">AZ</span><span class="az-word">${w.az}</span></div> ${w.en ? `<p class="def-en" style="margin-top:8px;">${w.en}</p>` : ''}
     `;
     list.appendChild(row);
   });
-
-  list.querySelectorAll('.learned-toggle').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const word = btn.getAttribute('data-myword');
-      state.learnedWords[word] = !state.learnedWords[word];
-      await saveState();
-      renderMyWordsList();
-    });
-  });
-  list.querySelectorAll('.myword-delete-btn').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const idx = parseInt(btn.getAttribute('data-idx'), 10);
-      state.myWords.splice(idx, 1);
-      await saveState();
-      renderMyWordsList();
-    });
-  });
+  list.querySelectorAll('.learned-toggle').forEach(btn => btn.addEventListener('click', async () => { const word = btn.getAttribute('data-myword'); state.learnedWords[word] = !state.learnedWords[word]; await saveState(); renderMyWordsList(); }));
+  list.querySelectorAll('.myword-delete-btn').forEach(btn => btn.addEventListener('click', async () => { const idx = parseInt(btn.getAttribute('data-idx'), 10); state.myWords.splice(idx, 1); await saveState(); renderMyWordsList(); }));
 }
 
-// myword-add-btn removed — words are added via pin button on word cards
-
-/* ---------- Translation Game ---------- */
-/* ---------- Translation Game ---------- */
+/* ---------- Translation Exercise Game ---------- */
 const PASSAGES = [
-  {
-    az: "Müasir texnologiya həyatımızı dəyişdi. İndi insanlar telefonlardan istifadə edərək dünyadan istənilən məlumatı əldə edə bilərlər. Bu, həm üstünlük, həm də çatışmazlıqdır.",
-    en: "Modern technology has changed our lives. Now people can access any information in the world using their phones. This is both an advantage and a disadvantage."
-  },
-  {
-    az: "Kitab oxumaq zehni inkişaf etdirir. Hər gün az miqdarda oxumaq belə, bilikləri artırır və yaradıcılığı gücləndirir. Buna görə də uşaqlara erkən yaşdan oxumaq vərdişi aşılanmalıdır.",
-    en: "Reading books develops the mind. Even reading a small amount each day increases knowledge and enhances creativity. Therefore, children should be instilled with the habit of reading from an early age."
-  },
-  {
-    az: "Təbiəti qorumaq hər kəsin vəzifəsidir. İqlim dəyişikliyi ciddi problem yaradır və bu problemin həlli üçün bütün insanlar birlikdə çalışmalıdır. Kiçik addımlar böyük nəticələr verə bilər.",
-    en: "Protecting nature is everyone's duty. Climate change creates serious problems, and to solve this problem, all people must work together. Small steps can yield great results."
-  },
-  {
-    az: "Sağlam qidalanmaq uzun ömür üçün vacibdir. Meyvə, tərəvəz və su içmək bədəni qoruyur. Bunun əksinə, hazır yemək yemək müxtəlif xəstəliklərə səbəb ola bilər.",
-    en: "Eating healthily is important for a long life. Eating fruit, vegetables, and drinking water protects the body. On the contrary, eating fast food can cause various diseases."
-  },
-  {
-    az: "Müvəffəqiyyətin sirri əzmkarlıqdır. Çox insan ilk uğursuzluqdan sonra çalışmağı dayandırır, lakin qalibiyyət adətən daha çox cəhddən sonra gəlir. Hər uğursuzluq yeni bir dərs deməkdir.",
-    en: "The secret of success is perseverance. Many people stop trying after their first failure, but victory usually comes after more attempts. Every failure means a new lesson."
-  },
-  {
-    az: "Dil öyrənmək beyni gücləndirir. İki dil bilən insanlar bir dil bilənlərə nisbətən daha yaxşı yadda saxlama qabiliyyətinə malikdir. Bundan əlavə, yeni dil öyrənmək yeni mədəniyyətlər haqqında bilik verir.",
-    en: "Learning a language strengthens the brain. People who know two languages have better memory capacity compared to those who know one language. Additionally, learning a new language provides knowledge about new cultures."
-  },
-  {
-    az: "İdman etmək həm bədən, həm də ruh üçün faydalıdır. Gündə otuz dəqiqə gəzmək ürəyi gücləndirir və stresi azaldır. Aktiv həyat tərzi insanı xoşbəxt edir.",
-    en: "Doing sport is beneficial for both the body and the soul. Walking for thirty minutes a day strengthens the heart and reduces stress. An active lifestyle makes a person happy."
-  },
-  {
-    az: "Vaxt idarəetməsi uğurun açarıdır. İşlərini planlayan insanlar daha az gərginlik yaşayır və məqsədlərinə daha tez çatırlar. Hər gün prioritetlərini müəyyən etmək vərdişi uğura aparır.",
-    en: "Time management is the key to success. People who plan their work experience less stress and reach their goals faster. The habit of identifying priorities every day leads to success."
-  }
+  { az: "Müasir texnologiya həyatımızı dəyişdi. İndi insanlar telefonlardan istifadə edərək dünyadan istənilən məlumatı əldə edə bilərlər. Bu, həm üstünlük, həm də çatışmazlıqdır.", en: "Modern technology has changed our lives. Now people can access any information in the world using their phones. This is both an advantage and a disadvantage." },
+  { az: "Kitab oxumaq zehni inkişaf etdirir. Hər gün az miqdarda oxumaq belə, bilikləri artırır və yaradıcılığı gücləndirir. Buna görə də uşaqlara erkən yaşdan oxumaq vərdişi aşılanmalıdır.", en: "Reading books develops the mind. Even reading a small amount each day increases knowledge and enhances creativity. Therefore, children should be instilled with the habit of reading from an early age." },
+  { az: "Təbiəti qorumaq hər kəsin vəzifəsidir. İqlim dəyişikliyi ciddi problem yaradır və bu problemin həlli üçün bütün insanlar birlikdə çalışmalıdır. Kiçik addımlar böyük nəticələr verə bilər.", en: "Protecting nature is everyone's duty. Climate change creates serious problems, and to solve this problem, all people must work together. Small steps can yield great results." },
+  { az: "Sağlam qidalanmaq uzun ömür üçün vacibdir. Meyvə, tərəvəz və su içmək bədəni qoruyur. Bunun əksinə, hazır yemək yemək müxtəlif xəstəliklərə səbəb ola bilər.", en: "Eating healthily is important for a long life. Eating fruit, vegetables, and drinking water protects the body. On the contrary, eating fast food can cause various diseases." },
+  { az: "Müvəffəqiyyətin sirri əzmkarlıqdır. Çox insan ilk uğursuzluqdan sonra çalışmağı dayandırır, lakin qalibiyyət adətən daha çox cəhddən sonra gəlir. Hər uğursuzluq yeni bir dərs deməkdir.", en: "The secret of success is perseverance. Many people stop trying after their first failure, but victory usually comes after more attempts. Every failure means a new lesson." }
 ];
-
-let currentPassage = null;
-let translateChecked = false;
-
+let currentPassage = null; let translateChecked = false;
 function startTranslation() {
-  translateChecked = false;
-  const pool = PASSAGES;
-  currentPassage = pool[Math.floor(Math.random() * pool.length)];
-  document.getElementById('translate-passage').textContent = currentPassage.az;
-  document.getElementById('translate-input').value = '';
-  document.getElementById('translate-result').innerHTML = '';
-  document.getElementById('translate-result').className = 'translate-result';
-  document.getElementById('translate-status').textContent = 'Bu Azərbaycan mətni İngiliscəyə tərcümə et:';
-  document.getElementById('translate-check-btn').textContent = 'Yoxla';
+  const p = LANG_PACKS[state.uiLang]; translateChecked = false; currentPassage = PASSAGES[Math.floor(Math.random() * PASSAGES.length)];
+  document.getElementById('translate-passage').textContent = currentPassage.az; document.getElementById('translate-input').value = '';
+  document.getElementById('translate-result').innerHTML = ''; document.getElementById('translate-result').className = 'translate-result';
+  document.getElementById('translate-status').textContent = p.trans_status_init; document.getElementById('translate-check-btn').textContent = p.spell_btn_check;
   document.getElementById('translate-input').disabled = false;
 }
-
 document.getElementById('translate-check-btn').addEventListener('click', () => {
-  if (!currentPassage) return;
-  if (translateChecked) { startTranslation(); return; }
-  const userText = document.getElementById('translate-input').value.trim();
-  if (!userText) return;
-
-  const resultEl = document.getElementById('translate-result');
-  
-  // İnternet sorğusu olmadan birbaşa ekranda müqayisə etmək üçün
-  resultEl.innerHTML = `
-    <strong>Sənin tərcümən:</strong><br><span style="color: var(--ink-soft); font-style: italic;">"${userText}"</span><br><br>
-    <strong>Düzgün versiya:</strong><br><span style="color: var(--teal); font-weight: 600;">"${currentPassage.en}"</span>
-  `;
-  
-  resultEl.className = 'translate-result show';
-  document.getElementById('translate-status').textContent = 'Nəticə müqayisəsi:';
-  document.getElementById('translate-check-btn').textContent = 'Yeni mətn';
-  document.getElementById('translate-input').disabled = true;
-  translateChecked = true;
+  if (!currentPassage) return; if (translateChecked) { startTranslation(); return; }
+  const userText = document.getElementById('translate-input').value.trim(); if (!userText) return;
+  const p = LANG_PACKS[state.uiLang]; const resultEl = document.getElementById('translate-result');
+  resultEl.innerHTML = `<strong>${p.trans_your}</strong><br><span style="color: var(--ink-soft); font-style: italic;">"${userText}"</span><br><br><strong>${p.trans_ref}</strong><br><span style="color: var(--teal); font-weight: 600;">"${currentPassage.en}"</span>`;
+  resultEl.className = 'translate-result show'; document.getElementById('translate-status').textContent = p.trans_status_res;
+  document.getElementById('translate-check-btn').textContent = p.trans_btn_new; document.getElementById('translate-input').disabled = true; translateChecked = true;
 });
-
 document.getElementById('translate-new-btn').addEventListener('click', startTranslation);
 
-/* ---------- Init ---------- */
+/* ---------- Global Interface Language Selector Logic ---------- */
+document.querySelectorAll('.ui-lang-btn').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    state.uiLang = btn.getAttribute('data-uilang');
+    await saveState();
+    applyUILanguage();
+    renderWordList();
+    buildGameFromWords(false);
+    if (document.getElementById('view-learned').classList.contains('active')) renderLearnedList();
+    if (document.getElementById('view-mywords').classList.contains('active')) renderMyWordsList();
+    if (document.getElementById('sub-flash').classList.contains('active')) renderFlashcard();
+    if (document.getElementById('sub-quiz').classList.contains('active')) renderQuizQuestion();
+    if (document.getElementById('sub-spell').classList.contains('active')) renderSpellWord();
+    if (document.getElementById('sub-translate').classList.contains('active')) startTranslation();
+  });
+});
+
+/* ---------- Initialization ---------- */
 (async function init() {
   await loadState();
   if (!state.myWords) state.myWords = [];
+  applyUILanguage();
   renderWordList();
   buildGameFromWords(true);
 })();
