@@ -4,9 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tenaxicon — C1/C2 İngilis lüğəti, gündəlik</title>
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Tenaxicon">
 <style>
   :root {
     --ink: #1C2541;
@@ -42,35 +39,6 @@
 
   header.app-head {
     margin-bottom: 22px;
-    position: relative;
-  }
-
-  /* Qlobal İnterfeys Dil Seçici */
-  .ui-lang-selector {
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: flex;
-    gap: 4px;
-    background: var(--paper-card);
-    border: 1px solid var(--paper-line);
-    padding: 2px;
-    border-radius: 20px;
-  }
-  .ui-lang-btn {
-    font-family: var(--sans);
-    font-size: 11px;
-    font-weight: 700;
-    border: none;
-    background: none;
-    padding: 4px 10px;
-    border-radius: 14px;
-    cursor: pointer;
-    color: var(--ink-soft);
-  }
-  .ui-lang-btn.active {
-    background: var(--ink);
-    color: var(--paper);
   }
 
   .eyebrow {
@@ -94,7 +62,13 @@
     font-size: 14px;
     color: var(--ink-soft);
     margin: 0;
-    max-width: 80%;
+  }
+
+  /* Alt başlıqdakı xüsusi sözlərin vurğulanması */
+  .highlight-word {
+    font-weight: 700;
+    color: var(--teal);
+    text-decoration: underline;
   }
 
   /* Tabs */
@@ -121,6 +95,7 @@
     color: var(--ink);
     border-bottom: 2px solid var(--teal);
   }
+  .tab-btn:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 
   .view { display: none; }
   .view.active { display: block; }
@@ -154,7 +129,7 @@
   }
   .headword-row {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: 10px;
     flex-wrap: wrap;
   }
@@ -163,36 +138,6 @@
     font-size: 22px;
     margin: 0;
   }
-
-  /* Audio pronunciation button */
-  .speak-btn {
-    background: var(--teal-soft);
-    border: 1px solid var(--paper-line);
-    color: var(--teal);
-    cursor: pointer;
-    font-size: 14px;
-    padding: 4px 8px;
-    border-radius: 6px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.12s;
-  }
-  .speak-btn:hover {
-    background: var(--teal);
-    color: #fff;
-  }
-
-  .ipa-text {
-    font-family: var(--sans);
-    font-size: 13px;
-    color: var(--ink-soft);
-    font-style: italic;
-    background: #f7f5ee;
-    padding: 2px 6px;
-    border-radius: 4px;
-  }
-
   .level-tag {
     font-size: 11px;
     font-weight: 600;
@@ -228,6 +173,7 @@
     border-color: var(--teal);
     color: #fff;
   }
+  .learned-toggle:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 
   hr.entry-rule {
     border: none;
@@ -379,6 +325,43 @@
     border-color: var(--ink);
   }
 
+  /* Recall score row */
+  .score-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .score-label {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-right: 2px;
+  }
+  .score-pip {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid var(--paper-line);
+    background: var(--paper-card);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .score-pip:hover { border-color: var(--ink-soft); }
+  .score-pip.active.s1, .score-pip.active.s2 { background: var(--teal); border-color: var(--teal); color: #fff; }
+  .score-pip.active.s3 { background: #C9A227; border-color: #C9A227; color: #fff; }
+  .score-pip.active.s4, .score-pip.active.s5 { background: var(--clay); border-color: var(--clay); color: #fff; }
+  .score-hint {
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin-left: 4px;
+  }
+
   /* Sub-tabs for games */
   .game-subtabs {
     display: flex;
@@ -440,12 +423,23 @@
     margin: 0 0 10px;
     line-height: 1.5;
   }
+  .flash-back .az-block {
+    margin-top: 4px;
+  }
+  .flash-progress {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
   .flash-rate-row {
     display: none;
     gap: 8px;
     margin-top: 6px;
   }
   .flash-rate-row.show { display: flex; }
+  .flash-nav-row {
+    display: flex;
+    gap: 10px;
+  }
 
   /* Quiz */
   .quiz-wrap {
@@ -479,6 +473,9 @@
   }
   .quiz-opt.correct { background: var(--teal-soft); border-color: var(--teal); color: var(--teal); }
   .quiz-opt.wrong { background: var(--clay-soft); border-color: var(--clay); color: var(--clay); }
+  .quiz-score-line {
+    font-size: 14px;
+  }
   .quiz-result {
     display: none;
     text-align: center;
@@ -503,6 +500,7 @@
     border-radius: var(--radius);
     padding: 16px 18px;
   }
+  .spell-clue .def-en { margin-bottom: 8px; }
   .spell-input-row {
     display: flex;
     gap: 8px;
@@ -516,12 +514,14 @@
     background: #fff;
     color: var(--ink);
   }
+  .spell-input:focus { outline: 2px solid var(--teal); border-color: var(--teal); }
   .spell-feedback {
     font-size: 13.5px;
     min-height: 18px;
   }
   .spell-feedback.correct { color: var(--teal); font-weight: 600; }
   .spell-feedback.wrong { color: var(--clay); font-weight: 600; }
+  .spell-progress { font-size: 13px; color: var(--ink-soft); }
 
   /* Learned list */
   .learned-row {
@@ -537,7 +537,7 @@
   }
   .learned-row-main {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: 10px;
     flex-wrap: wrap;
     min-width: 0;
@@ -549,6 +549,23 @@
     font-size: 13px;
     color: var(--clay);
   }
+  .learned-row-score {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .learned-score-badge {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    color: #fff;
+  }
+  .learned-score-badge.s1, .learned-score-badge.s2 { background: var(--teal); }
+  .learned-score-badge.s3 { background: #C9A227; }
+  .learned-score-badge.s4, .learned-score-badge.s5 { background: var(--clay); }
+  .learned-score-badge.none { background: var(--ink-soft); }
 
   .game-empty {
     padding: 28px 20px;
@@ -560,7 +577,16 @@
     font-size: 14px;
     line-height: 1.6;
   }
+  .game-empty b { color: var(--ink); }
 
+  footer.app-foot {
+    margin-top: 32px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+
+  /* Learned badge on word card */
   .learned-badge {
     font-size: 11px;
     font-weight: 700;
@@ -586,6 +612,12 @@
   }
   .word-card-learned .headword { color: var(--teal); }
 
+  /* My words tab */
+  .mywords-hint {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin: 0 0 16px;
+  }
   .mywords-pin-btn {
     width: 30px; height: 30px;
     border-radius: 50%;
@@ -595,7 +627,9 @@
     cursor: pointer;
     font-size: 15px;
     display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
   }
+  .mywords-pin-btn:hover { border-color: var(--teal); color: var(--teal); }
   .mywords-pin-btn.pinned { background: var(--teal-soft); border-color: var(--teal); color: var(--teal); }
   .myword-delete-btn {
     width: 28px; height: 28px;
@@ -607,7 +641,9 @@
     font-size: 12px;
     display: flex; align-items: center; justify-content: center;
   }
+  .myword-delete-btn:hover { border-color: var(--clay); color: var(--clay); }
 
+  /* Flash card easy/hard buttons */
   .score-btn {
     font-family: var(--sans);
     font-size: 13px;
@@ -617,10 +653,13 @@
     border: 1.5px solid var(--paper-line);
     background: var(--paper-card);
     cursor: pointer;
+    color: var(--ink);
   }
   .score-btn.easy { background: var(--teal-soft); border-color: var(--teal); color: var(--teal); }
   .score-btn.hard { background: var(--clay-soft); border-color: var(--clay); color: var(--clay); }
+  .score-btn:hover { opacity: 0.85; }
 
+  /* Quiz AZ hint under word */
   .quiz-prompt-word { font-family: var(--serif); font-size: 24px; }
   .quiz-az-hint { font-size: 13px; color: var(--ink-soft); font-style: italic; }
 
@@ -645,6 +684,11 @@
     color: var(--ink);
     border-left: 4px solid var(--clay);
   }
+  .translate-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
   .translate-input {
     width: 100%;
     font-family: var(--sans);
@@ -657,6 +701,7 @@
     resize: vertical;
     line-height: 1.5;
   }
+  .translate-input:focus { outline: 2px solid var(--teal); border-color: var(--teal); }
   .translate-result {
     display: none;
     background: var(--teal-soft);
@@ -680,65 +725,71 @@
 <div class="wrap">
 
   <header class="app-head">
-    <div class="ui-lang-selector">
-      <button class="ui-lang-btn active" data-uilang="az">AZ</button>
-      <button class="ui-lang-btn" data-uilang="en">EN</button>
-    </div>
-    <p class="eyebrow"><span id="txt-day-label">Gün</span> <span id="day-count">1</span> · C1 / C2</p>
-    <h1 id="txt-app-title">Tenaxicon</h1>
-    <p class="sub" id="txt-app-sub">Gündəlik beş C1/C2 İngilis sözü, Azərbaycan mənaları ilə — sonra özünü yoxla.</p>
+    <p class="eyebrow">Gün <span id="day-count">1</span> · C1 / C2</p>
+    <h1>Tenaxicon</h1>
+    <p class="sub" id="txt-app-sub"></p>
   </header>
 
   <nav class="tabs" role="tablist">
-    <button class="tab-btn active" id="tab-words">Günün sözləri</button>
-    <button class="tab-btn" id="tab-mywords">Sözlərim</button>
-    <button class="tab-btn" id="tab-game">Oyunlar</button>
-    <button class="tab-btn" id="tab-learned">Öyrəndiklərim</button>
+    <button class="tab-btn active" id="tab-words" role="tab" aria-selected="true">Günün sözləri</button>
+    <button class="tab-btn" id="tab-mywords" role="tab" aria-selected="false">Sözlərim</button>
+    <button class="tab-btn" id="tab-game" role="tab" aria-selected="false">Oyunlar</button>
+    <button class="tab-btn" id="tab-learned" role="tab" aria-selected="false">Öyrəndiklərim</button>
   </nav>
 
-  <section class="view active" id="view-words">
+  <section class="view active" id="view-words" role="tabpanel">
+    <h2 class="sr-only">Azərbaycan və İngilis dilində günün beş lüğət sözü</h2>
+
     <div class="stat-strip">
-      <div class="stat"><b id="learned-count">0</b>/5 <span id="txt-stat-learned">öyrənildi</span></div>
-      <div class="stat"><span id="txt-stat-streak">Seria:</span> <b id="streak-count">1</b> <span id="txt-stat-days">gün</span></div>
+      <div class="stat"><b id="learned-count">0</b>/5 öyrənildi</div>
+      <div class="stat">Seria: <b id="streak-count">1</b> gün</div>
     </div>
+
     <div id="word-list"></div>
+
     <div class="btn-row">
       <button class="btn primary" id="next-batch-btn">Yeni 5 söz</button>
       <button class="btn" id="goto-game-btn">Oyunda məşq et</button>
     </div>
   </section>
 
-  <section class="view" id="view-mywords">
+  <section class="view" id="view-mywords" role="tabpanel">
+    <h2 class="sr-only">Sözlərim siyahısı</h2>
     <div class="stat-strip">
-      <div class="stat"><span id="txt-mywords-stat">Siyahında:</span> <b id="mywords-count">0</b> <span id="txt-mywords-wordunit">söz</span></div>
+      <div class="stat">Siyahında: <b id="mywords-count">0</b> söz</div>
     </div>
-    <p class="sub" style="margin-bottom:16px;" id="txt-mywords-hint">Günün sözlərindən ⊕ düyməsinə basaraq sözlərini bu siyahıya əlavə edə bilərsən.</p>
+    <p class="mywords-hint">Günün sözlərindən ⊕ düyməsinə basaraq sözlərini bu siyahıya əlavə edə bilərsən. Çətin sözlər oyunlarda daha tez çıxır.</p>
     <div id="mywords-list"></div>
   </section>
 
-  <section class="view" id="view-game">
-    <div class="game-subtabs">
-      <button class="subtab-pill active" data-sub="match" id="subtab-match">Uyğunlaşdır</button>
-      <button class="subtab-pill" data-sub="flash" id="subtab-flash">Flaş kart</button>
-      <button class="subtab-pill" data-sub="quiz" id="subtab-quiz">Quiz</button>
-      <button class="subtab-pill" data-sub="spell" id="subtab-spell">İmla</button>
-      <button class="subtab-pill" data-sub="translate" id="subtab-translate">Tərcümə</button>
+  <section class="view" id="view-game" role="tabpanel">
+    <h2 class="sr-only">Lüğət oyunları: uyğunlaşdır, flaş kart, quiz, imla, tərcümə</h2>
+
+    <div class="game-subtabs" role="tablist" aria-label="Oyun seç">
+      <button class="subtab-pill active" data-sub="match">Uyğunlaşdır</button>
+      <button class="subtab-pill" data-sub="flash">Flaş kart</button>
+      <button class="subtab-pill" data-sub="quiz">Quiz</button>
+      <button class="subtab-pill" data-sub="spell">İmla</button>
+      <button class="subtab-pill" data-sub="translate">Tərcümə</button>
     </div>
 
     <div class="game-subview active" id="sub-match">
-      <div class="lang-select-row">
-        <button class="lang-pill active" data-lang="en" id="match-lang-en">İngiliscə uyğunlaşdır</button>
-        <button class="lang-pill" data-lang="az" id="match-lang-az">Azərbaycanca uyğunlaşdır</button>
+      <div class="lang-select-row" role="group" aria-label="Oyun dili seç">
+        <button class="lang-pill active" data-lang="en">İngiliscə uyğunlaşdır</button>
+        <button class="lang-pill" data-lang="az">Azərbaycanca uyğunlaşdır</button>
       </div>
+
       <div class="game-meta">
         <div class="game-stats">
-          <div class="stat"><span id="txt-match-moves">Hərəkət:</span> <b id="moves">0</b></div>
-          <div class="stat"><span id="txt-match-matches">Uyğun:</span> <b id="matches">0</b>/<span id="matches-total">8</span></div>
-          <div class="stat"><span id="txt-match-time">Vaxt:</span> <b id="timer">0:00</b></div>
+          <div class="stat">Hərəkət: <b id="moves">0</b></div>
+          <div class="stat">Uyğun: <b id="matches">0</b>/<span id="matches-total">8</span></div>
+          <div class="stat">Vaxt: <b id="timer">0:00</b></div>
         </div>
         <button class="btn" id="restart-btn">Yeni oyun</button>
       </div>
+
       <div class="board" id="board"></div>
+
       <div class="win-banner" id="win-banner"></div>
     </div>
 
@@ -746,10 +797,13 @@
       <div class="flash-wrap">
         <div class="flash-progress" id="flash-progress">Kart 1 / 8</div>
         <div class="flashcard" id="flashcard"></div>
-        <div class="flash-rate-row" id="flash-rate-row"></div>
-        <div class="btn-row">
+        <div class="flash-rate-row" id="flash-rate-row" role="group" aria-label="Bu sözü nə qədər asanlıqla xatırladın?">
+          <span class="score-label">Nə qədər asanlıqla xatırladın?</span>
+        </div>
+        <div class="flash-nav-row">
           <button class="btn" id="flash-prev-btn">Geri</button>
           <button class="btn primary" id="flash-next-btn">Növbəti</button>
+          <button class="btn" id="flash-shuffle-btn">Qarışdır</button>
         </div>
       </div>
     </div>
@@ -771,8 +825,9 @@
         <div class="spell-progress" id="spell-progress">Söz 1 / 8</div>
         <div class="spell-clue" id="spell-clue"></div>
         <form class="spell-input-row" id="spell-form">
-          <input class="spell-input" id="spell-input" type="text" autocomplete="off" placeholder="İngilis sözünü yaz" />
-          <button class="btn primary" id="spell-submit-btn" type="submit">Yoxla</button>
+          <label class="sr-only" for="spell-input">İngilis sözünü yaz</label>
+          <input class="spell-input" id="spell-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="İngilis sözünü yaz" />
+          <button class="btn primary" type="submit">Yoxla</button>
         </form>
         <div class="spell-feedback" id="spell-feedback"></div>
         <div class="btn-row">
@@ -786,8 +841,8 @@
       <div class="translate-wrap">
         <div class="translate-status" id="translate-status">Mətn yüklənir…</div>
         <div class="translate-passage" id="translate-passage"></div>
-        <div class="sub" style="font-weight:600; margin-top:8px;" id="txt-trans-label">İngilis dilinə tərcümən:</div>
-        <textarea class="translate-input" id="translate-input" rows="3"></textarea>
+        <div class="translate-label">İngilis dilinə tərcümən:</div>
+        <textarea class="translate-input" id="translate-input" placeholder="Azərbaycan mətni oxu, İngiliscəyə çevir…" rows="4"></textarea>
         <div class="btn-row">
           <button class="btn primary" id="translate-check-btn">Yoxla</button>
           <button class="btn" id="translate-new-btn">Yeni mətn</button>
@@ -797,333 +852,82 @@
     </div>
   </section>
 
-  <section class="view" id="view-learned">
+  <section class="view" id="view-learned" role="tabpanel">
+    <h2 class="sr-only">Öyrəndiyiniz sözlərin siyahısı</h2>
+
     <div class="stat-strip">
-      <div class="stat"><b id="learned-total-count">0</b> <span id="txt-learned-total-lbl">söz öyrənilib</span></div>
+      <div class="stat"><b id="learned-total-count">0</b> söz öyrənilib</div>
     </div>
+
     <div id="learned-list"></div>
-    <p id="learned-empty" class="sub">Hələ heç bir söz öyrənilməyib.</p>
+    <p id="learned-empty" class="sub" style="display: none;">Hələ heç bir söz öyrənilmiş kimi işarələnməyib. "Günün sözləri" bölməsindən sözləri işarələ.</p>
   </section>
 
-  <footer class="app-foot" id="txt-footer">
+  <footer class="app-foot">
     İrəliləyiş bu cihazda saxlanılır. Yarın yeni beş söz gözləyir.
   </footer>
 
 </div>
 
 <script>
-/* ---------- Lüğət Bankı (IPA Transkripsiyalar ilə) ---------- */
+/* ---------- Vocabulary bank (word, level, part of speech, EN def, EN example, AZ word, AZ def) ---------- */
 const VOCAB = [
-  { word: "meticulous", level: "C1", pos: "adj.", ipa: "UK: /mɪˈtɪk.jə.ləs/ | US: /mə-/", def: "showing great attention to detail; very careful", example: "She gave the laboratory report a meticulous review before signing.", az_word: "diqqətli, ətraflı (titiz)", az_def: "hər bir xırdalığa, detala böyük diqqət yetirən" },
-  { word: "leverage", level: "C1", pos: "v./n.", ipa: "UK: /ˈliː.vər.ɪdʒ/ | US: /ˈlɛv.ɚ-/", def: "to use something to maximum advantage", example: "We can leverage this automation script to optimize our quality control workflow.", az_word: "yararlanmaq, rıçaq etmək", az_def: "mövcud imkan və resurslardan maksimum bəhrələnmək" },
-  { word: "strive", level: "C1", pos: "v.", ipa: "/straɪv/", def: "make great efforts to achieve or obtain something", example: "We always strive to maintain the highest ISO standards in the laboratory.", az_word: "can atmaq, cəhd etmək", az_def: "bir şeyə nail olmaq üçün ciddi səy və mübarizə göstərmək" },
-  { word: "stagnant", level: "C1", pos: "adj.", ipa: "/ˈstæɡ.nənt/", def: "showing no activity, dull and sluggish; not flowing", example: "Without innovation, professional growth can become stagnant.", az_word: "durğun, inkişaf etməyən", az_def: "hərəkətsiz qalan, irəliləməyən, durğunluq dövrü keçirən" },
-  { word: "ubiquitous", level: "C2", pos: "adj.", ipa: "/juːˈbɪk.wɪ.təs/", def: "present, appearing, or found everywhere", example: "Smartphones have become ubiquitous in modern life.", az_word: "hər yerdə olan", az_def: "hər yerdə mövcud olan, rast gəlinən" },
-  { word: "ephemeral", level: "C2", pos: "adj.", ipa: "/ɪˈfem.ər.əl/", def: "lasting for a very short time", example: "Fame on social media can feel ephemeral.", az_word: "keçici, fani", az_def: "çox qısa müddət davam edən, müvəqqəti" },
-  { word: "pragmatic", level: "C1", pos: "adj.", ipa: "/præɡˈmæt.ɪk/", def: "dealing with things sensibly and realistically", example: "We need a pragmatic solution, not an idealistic one.", az_word: "praqmatik", az_def: "real vəziyyətə uyğun, ağılabatan yanaşan" },
-  { word: "ambiguous", level: "C1", pos: "adj.", ipa: "/æmˈbɪɡ.ju.əs/", def: "open to more than one interpretation; not clear", example: "His answer was ambiguous, so we asked him to clarify.", az_word: "qeyri-müəyyən", az_def: "bir neçə mənaya gələ bilən, aydın olmayan" },
-  { word: "resilient", level: "C1", pos: "adj.", ipa: "/rɪˈzɪl.jənt/", def: "able to recover quickly from difficulties", example: "Children are often remarkably resilient after hardship.", az_word: "davamlı, dözümlü", az_def: "çətinliklərdən tez bərpa olunan" },
-  { word: "candid", level: "C1", pos: "adj.", ipa: "/ˈkæn.dɪd/", def: "truthful and straightforward; frank", example: "He gave a candid answer about why the project failed.", az_word: "açıq, səmimi", az_def: "düz danışan, riyasız" },
-  { word: "tenacious", level: "C1", pos: "adj.", ipa: "/təˈneɪ.ʃəs/", def: "holding firmly to a course of action or belief", example: "Her tenacious negotiating style won the client over.", az_word: "inadcıl, mətanətli", az_def: "məqsədindən geri çəkilməyən" }
+  { word: "ubiquitous", level: "C2", pos: "adj.", def: "present, appearing, or found everywhere", example: "Smartphones have become ubiquitous in modern life.", az_word: "hər yerdə olan", az_def: "hər yerdə mövcud olan, rast gəlinən" },
+  { word: "ephemeral", level: "C2", pos: "adj.", def: "lasting for a very short time", example: "Fame on social media can feel ephemeral.", az_word: "keçici", az_def: "qısa müddət davam edən, müvəqqəti" },
+  { word: "pragmatic", level: "C1", pos: "adj.", def: "dealing with things sensibly and realistically", example: "We need a pragmatic solution, not an idealistic one.", az_word: "praqmatik", az_def: "real vəziyyətə uyğun, ağılabatan yanaşan" },
+  { word: "ambiguous", level: "C1", pos: "adj.", def: "open to more than one interpretation; not clear", example: "His answer was ambiguous, so we asked him to clarify.", az_word: "qeyri-müəyyən", az_def: "bir neçə mənaya gələ bilən, aydın olmayan" },
+  { word: "meticulous", level: "C1", pos: "adj.", def: "showing great attention to detail; very careful", example: "She gave the contract a meticulous review before signing.", az_word: "diqqətli, ətraflı", az_def: "hər detala böyük diqqət yetirən" },
+  { word: "resilient", level: "C1", pos: "adj.", def: "able to recover quickly from difficulties", example: "Children are often remarkably resilient after hardship.", az_word: "davamlı, dözümlü", az_def: "çətinliklərdən tez bərpa olunan" },
+  { word: "candid", level: "C1", pos: "adj.", def: "truthful and straightforward; frank", example: "He gave a candid answer about why the project failed.", az_word: "açıq, səmimi", az_def: "düz danışan, riyasız" },
+  { word: "tenacious", level: "C1", pos: "adj.", def: "holding firmly to a course of action or belief", example: "Her tenacious negotiating style won the client over.", az_word: "inadcıl, mətanətli", az_def: "məqsədindən geri çəkilməyən" },
+  { word: "ostensible", level: "C2", pos: "adj.", def: "stated as the reason, but perhaps not the real one", example: "The ostensible purpose of the meeting was budgeting, but politics dominated.", az_word: "zahiri, görünüşdə olan", az_def: "əslində deyil, sadəcə görünüşdə belə olan" },
+  { word: "ambivalent", level: "C2", pos: "adj.", def: "having mixed or contradictory feelings about something", example: "I feel ambivalent about moving to a new city.", az_word: "ikili münasibətli", az_def: "bir məsələyə qarşı ziddiyyətli hisslər bəsləyən" },
+  { word: "discrepancy", level: "C2", pos: "n.", def: "a lack of agreement or consistency between facts", example: "There was a discrepancy between the two witness accounts.", az_word: "uyğunsuzluq", az_def: "faktlar arasında uyuşmazlıq" },
+  { word: "vindicate", level: "C2", pos: "v.", def: "to clear someone of blame after they were doubted", example: "New evidence finally vindicated the accused man.", az_word: "təmizə çıxarmaq", az_def: "günahsızlığını sübut etmək" },
+  { word: "scrupulous", level: "C2", pos: "adj.", def: "diligent and careful to do things correctly and ethically", example: "The auditor was scrupulous in checking every figure.", az_word: "vicdanlı, dəqiq", az_def: "düzgünlüyə ciddi əməl edən" },
+  { word: "intricate", level: "C1", pos: "adj.", def: "very complicated or detailed", example: "The watch had an intricate mechanism inside.", az_word: "mürəkkəb, incə", az_def: "çoxlu detaldan ibarət, mürəkkəb" },
+  { word: "deferential", level: "C2", pos: "adj.", def: "showing respect for someone's authority or wishes", example: "He was deferential toward his senior colleagues.", az_word: "hörmətkar, tabe olan", az_def: "başqasının nüfuzuna hörmət göstərən" },
+  { word: "conundrum", level: "C2", pos: "n.", def: "a confusing and difficult problem or question", example: "Choosing between the two job offers was a real conundrum.", az_word: "tapmaca, mürəkkəb məsələ", az_def: "həll edilməsi çətin olan problem" },
+  { word: "astute", level: "C2", pos: "adj.", def: "having a sharp mind; good at judging situations", example: "She made an astute observation about the market.", az_word: "iti zəkalı, sayıq", az_def: "vəziyyəti tez və düzgün qiymətləndirən" },
+  { word: "lucid", level: "C1", pos: "adj.", def: "clear and easy to understand; mentally clear", example: "He gave a lucid explanation of a complex topic.", az_word: "aydın", az_def: "asan başa düşülən, açıq-aydın" },
+  { word: "fortuitous", level: "C2", pos: "adj.", def: "happening by a lucky chance", example: "Their meeting at the airport was entirely fortuitous.", az_word: "təsadüfi, bəxtəvər", az_def: "xoşbəxt təsadüf nəticəsində baş verən" },
+  { word: "succinct", level: "C1", pos: "adj.", def: "expressed clearly and in few words", example: "Her report was succinct but covered everything important.", az_word: "qısa və dəqiq", az_def: "az sözlə dəqiq ifadə olunan" }
 ];
 
-/* ---------- Tərcümə Lokallaşdırılması ---------- */
+/* ---------- Translation Localization ---------- */
 const LANG_PACKS = {
   az: {
     app_title: "Tenaxicon",
-    app_sub: "Gündəlik beş C1/C2 İngilis sözü, Azərbaycan mənaları ilə — sonra özünü yoxla.",
-    day_label: "Gün", tab_words: "Günün sözləri", tab_mywords: "Sözlərim", tab_game: "Oyunlar", tab_learned: "Öyrəndiklərim",
-    stat_learned: "öyrənildi", stat_streak: "Seria:", stat_days: "gün", btn_next_batch: "Yeni 5 söz", btn_goto_game: "Oyunda məşq et",
-    mywords_stat: "Siyahında:", mywords_wordunit: "söz", mywords_hint: "Günün sözlərindən ⊕ düyməsinə basaraq sözlərini bu siyahıya əlavə edə bilərsən.",
-    mywords_empty: "Hələ söz əlavə edilməyib. Kartlarda ⊕ düyməsinə bas.",
-    game_match: "Uyğunlaşdır", game_flash: "Flaş kart", game_quiz: "Quiz", game_spell: "İmla", game_translate: "Tərcümə",
-    match_en: "İngiliscə uyğunlaşdır", match_az: "Azərbaycanca uyğunlaşdır", match_moves: "Hərəkət:", match_matches: "Uyğun:", match_time: "Vaxt:", btn_new_game: "Yeni oyun",
-    game_need_more: "Oyun üçün ən az 2 söz lazımdır. Siyahını genişləndirin.", flash_hint_touch: "mənasını görmək üçün toxun",
-    flash_know: "Bu sözü bilirsən?", btn_yes: "✓ Bəli", btn_no: "✗ Xeyr", btn_back: "Geri", btn_next: "Növbəti", flash_empty: "Hələ söz yoxdur.",
-    quiz_score: "Nəticə:", quiz_correct_unit: "düzgün.", btn_new_quiz: "Yeni quiz", spell_placeholder: "İngilis sözünü yaz",
-    spell_btn_check: "Yoxla", spell_btn_skip: "Keç", spell_btn_new_set: "Yeni dəst", spell_correct: "Düzgün — ", spell_wrong: "Səhv — düzgün yazılışı: ",
-    trans_label: "İngilis dilinə tərcümən:", trans_placeholder: "Azərbaycan mətni oxu, İngiliscəyə çevir…", trans_btn_check: "Yoxla", trans_btn_new: "Yeni mətn",
-    trans_status_init: "Bu Azərbaycan mətni İngiliscəyə tərcümə et:", trans_your: "Sənin tərcümən:", trans_ref: "Düzgün versiya:", trans_status_res: "Nəticə müqayisəsi:",
-    learned_total_lbl: "söz öyrənilib", learned_empty: "Hələ heç bir söz öyrənilməyib.", learned_tag: "✓ öyrənildi", hard_tag: "çətin", custom_tag: "Mənim",
-    footer: "İrəliləyiş bu cihazda saxlanılır. Yarın yeni beş söz gözləyir."
+    app_sub: "If you <span class='highlight-word'>strive</span> for growth, don't let your skills stay <span class='highlight-word'>stagnant</span>; be <span class='highlight-word'>tenacious</span>, make a <span class='highlight-word'>meticulous</span> plan, and <span class='highlight-word'>leverage</span> every tool.",
+    day_label: "Gün", tab_words: "Günün sözləri", tab_mywords: "Sözlərim", tab_game: "Oyunlar", tab_learned: "Öyrəndiklərim"
   },
   en: {
-    app_title: "Tenaxicon", app_sub: "Five daily C1/C2 English words with Azerbaijani meanings — then test yourself.",
-    day_label: "Day", tab_words: "Daily Words", tab_mywords: "My Words", tab_game: "Games", tab_learned: "Learned Words",
-    stat_learned: "learned", stat_streak: "Streak:", stat_days: "days", btn_next_batch: "New 5 Words", btn_goto_game: "Practice in Games",
-    mywords_stat: "In your list:", mywords_wordunit: "words", mywords_hint: "You can add words from Daily Words by clicking the ⊕ button.",
-    mywords_empty: "No words added yet. Click the ⊕ button on the daily word cards.",
-    game_match: "Match", game_flash: "Flashcards", game_quiz: "Quiz", game_spell: "Spelling", game_translate: "Translation",
-    match_en: "Match in English", match_az: "Match in Azerbaijani", match_moves: "Moves:", match_matches: "Matches:", match_time: "Time:", btn_new_game: "New Game",
-    game_need_more: "At least 2 words are required to play.", flash_hint_touch: "tap to reveal meaning",
-    flash_know: "Do you know this word?", btn_yes: "✓ Yes", btn_no: "✗ No", btn_back: "Back", btn_next: "Next", flash_empty: "No words available yet.",
-    quiz_score: "Result:", quiz_correct_unit: "correct.", btn_new_quiz: "New Quiz", spell_placeholder: "Type the English word",
-    spell_btn_check: "Check", spell_btn_skip: "Skip", spell_btn_new_set: "New Set", spell_correct: "Correct — ", spell_wrong: "Wrong — correct spelling: ",
-    trans_label: "Your translation into English:", trans_placeholder: "Read the Azerbaijani text, convert to English…", trans_btn_check: "Check", trans_btn_new: "New Text",
-    trans_status_init: "Translate this Azerbaijani text into English:", trans_your: "Your translation:", trans_ref: "Correct version:", trans_status_res: "Result comparison:",
-    learned_total_lbl: "words learned", learned_empty: "No words have been marked as learned yet.", learned_tag: "✓ learned", hard_tag: "hard", custom_tag: "My Own",
-    footer: "Progress is saved on this device. Five new words await tomorrow."
+    app_title: "Tenaxicon",
+    app_sub: "If you <span class='highlight-word'>strive</span> for growth, don't let your skills stay <span class='highlight-word'>stagnant</span>; be <span class='highlight-word'>tenacious</span>, make a <span class='highlight-word'>meticulous</span> plan, and <span class='highlight-word'>leverage</span> every tool.",
+    day_label: "Day", tab_words: "Daily Words", tab_mywords: "My Words", tab_game: "Games", tab_learned: "Learned Words"
   }
 };
 
-/* ---------- App State & Storage ---------- */
-let state = { uiLang: 'az', dayCount: 1, streak: 1, batchIndex: 0, todaysWords: [], learnedWords: {}, recallScores: {}, myWords: [] };
-
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
+function applyUILanguage(langCode) {
+  const p = LANG_PACKS[langCode] || LANG_PACKS.az;
+  document.getElementById('txt-app-sub').innerHTML = p.app_sub;
 }
 
-function speakWord(text) {
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel(); // Stop any ongoing speech
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US'; // Set to English US accent
-    utterance.rate = 0.85;    // Slightly slower for clear understanding
-    window.speechSynthesis.speak(utterance);
-  }
+/* ---------- Storage helpers (window.storage with localStorage-style fallback) ---------- */
+const STORAGE_AVAILABLE = (typeof window.storage !== 'undefined');
+const memCache = {};
+
+async function storeGet(key) {
+  try {
+    if (STORAGE_AVAILABLE) {
+      const r = await window.storage.get(key, false);
+      return r ? JSON.parse(r.value) : null;
+    }
+  } catch (e) { /* fall through */ }
+  return memCache[key] !== undefined ? memCache[key] : null;
 }
-
-function pickBatch(index) {
-  const rotated = VOCAB.slice(index % VOCAB.length).concat(VOCAB.slice(0, index % VOCAB.length));
-  return shuffle(rotated).slice(0, 5);
-}
-
-function loadState() {
-  const saved = localStorage.getItem('tenaxicon-state');
-  if (saved) { state = Object.assign(state, JSON.parse(saved)); }
-  if (!state.todaysWords || state.todaysWords.length === 0) { state.todaysWords = pickBatch(0).map(w => w.word); }
-}
-
-function saveState() {
-  localStorage.setItem('tenaxicon-state', JSON.stringify(state));
-}
-
-function getWordData(wordStr) {
-  const vocabMatch = VOCAB.find(w => w.word === wordStr);
-  if (vocabMatch) return vocabMatch;
-  const custom = (state.myWords || []).find(w => w.word === wordStr);
-  if (custom) return { word: custom.word, level: LANG_PACKS[state.uiLang].custom_tag, pos: '', ipa: '/custom/', def: custom.en || custom.az, example: '', az_word: custom.az, az_def: custom.az };
-  return null;
-}
-
-/* ---------- UI Translation Renderer ---------- */
-function applyUILanguage() {
-  const p = LANG_PACKS[state.uiLang];
-  document.getElementById('txt-day-label').textContent = p.day_label;
-  document.getElementById('txt-app-title').textContent = p.app_title;
-  document.getElementById('txt-app-sub').textContent = p.app_sub;
-  document.getElementById('txt-footer').textContent = p.footer;
-  document.getElementById('tab-words').textContent = p.tab_words;
-  document.getElementById('tab-mywords').textContent = p.tab_mywords;
-  document.getElementById('tab-game').textContent = p.tab_game;
-  document.getElementById('tab-learned').textContent = p.tab_learned;
-  document.getElementById('txt-stat-learned').textContent = p.stat_learned;
-  document.getElementById('txt-stat-streak').textContent = p.stat_streak;
-  document.getElementById('txt-stat-days').textContent = p.stat_days;
-  document.getElementById('next-batch-btn').textContent = p.btn_next_batch;
-  document.getElementById('goto-game-btn').textContent = p.btn_goto_game;
-  document.getElementById('txt-mywords-stat').textContent = p.mywords_stat;
-  document.getElementById('txt-mywords-wordunit').textContent = p.mywords_wordunit;
-  document.getElementById('txt-mywords-hint').textContent = p.mywords_hint;
-  document.getElementById('subtab-match').textContent = p.game_match;
-  document.getElementById('subtab-flash').textContent = p.game_flash;
-  document.getElementById('subtab-quiz').textContent = p.game_quiz;
-  document.getElementById('subtab-spell').textContent = p.game_spell;
-  document.getElementById('subtab-translate').textContent = p.game_translate;
-  document.getElementById('match-lang-en').textContent = p.match_en;
-  document.getElementById('match-lang-az').textContent = p.match_az;
-  document.getElementById('txt-match-moves').textContent = p.match_moves;
-  document.getElementById('txt-match-matches').textContent = p.match_matches;
-  document.getElementById('txt-match-time').textContent = p.match_time;
-  document.getElementById('restart-btn').textContent = p.btn_new_game;
-  document.getElementById('flash-prev-btn').textContent = p.btn_back;
-  document.getElementById('flash-next-btn').textContent = p.btn_next;
-  document.getElementById('quiz-restart-btn').textContent = p.btn_new_quiz;
-  document.getElementById('spell-input').placeholder = p.spell_placeholder;
-  document.getElementById('spell-submit-btn').textContent = p.spell_btn_check;
-  document.getElementById('spell-skip-btn').textContent = p.btn_skip;
-  document.getElementById('spell-restart-btn').textContent = p.spell_btn_new_set;
-  document.getElementById('txt-trans-label').textContent = p.trans_label;
-  document.getElementById('translate-input').placeholder = p.trans_placeholder;
-  document.getElementById('translate-new-btn').textContent = p.trans_btn_new;
-  document.getElementById('txt-learned-total-lbl').textContent = p.learned_total_lbl;
-  document.getElementById('learned-empty').textContent = p.learned_empty;
-
-  document.querySelectorAll('.ui-lang-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-uilang') === state.uiLang);
-  });
-}
-
-/* ---------- Render Words List (with Sound & IPA) ---------- */
-function renderWordList() {
-  const p = LANG_PACKS[state.uiLang];
-  const list = document.getElementById('word-list');
-  list.innerHTML = '';
-  const learnedCount = state.todaysWords.filter(w => state.learnedWords[w]).length;
-  document.getElementById('learned-count').textContent = learnedCount;
-  document.getElementById('streak-count').textContent = state.streak;
-  document.getElementById('day-count').textContent = state.dayCount;
-
-  state.todaysWords.forEach(wordStr => {
-    const w = getWordData(wordStr);
-    if (!w) return;
-    const isLearned = !!state.learnedWords[w.word];
-    const isInMyWords = (state.myWords || []).some(m => m.word === w.word);
-
-    const card = document.createElement('div');
-    card.className = 'word-card' + (isLearned ? ' word-card-learned' : '');
-    card.innerHTML = `
-      <div class="entry-top">
-        <div class="headword-row">
-          <p class="headword">${w.word}</p>
-          <button class="speak-btn" data-speak="${w.word}" title="Listen Pronunciation">🔊</button>
-          <span class="ipa-text">${w.ipa}</span>
-          <span class="level-tag">${w.level}</span>
-          <span class="pos">${w.pos}</span>
-          ${isLearned ? `<span class="learned-badge">${p.learned_tag}</span>` : ''}
-        </div>
-        <div style="display:flex;gap:6px;align-items:center;">
-          <button class="mywords-pin-btn ${isInMyWords ? 'pinned' : ''}" data-word="${w.word}"> ${isInMyWords ? '★' : '⊕'} </button>
-          <button class="learned-toggle ${isLearned ? 'on' : ''}" data-word="${w.word}">✓</button>
-        </div>
-      </div>
-      <hr class="entry-rule" />
-      <div class="az-block" style="margin-bottom:10px;">
-        <span class="az-flag-label">AZ</span>
-        <span class="az-word">${w.az_word}</span>
-        <span class="az-def">— ${w.az_def}</span>
-      </div>
-      <p class="def-en">${w.def}</p>
-      <p class="example">"${w.example}"</p>
-    `;
-    list.appendChild(card);
-  });
-
-  // Sound event listeners
-  list.querySelectorAll('.speak-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      speakWord(btn.getAttribute('data-speak'));
-    });
-  });
-
-  list.querySelectorAll('.learned-toggle').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const word = btn.getAttribute('data-word');
-      state.learnedWords[word] = !state.learnedWords[word];
-      saveState(); renderWordList();
-    });
-  });
-
-  list.querySelectorAll('.mywords-pin-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const wordStr = btn.getAttribute('data-word');
-      const w = getWordData(wordStr);
-      if (!w) return;
-      if (!state.myWords) state.myWords = [];
-      const idx = state.myWords.findIndex(m => m.word === wordStr);
-      if (idx >= 0) { state.myWords.splice(idx, 1); } else { state.myWords.push({ word: w.word, az: w.az_word, en: w.def }); }
-      saveState(); renderWordList();
-    });
-  });
-}
-
-document.getElementById('next-batch-btn').addEventListener('click', () => {
-  state.batchIndex += 1; state.dayCount += 1; state.streak += 1;
-  state.todaysWords = pickBatch(state.batchIndex).map(w => w.word);
-  saveState(); renderWordList(); buildGameFromWords(true);
-});
-
-/* ---------- Tabs Navigation ---------- */
-const allTabs = [
-  { btn: document.getElementById('tab-words'), view: document.getElementById('view-words'), key: 'words' },
-  { btn: document.getElementById('tab-mywords'), view: document.getElementById('view-mywords'), key: 'mywords' },
-  { btn: document.getElementById('tab-game'), view: document.getElementById('view-game'), key: 'game' },
-  { btn: document.getElementById('tab-learned'), view: document.getElementById('view-learned'), key: 'learned' }
-];
-
-function showTab(which) {
-  allTabs.forEach(t => {
-    const isActive = t.key === which;
-    t.btn.classList.toggle('active', isActive);
-    t.view.classList.toggle('active', isActive);
-  });
-  if (which === 'learned') renderLearnedList();
-  if (which === 'mywords') renderMyWordsList();
-}
-allTabs.forEach(t => t.btn.addEventListener('click', () => showTab(t.key)));
-document.getElementById('goto-game-btn').addEventListener('click', () => { showTab('game'); showSubtab('match'); buildGameFromWords(true); });
-
-/* ---------- Game Subtabs & Engines ---------- */
-const subtabButtons = document.querySelectorAll('.subtab-pill');
-const subviews = {
-  match: document.getElementById('sub-match'), flash: document.getElementById('sub-flash'),
-  quiz: document.getElementById('sub-quiz'), spell: document.getElementById('sub-spell'), translate: document.getElementById('sub-translate')
-};
-
-function showSubtab(which) {
-  subtabButtons.forEach(btn => btn.classList.toggle('active', btn.getAttribute('data-sub') === which));
-  Object.keys(subviews).forEach(key => subviews[key].classList.toggle('active', key === which));
-  if (which === 'flash') renderFlashcard();
-  if (which === 'quiz') startQuiz();
-  if (which === 'spell') startSpelling();
-  if (which === 'translate') startTranslation();
-}
-subtabButtons.forEach(btn => btn.addEventListener('click', () => showSubtab(btn.getAttribute('data-sub'))));
-
-function getPracticePoolData() {
-  const todays = state.todaysWords.map(w => getWordData(w)).filter(Boolean);
-  const learned = Object.keys(state.learnedWords).filter(w => state.learnedWords[w]).map(w => getWordData(w)).filter(Boolean);
-  const combined = []; const seen = new Set();
-  todays.concat(learned).forEach(w => { if (!seen.has(w.word)) { seen.add(w.word); combined.push(w); } });
-  return combined;
-}
-
-/* ---------- 1. Match Game Engine ---------- */
-let gameLang = 'en'; let cards = []; let flipped = []; let matched = [];
-let moves = 0; let matchCount = 0; let lockBoard = false; let timerInterval = null; let seconds = 0;
-
-function formatTime(s) { const m = Math.floor(s / 60); const sec = s % 60; return m + ':' + String(sec).padStart(2, '0'); }
-function startTimer() {
-  clearInterval(timerInterval); seconds = 0;
-  timerInterval = setInterval(() => { seconds++; document.getElementById('timer').textContent = formatTime(seconds); }, 1000);
-}
-
-function buildCards() {
-  const pool = shuffle(getPracticePoolData()).slice(0, 8); let deck = [];
-  pool.forEach((pair, i) => {
-    deck.push({ key: i, type: 'word', text: pair.word });
-    deck.push({ key: i, type: 'def', text: gameLang === 'az' ? pair.az_def : pair.def });
-  });
-  return shuffle(deck);
-}
-
-function renderBoard() {
-  const board = document.getElementById('board'); board.innerHTML = '';
-  cards.forEach((card, idx) => {
-    const isFlipped = flipped.includes(idx); const isMatched = matched.includes(idx);
-    const btn = document.createElement('button');
-    btn.className = 'card-btn ' + card.type + (isFlipped ? ' flipped' : '') + (isMatched ? ' matched' : '');
-    if (isFlipped || isMatched) { btn.textContent = card.text; } else { btn.innerHTML = '<span class="hidden-icon">?</span>'; }
-    if (!isMatched) { btn.addEventListener('click', () => handleCardClick(idx)); }
-    board.appendChild(btn);
-  });
-}
-
-function handleCardClick(idx) {
-  if (lockBoard || flipped.includes(idx) || matched.includes(idx)) return;
-  if (seconds === 0 && moves === 0 && flipped.length === 0) startTimer();
-  flipped.push(idx); renderBoard();
-  if (flipped.length === 2) {
-    moves++; document.getElementById('moves').textContent = moves; lockBoard = true;
-    const [a, b] = flipped;
-    if (cards[a].key === cards[b].key && cards[a].type !== cards[b].type) {
-      setTimeout(() => {
-        matched.push(a, b); matchCount++; document.getElementById('matches').textContent = matchCount;
-        flipped = []; lockBoard = false; renderBoard();
-        if (matchCount ===
+async function storeSet(key, value) {
+  memCache[key] = value;
+  try {
+    if (STORAGE_AVAILABLE) {
+      await window.storage.set(key, JSON
