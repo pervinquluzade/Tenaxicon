@@ -94,6 +94,14 @@
     margin: 0;
     line-height: 1.5;
   }
+  
+  .inspiration-box {
+    margin-top: 8px;
+    font-style: italic;
+    color: var(--clay);
+    font-size: 13.5px;
+    font-weight: 500;
+  }
 
   /* Tabs */
   .tabs {
@@ -137,14 +145,34 @@
   }
   .stat b { color: var(--ink); font-weight: 600; }
 
-  /* Word card (dictionary entry) */
+  /* Word card (dictionary entry - hidden state style) */
   .word-card {
     background: var(--paper-card);
     border: 1px solid var(--paper-line);
     border-radius: var(--radius);
     padding: 18px 20px;
     margin-bottom: 14px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
   }
+  
+  .word-card.hidden-mode .card-revealed-content {
+    display: none;
+  }
+  
+  .word-card.hidden-mode .card-hidden-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    color: var(--teal);
+    font-weight: 600;
+    font-size: 15px;
+    font-style: italic;
+  }
+  
+  .card-hidden-placeholder { display: none; }
+
   .entry-top {
     display: flex;
     justify-content: space-between;
@@ -380,7 +408,7 @@
   .score-pip.active.s1, .score-pip.active.s2 { background: var(--teal); border-color: var(--teal); color: #fff; }
   .score-pip.active.s3 { background: #C9A227; border-color: #C9A227; color: #fff; }
   .score-pip.active.s4, .score-pip.active.s5 { background: var(--clay); border-color: var(--clay); color: #fff; }
-  .score-hint {
+  .score-line-hint {
     font-size: 11.5px;
     color: var(--ink-soft);
     margin-left: 4px;
@@ -755,7 +783,8 @@
     </div>
     <p class="eyebrow"><span id="lbl-day">Gün</span> <span id="day-count">1</span> · C1 / C2</p>
     <h1>Tenaxicon</h1>
-    <p class="sub" id="app-sub-heading">Gündəlik beş C1/C2 İngilis sözü ilə biliklərinizi zənginləşdirin və hər gün hədəflərinizə doğru <b>inamla irəliləyin (strive)</b> — sonra isə özünüzü oyunlarla yoxlayın.</p>
+    <p class="sub" id="app-sub-heading">Gündəlik beş C1/C2 İngilis sözü ilə biliklərinizi zənginləşdirin — hədəflərinizə doğru oyunlarla yoxlayın.</p>
+    <div class="inspiration-box" id="inspiration-text"></div>
   </header>
 
   <nav class="tabs" role="tablist">
@@ -765,6 +794,7 @@
     <button class="tab-btn" id="tab-learned" role="tab" aria-selected="false">Öyrəndiklərim</button>
   </nav>
 
+  <!-- DAILY WORDS VIEW -->
   <section class="view active" id="view-words" role="tabpanel">
     <h2 class="sr-only">Azərbaycan və İngilis dilində günün beş lüğət sözü</h2>
 
@@ -781,6 +811,7 @@
     </div>
   </section>
 
+  <!-- MY WORDS VIEW -->
   <section class="view" id="view-mywords" role="tabpanel">
     <h2 class="sr-only">Sözlərim siyahısı</h2>
     <div class="stat-strip">
@@ -790,6 +821,7 @@
     <div id="mywords-list"></div>
   </section>
 
+  <!-- GAME VIEW -->
   <section class="view" id="view-game" role="tabpanel">
     <h2 class="sr-only">Lüğət oyunları: uyğunlaşdır, flaş kart, quiz, imla, tərcümə</h2>
 
@@ -801,6 +833,7 @@
       <button class="subtab-pill" data-sub="translate" id="subtab-translate">Tərcümə</button>
     </div>
 
+    <!-- MATCH -->
     <div class="game-subview active" id="sub-match">
       <div class="lang-select-row" role="group" aria-label="Oyun dili seç">
         <button class="lang-pill active" data-lang="en" id="game-lang-en">İngiliscə uyğunlaşdır</button>
@@ -821,6 +854,7 @@
       <div class="win-banner" id="win-banner"></div>
     </div>
 
+    <!-- FLASHCARDS -->
     <div class="game-subview" id="sub-flash">
       <div class="flash-wrap">
         <div class="flash-progress" id="flash-progress">Kart 1 / 8</div>
@@ -836,6 +870,7 @@
       </div>
     </div>
 
+    <!-- QUIZ -->
     <div class="game-subview" id="sub-quiz">
       <div class="quiz-wrap">
         <div class="quiz-progress" id="quiz-progress">Sual 1 / 8</div>
@@ -848,6 +883,7 @@
       </div>
     </div>
 
+    <!-- SPELLING -->
     <div class="game-subview" id="sub-spell">
       <div class="spell-wrap">
         <div class="spell-progress" id="spell-progress">Söz 1 / 8</div>
@@ -865,6 +901,7 @@
       </div>
     </div>
 
+    <!-- TRANSLATION -->
     <div class="game-subview" id="sub-translate">
       <div class="translate-wrap">
         <div class="translate-status" id="translate-status">Mətn yüklənir…</div>
@@ -880,6 +917,7 @@
     </div>
   </section>
 
+  <!-- LEARNED VIEW -->
   <section class="view" id="view-learned" role="tabpanel">
     <h2 class="sr-only">Öyrəndiyiniz sözlərin siyahısı</h2>
 
@@ -922,10 +960,28 @@ const VOCAB = [
   { word: "succinct", level: "C1", pos: "adj.", def: "expressed clearly and in few words", example: "Her report was succinct but covered everything important.", az_word: "qısa və dəqiq", az_def: "az sözlə dəqiq ifadə olunan" }
 ];
 
+/* ---------- Inspiration Quotes Bank ---------- */
+const INSPIRATIONS = {
+  az: [
+    "Hər gün bir addım: Məqsədlərinizə doğru inamla irəliləyin (strive)!",
+    "Bilik sərvətdir. Cəhd etməkdən və öyrənməkdən əsla vaz keçməyin.",
+    "Böyük nailiyyətlər hər gün atılan kiçik və məqsədyönlü addımlarla gəlir.",
+    "Zirvəyə gedən yol davamlı inkişafdan və əzmkarlıqdan keçir.",
+    "Öyrəndiyiniz hər yeni söz sizi gələcək hədəflərinizə bir addım daha yaxınlaşdırır."
+  ],
+  en: [
+    "Step by step: Strive toward your goals with unwavering confidence!",
+    "Knowledge is wealth. Never stop trying and exploring.",
+    "Great achievements are built on small, purposeful daily steps.",
+    "The path to the top requires consistent growth and relentless perseverance.",
+    "Every new word you master brings you one step closer to your ultimate dreams."
+  ]
+};
+
 /* ---------- Translation Dictionary for App Interface ---------- */
 const UI_STRINGS = {
   az: {
-    subHeading: "Gündəlik beş C1/C2 İngilis sözü ilə biliklərinizi zənginləşdirin və hər gün hədəflərinizə doğru <b>inamla irəliləyin (strive)</b> — sonra isə özünüzü oyunlarla yoxlayın.",
+    subHeading: "Gündəlik beş C1/C2 İngilis sözü ilə biliklərinizi zənginləşdirin — hədəflərinizə doğru oyunlarla yoxlayın.",
     tabWords: "Günün sözləri",
     tabMyWords: "Sözlərim",
     tabGame: "Oyunlar",
@@ -956,7 +1012,7 @@ const UI_STRINGS = {
     btnSkipSpell: "Keç",
     btnCheckSpell: "Yoxla",
     placeholderSpell: "İngilis sözünü yaz",
-    gameEmptyMatch: "Oyun üçün ən az 2 söz lazımdır. \"Günün sözləri\" bölməsindən daha çox söz əldə et.",
+    gameEmptyMatch: "Oyun üçün ən az 2 söz lazımdır. \"Günün sözləri\" bölməsindən daha concept söz əldə et.",
     gameEmptyFlash: "Hələ heç bir söz yoxdur. Əvvəlcə \"Günün sözləri\" bölməsindən sözlər əldə et.",
     gameEmptyQuiz: "Hələ heç bir söz yoxdur. Əvvəlcə \"Günün sözləri\" bölməsindən sözlər əldə et.",
     gameEmptySpell: "Hələ heç bir söz yoxdur. Əvvəlcə \"Günün sözləri\" bölməsindən sözlər əldə et.",
@@ -978,4 +1034,1058 @@ const UI_STRINGS = {
     footerText: "İrəliləyiş bu cihazda saxlanılır. Yarın yeni beş söz gözləyir.",
     tagMyWord: "Mənim",
     badgeLearned: "✓ öyrənildi",
-    badge
+    badgeHard: "çətin",
+    spellComplete: "Set complete",
+    spellCompleteText: "Əla! {count} sözün hamısından keçdin. Davam etmək üçün yeni dəst başlat.",
+    spellFeedbackCorrect: "Düzgün — ",
+    spellFeedbackWrong: "Səhv — düzgün yazılışı: ",
+    quizComplete: "Bitdi",
+    quizResultText: "Nəticə: {correct} / {total} düzgün.",
+    cardHiddenPlaceholderText: "Sözü görmək üçün klikləyin 👀"
+  },
+  en: {
+    subHeading: "Enrich your knowledge with five daily C1/C2 English words — then challenge yourself with games.",
+    tabWords: "Daily Words",
+    tabMyWords: "My Words",
+    tabGame: "Games",
+    tabLearned: "Learned Words",
+    lblDay: "Day",
+    lblLearnedStat: "learned",
+    lblStreakStat: "Streak:",
+    lblStreakDays: "days",
+    btnNextBatch: "New 5 words",
+    btnGotoGame: "Practice in Game",
+    lblMyWordsStat: "In your list:",
+    lblMyWordsCountLabel: "words",
+    lblMyWordsHint: "You can add words from the daily list to this section by clicking the ⊕ button. Harder words appear more often in games.",
+    lblMyWordsEmpty: "No words added yet. Click the ⊕ button on the daily word cards.",
+    subtabMatch: "Match Game",
+    subtabFlash: "Flashcards",
+    subtabQuiz: "Quiz",
+    subtabSpell: "Spelling",
+    subtabTranslate: "Translation",
+    gameLangEn: "Match in English",
+    gameLangAz: "Match in Azerbaijani",
+    lblMoves: "Moves:",
+    lblMatches: "Matches:",
+    lblTimer: "Time:",
+    btnRestart: "New Game",
+    btnRestartQuiz: "New Quiz",
+    btnRestartSpell: "New Set",
+    btnSkipSpell: "Skip",
+    btnCheckSpell: "Check",
+    placeholderSpell: "Type the English word",
+    gameEmptyMatch: "At least 2 words are required for the game. Get more words from the 'Daily Words' tab.",
+    gameEmptyFlash: "No words available yet. First, unlock words from the 'Daily Words' section.",
+    gameEmptyQuiz: "No words available yet. First, unlock words from the 'Daily Words' section.",
+    gameEmptySpell: "No words available yet. First, unlock words from the 'Daily Words' section.",
+    lblFlashHint: "tap to flip and see meaning",
+    lblFlashRate: "Do you know this word?",
+    btnFlashEasy: "✓ Yes",
+    btnFlashHard: "✗ No",
+    lblYourTranslation: "Your translation into English:",
+    placeholderTranslate: "Read the Azerbaijani text, translate to English…",
+    btnTranslateCheck: "Check",
+    btnTranslateNew: "New Text",
+    translateStatusLoading: "Loading passage…",
+    translateStatusPrompt: "Translate this Azerbaijani text into English:",
+    translateStatusResult: "Comparison result:",
+    translateYourTrans: "Your translation:",
+    translateCorrectTrans: "Correct version:",
+    lblLearnedTotalLabel: "words learned",
+    lblLearnedEmpty: "No words have been marked as learned yet. Mark them in the 'Daily Words' section.",
+    footerText: "Progress is saved on this device. Tomorrow five new words await.",
+    tagMyWord: "My Word",
+    badgeLearned: "✓ learned",
+    badgeHard: "hard",
+    spellComplete: "Set complete",
+    spellCompleteText: "Excellent! You went through all {count} words. Start a new set to continue.",
+    spellFeedbackCorrect: "Correct — ",
+    spellFeedbackWrong: "Incorrect — correct spelling: ",
+    quizComplete: "Finished",
+    quizResultText: "Result: {correct} / {total} correct.",
+    cardHiddenPlaceholderText: "Click to reveal the word 👀"
+  }
+};
+
+let currentUiLang = 'az';
+let revealedCards = {}; // Tracks which card IDs are revealed in the daily list
+
+function updateInspirationQuote() {
+  const quotes = INSPIRATIONS[currentUiLang];
+  const randomIdx = Math.floor(Math.random() * quotes.length);
+  document.getElementById('inspiration-text').textContent = quotes[randomIdx];
+}
+
+function switchUiLanguage(lang) {
+  currentUiLang = lang;
+  document.getElementById('ui-lang-az').classList.toggle('active', lang === 'az');
+  document.getElementById('ui-lang-en').classList.toggle('active', lang === 'en');
+  
+  const s = UI_STRINGS[lang];
+  
+  // Static content update
+  document.getElementById('app-sub-heading').innerHTML = s.subHeading;
+  document.getElementById('tab-words').textContent = s.tabWords;
+  document.getElementById('tab-mywords').textContent = s.tabMyWords;
+  document.getElementById('tab-game').textContent = s.tabGame;
+  document.getElementById('tab-learned').textContent = s.tabLearned;
+  document.getElementById('lbl-day').textContent = s.lblDay;
+  document.getElementById('lbl-learned-stat').textContent = s.lblLearnedStat;
+  document.getElementById('lbl-streak-stat').textContent = s.lblStreakStat;
+  document.getElementById('lbl-streak-days').textContent = s.lblStreakDays;
+  document.getElementById('next-batch-btn').textContent = s.btnNextBatch;
+  document.getElementById('goto-game-btn').textContent = s.btnGotoGame;
+  document.getElementById('lbl-mywords-stat').textContent = s.lblMyWordsStat;
+  document.getElementById('lbl-mywords-count-label').textContent = s.lblMyWordsCountLabel;
+  document.getElementById('lbl-mywords-hint').textContent = s.lblMyWordsHint;
+  document.getElementById('subtab-match').textContent = s.subtabMatch;
+  document.getElementById('subtab-flash').textContent = s.subtabFlash;
+  document.getElementById('subtab-quiz').textContent = s.subtabQuiz;
+  document.getElementById('subtab-spell').textContent = s.subtabSpell;
+  document.getElementById('subtab-translate').textContent = s.subtabTranslate;
+  document.getElementById('game-lang-en').textContent = s.gameLangEn;
+  document.getElementById('game-lang-az').textContent = s.gameLangAz;
+  document.getElementById('lbl-moves').textContent = s.lblMoves;
+  document.getElementById('lbl-matches').textContent = s.lblMatches;
+  document.getElementById('lbl-timer').textContent = s.lblTimer;
+  document.getElementById('restart-btn').textContent = s.btnRestart;
+  document.getElementById('quiz-restart-btn').textContent = s.btnRestartQuiz;
+  document.getElementById('spell-restart-btn').textContent = s.btnRestartSpell;
+  document.getElementById('spell-skip-btn').textContent = s.btnSkipSpell;
+  document.getElementById('spell-check-submit-btn').textContent = s.btnCheckSpell;
+  document.getElementById('spell-input').placeholder = s.placeholderSpell;
+  document.getElementById('lbl-your-translation').textContent = s.lblYourTranslation;
+  document.getElementById('translate-input').placeholder = s.placeholderTranslate;
+  document.getElementById('translate-new-btn').textContent = s.btnTranslateNew;
+  document.getElementById('lbl-learned-total-label').textContent = s.lblLearnedTotalLabel;
+  document.getElementById('learned-empty').textContent = s.lblLearnedEmpty;
+  document.getElementById('app-footer-text').textContent = s.footerText;
+
+  // Refresh random quote along with language shift
+  updateInspirationQuote();
+
+  // Refresh dynamic views
+  renderWordList();
+  renderMyWordsList();
+  renderLearnedList();
+  
+  // Rebuild currently selected subview game parameters silently
+  const activeSubtab = document.querySelector('.subtab-pill.active');
+  if (activeSubtab) {
+    const gameType = activeSubtab.getAttribute('data-sub');
+    if (gameType === 'match') buildGameFromWords(false);
+    if (gameType === 'flash') renderFlashcard();
+    if (gameType === 'quiz') renderQuizQuestion();
+    if (gameType === 'spell') renderSpellWord();
+    if (gameType === 'translate') {
+      if (!translateChecked && currentPassage) {
+        document.getElementById('translate-status').textContent = s.translateStatusPrompt;
+        document.getElementById('translate-check-btn').textContent = s.btnTranslateCheck;
+      } else if (translateChecked) {
+        document.getElementById('translate-status').textContent = s.translateStatusResult;
+        document.getElementById('translate-check-btn').textContent = s.btnTranslateNew;
+      }
+    }
+  }
+}
+
+document.getElementById('ui-lang-az').addEventListener('click', () => switchUiLanguage('az'));
+document.getElementById('ui-lang-en').addEventListener('click', () => switchUiLanguage('en'));
+
+/* ---------- Storage helpers (window.storage with localStorage-style fallback) ---------- */
+const STORAGE_AVAILABLE = (typeof window.storage !== 'undefined');
+const memCache = {};
+
+async function storeGet(key) {
+  try {
+    if (STORAGE_AVAILABLE) {
+      const r = await window.storage.get(key, false);
+      return r ? JSON.parse(r.value) : null;
+    }
+  } catch (e) { /* fall through */ }
+  return memCache[key] !== undefined ? memCache[key] : null;
+}
+async function storeSet(key, value) {
+  memCache[key] = value;
+  try {
+    if (STORAGE_AVAILABLE) {
+      await window.storage.set(key, JSON.stringify(value), false);
+    }
+  } catch (e) { /* ignore, memory cache still holds it */ }
+}
+
+/* ---------- App state ---------- */
+let state = {
+  dayCount: 1,
+  streak: 1,
+  batchIndex: 0,
+  todaysWords: [],
+  learnedWords: {},
+  recallScores: {},
+  autoLearned: {},
+  myWords: []   // user-added custom words: [{word, az, hard}]
+};
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function pickBatch(index) {
+  const order = shuffle(VOCAB.map((_, i) => i));
+  const startSeeded = [...VOCAB];
+  // deterministic-ish rotation per batch so "new 5" feels fresh each click
+  const rotated = startSeeded.slice(index % VOCAB.length).concat(startSeeded.slice(0, index % VOCAB.length));
+  return shuffle(rotated).slice(0, 5);
+}
+
+async function loadState() {
+  const saved = await storeGet('tenaxicon-state');
+  if (saved) {
+    state = Object.assign(state, saved);
+  }
+  if (!state.todaysWords || state.todaysWords.length === 0) {
+    state.todaysWords = pickBatch(0).map(w => w.word);
+  }
+  if (!state.autoLearned) {
+    state.autoLearned = {};
+  }
+}
+
+async function saveState() {
+  await storeSet('tenaxicon-state', state);
+}
+
+function getWordData(wordStr) {
+  const vocabMatch = VOCAB.find(w => w.word === wordStr);
+  if (vocabMatch) return vocabMatch;
+  const custom = (state.myWords || []).find(w => w.word === wordStr);
+  if (custom) return { word: custom.word, level: UI_STRINGS[currentUiLang].tagMyWord, pos: '', def: custom.en || custom.az, example: '', az_word: custom.az, az_def: custom.az };
+  return null;
+}
+
+/* ---------- Render: daily words ---------- */
+function renderWordList() {
+  const list = document.getElementById('word-list');
+  if (!list) return;
+  list.innerHTML = '';
+  const learnedCount = state.todaysWords.filter(w => state.learnedWords[w]).length;
+  document.getElementById('learned-count').textContent = learnedCount;
+  document.getElementById('streak-count').textContent = state.streak;
+  document.getElementById('day-count').textContent = state.dayCount;
+
+  state.todaysWords.forEach((wordStr, idx) => {
+    const w = getWordData(wordStr);
+    if (!w) return;
+    const isLearned = !!state.learnedWords[w.word];
+    const isInMyWords = (state.myWords || []).some(m => m.word === w.word);
+    const isRevealed = !!revealedCards[wordStr];
+
+    const card = document.createElement('div');
+    // Words are hidden by default under .hidden-mode until clicked
+    card.className = 'word-card' + (isLearned ? ' word-card-learned' : '') + (!isRevealed ? ' hidden-mode' : '');
+    card.dataset.wordStr = wordStr;
+    
+    card.innerHTML = `
+      <div class="card-hidden-placeholder">
+        ${UI_STRINGS[currentUiLang].cardHiddenPlaceholderText}
+      </div>
+      <div class="card-revealed-content">
+        <div class="entry-top">
+          <div class="headword-row">
+            <p class="headword">${w.word}</p>
+            <span class="level-tag">${w.level}</span>
+            <span class="pos">${w.pos}</span>
+            ${isLearned ? `<span class="learned-badge">${UI_STRINGS[currentUiLang].badgeLearned}</span>` : ''}
+          </div>
+          <div style="display:flex;gap:6px;align-items:center;flex-shrink:0;">
+            <button class="mywords-pin-btn ${isInMyWords ? 'pinned' : ''}" data-word="${w.word}" title="${isInMyWords ? '★' : '⊕'}" aria-label="${isInMyWords ? '★' : '⊕'}">${isInMyWords ? '★' : '⊕'}</button>
+            <button class="learned-toggle ${isLearned ? 'on' : ''}" data-word="${w.word}" aria-label="✓" aria-pressed="${isLearned}">✓</button>
+          </div>
+        </div>
+        <hr class="entry-rule" />
+        <div class="az-block" style="margin-bottom:10px;">
+          <span class="az-flag-label">AZ</span>
+          <span class="az-word">${w.az_word}</span>
+          <span class="az-def">— ${w.az_def}</span>
+        </div>
+        <p class="def-en">${w.def}</p>
+        <p class="example">"${w.example}"</p>
+      </div>
+    `;
+    
+    // Clicking the placeholder reveals it
+    card.addEventListener('click', (e) => {
+      if (!revealedCards[wordStr]) {
+        revealedCards[wordStr] = true;
+        card.classList.remove('hidden-mode');
+      }
+    });
+
+    // Prevent toggle/pin button clicks from re-hiding or interfering
+    const pinBtn = card.querySelector('.mywords-pin-btn');
+    if(pinBtn) {
+      pinBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const str = pinBtn.getAttribute('data-word');
+        if (!state.myWords) state.myWords = [];
+        const idx = state.myWords.findIndex(m => m.word === str);
+        if (idx >= 0) {
+          state.myWords.splice(idx, 1);
+        } else {
+          state.myWords.push({ word: w.word, az: w.az_word, en: w.def });
+        }
+        await saveState();
+        renderWordList();
+      });
+    }
+
+    const toggBtn = card.querySelector('.learned-toggle');
+    if(toggBtn) {
+      toggBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const str = toggBtn.getAttribute('data-word');
+        state.learnedWords[str] = !state.learnedWords[str];
+        delete state.autoLearned[str];
+        await saveState();
+        renderWordList();
+      });
+    }
+
+    list.appendChild(card);
+  });
+}
+
+document.getElementById('next-batch-btn').addEventListener('click', async () => {
+  state.batchIndex += 1;
+  state.dayCount += 1;
+  state.streak += 1;
+  state.todaysWords = pickBatch(state.batchIndex).map(w => w.word);
+  revealedCards = {}; // Reset revelations for the new batch
+  await saveState();
+  renderWordList();
+  buildGameFromWords(true);
+});
+
+/* ---------- Tabs ---------- */
+const tabWords = document.getElementById('tab-words');
+const tabMyWords = document.getElementById('tab-mywords');
+const tabGame = document.getElementById('tab-game');
+const tabLearned = document.getElementById('tab-learned');
+const viewWords = document.getElementById('view-words');
+const viewMyWords = document.getElementById('view-mywords');
+const viewGame = document.getElementById('view-game');
+const viewLearned = document.getElementById('view-learned');
+
+const allTabs = [
+  { btn: tabWords, view: viewWords, key: 'words' },
+  { btn: tabMyWords, view: viewMyWords, key: 'mywords' },
+  { btn: tabGame, view: viewGame, key: 'game' },
+  { btn: tabLearned, view: viewLearned, key: 'learned' }
+];
+
+function showTab(which) {
+  allTabs.forEach(t => {
+    const isActive = t.key === which;
+    t.btn.classList.toggle('active', isActive);
+    t.btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    t.view.classList.toggle('active', isActive);
+  });
+  if (which === 'learned') renderLearnedList();
+  if (which === 'mywords') renderMyWordsList();
+}
+tabWords.addEventListener('click', () => showTab('words'));
+tabMyWords.addEventListener('click', () => showTab('mywords'));
+tabGame.addEventListener('click', () => showTab('game'));
+tabLearned.addEventListener('click', () => showTab('learned'));
+document.getElementById('goto-game-btn').addEventListener('click', () => {
+  showTab('game');
+  showSubtab('match');
+  buildGameFromWords(true);
+});
+
+function renderLearnedList() {
+  const list = document.getElementById('learned-list');
+  const empty = document.getElementById('learned-empty');
+  if (!list || !empty) return;
+  list.innerHTML = '';
+  const learnedWords = Object.keys(state.learnedWords).filter(w => state.learnedWords[w]);
+  document.getElementById('learned-total-count').textContent = learnedWords.length;
+
+  if (learnedWords.length === 0) {
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  learnedWords
+    .map(w => getWordData(w))
+    .filter(Boolean)
+    .sort((a, b) => a.word.localeCompare(b.word))
+    .forEach(w => {
+      const score = state.recallScores[w.word];
+      const isHard = score && score >= 4;
+      const row = document.createElement('div');
+      row.className = 'learned-row';
+      row.innerHTML = `
+        <div class="learned-row-main">
+          <p class="headword">${w.word}</p>
+          <span class="level-tag">${w.level}</span>
+          <span class="learned-row-az">${w.az_word}</span>
+          ${isHard ? `<span class="hard-badge">${UI_STRINGS[currentUiLang].badgeHard}</span>` : ''}
+        </div>
+      `;
+      list.appendChild(row);
+    });
+}
+
+/* ---------- Game sub-tabs ---------- */
+const subtabButtons = document.querySelectorAll('.subtab-pill');
+const subviews = {
+  match: document.getElementById('sub-match'),
+  flash: document.getElementById('sub-flash'),
+  quiz: document.getElementById('sub-quiz'),
+  spell: document.getElementById('sub-spell'),
+  translate: document.getElementById('sub-translate')
+};
+
+function showSubtab(which) {
+  subtabButtons.forEach(btn => {
+    const isActive = btn.getAttribute('data-sub') === which;
+    btn.classList.toggle('active', isActive);
+  });
+  Object.keys(subviews).forEach(key => {
+    if (subviews[key]) subviews[key].classList.toggle('active', key === which);
+  });
+  if (which === 'match') buildGameFromWords(true);
+  if (which === 'flash') renderFlashcard();
+  if (which === 'quiz') startQuiz();
+  if (which === 'spell') startSpelling();
+  if (which === 'translate') startTranslation();
+}
+
+subtabButtons.forEach(btn => {
+  btn.addEventListener('click', () => showSubtab(btn.getAttribute('data-sub')));
+});
+
+/* ---------- Game ---------- */
+let gameLang = 'en'; // 'en' or 'az'
+let cards = [];
+let flipped = [];
+let matched = [];
+let moves = 0;
+let matchCount = 0;
+let lockBoard = false;
+let timerInterval = null;
+let seconds = 0;
+
+document.querySelectorAll('.lang-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.lang-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    gameLang = pill.getAttribute('data-lang');
+    buildGameFromWords(false);
+  });
+});
+
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return m + ':' + String(sec).padStart(2, '0');
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  seconds = 0;
+  document.getElementById('timer').textContent = formatTime(0);
+  timerInterval = setInterval(() => {
+    seconds++;
+    document.getElementById('timer').textContent = formatTime(seconds);
+  }, 1000);
+}
+
+function pickGameWords() {
+  const pool = shuffle(getPracticePoolData());
+  const boardSize = Math.min(8, pool.length);
+  return pool.slice(0, boardSize);
+}
+
+function buildCards() {
+  const chosen = pickGameWords();
+  let deck = [];
+  chosen.forEach((pair, i) => {
+    const defText = gameLang === 'az' ? pair.az_def : pair.def;
+    deck.push({ key: i, type: 'word', text: pair.word });
+    deck.push({ key: i, type: 'def', text: defText });
+  });
+  return shuffle(deck);
+}
+
+function renderBoard() {
+  const board = document.getElementById('board');
+  if (!board) return;
+  board.innerHTML = '';
+  cards.forEach((card, idx) => {
+    const isFlipped = flipped.includes(idx);
+    const isMatched = matched.includes(idx);
+    const btn = document.createElement('button');
+    btn.className = 'card-btn ' + card.type + (isFlipped ? ' flipped' : '') + (isMatched ? ' matched' : '');
+    btn.setAttribute('aria-label', isFlipped || isMatched ? card.text : 'Hidden card');
+    if (isFlipped || isMatched) {
+      btn.textContent = card.text;
+    } else {
+      btn.innerHTML = '<span class="hidden-icon">?</span>';
+    }
+    if (!isMatched) {
+      btn.addEventListener('click', () => handleCardClick(idx));
+    }
+    board.appendChild(btn);
+  });
+}
+
+function handleCardClick(idx) {
+  if (lockBoard || flipped.includes(idx) || matched.includes(idx)) return;
+  if (seconds === 0 && moves === 0 && flipped.length === 0) startTimer();
+
+  flipped.push(idx);
+  renderBoard();
+
+  if (flipped.length === 2) {
+    moves++;
+    document.getElementById('moves').textContent = moves;
+    lockBoard = true;
+    const [a, b] = flipped;
+    const cardA = cards[a];
+    const cardB = cards[b];
+
+    if (cardA.key === cardB.key && cardA.type !== cardB.type) {
+      setTimeout(() => {
+        matched.push(a, b);
+        matchCount++;
+        document.getElementById('matches').textContent = matchCount;
+        flipped = [];
+        lockBoard = false;
+        renderBoard();
+        if (matchCount === cards.length / 2) {
+          clearInterval(timerInterval);
+          const banner = document.getElementById('win-banner');
+          if (currentUiLang === 'az') {
+            banner.textContent = moves + ' hərəkətdə, ' + formatTime(seconds) + '-a həll edildi!';
+          } else {
+            banner.textContent = 'Solved in ' + moves + ' moves, time: ' + formatTime(seconds) + '!';
+          }
+          banner.style.display = 'block';
+        }
+      }, 500);
+    } else {
+      setTimeout(() => {
+        flipped = [];
+        lockBoard = false;
+        renderBoard();
+      }, 900);
+    }
+  }
+}
+
+const MIN_WORDS_FOR_GAME = 2;
+
+function buildGameFromWords(resetTimer) {
+  const poolCount = getPracticePoolData().length;
+  const board = document.getElementById('board');
+  const meta = document.querySelector('#sub-match .game-meta');
+  const langRow = document.querySelector('#sub-match .lang-select-row');
+
+  if (!board) return;
+
+  if (poolCount < MIN_WORDS_FOR_GAME) {
+    if (meta) meta.style.display = 'none';
+    if (langRow) langRow.style.display = 'none';
+    document.getElementById('win-banner').style.display = 'none';
+    board.innerHTML = '';
+    board.className = 'game-empty';
+    board.textContent = UI_STRINGS[currentUiLang].gameEmptyMatch;
+    return;
+  }
+  if (meta) meta.style.display = '';
+  if (langRow) langRow.style.display = '';
+  board.className = 'board';
+
+  cards = buildCards();
+  flipped = [];
+  matched = [];
+  moves = 0;
+  matchCount = 0;
+  lockBoard = false;
+  document.getElementById('moves').textContent = '0';
+  document.getElementById('matches').textContent = '0';
+  document.getElementById('matches-total').textContent = cards.length / 2;
+  document.getElementById('win-banner').style.display = 'none';
+  if (resetTimer !== false) {
+    clearInterval(timerInterval);
+    seconds = 0;
+    document.getElementById('timer').textContent = '0:00';
+  }
+  renderBoard();
+}
+
+document.getElementById('restart-btn').addEventListener('click', () => buildGameFromWords(true));
+
+/* ---------- Shared: weighted practice set (learned words only) ---------- */
+function getPracticePoolData() {
+  const todays = state.todaysWords.map(w => getWordData(w)).filter(Boolean);
+  const learned = Object.keys(state.learnedWords)
+    .filter(w => state.learnedWords[w])
+    .map(w => getWordData(w))
+    .filter(Boolean);
+  const myWordsData = (state.myWords || []).map(w => ({
+    word: w.word, level: UI_STRINGS[currentUiLang].tagMyWord, pos: '', def: w.en || w.az, example: '',
+    az_word: w.az, az_def: w.az
+  }));
+  const combined = [];
+  const seen = new Set();
+  todays.concat(learned).concat(myWordsData).forEach(w => {
+    if (!seen.has(w.word)) {
+      seen.add(w.word);
+      combined.push(w);
+    }
+  });
+  return combined;
+}
+
+function weightedPracticeSet(count) {
+  const pool = shuffle(getPracticePoolData());
+  const weighted = [];
+  pool.forEach(w => {
+    const score = state.recallScores[w.word] || 3;
+    const weight = Math.max(1, score);
+    for (let i = 0; i < weight; i++) weighted.push(w);
+  });
+  const result = [];
+  const used = new Set();
+  const shuffledWeighted = shuffle(weighted);
+  for (const w of shuffledWeighted) {
+    if (!used.has(w.word)) {
+      used.add(w.word);
+      result.push(w);
+    }
+    if (result.length >= count) break;
+  }
+  if (result.length < count) {
+    shuffle(pool).forEach(w => {
+      if (result.length < count && !used.has(w.word)) {
+        used.add(w.word);
+        result.push(w);
+      }
+    });
+  }
+  return result;
+}
+
+async function setRecallScore(word, score) {
+  state.recallScores[word] = score;
+  if (score === 1 || score === 2) {
+    if (!state.learnedWords[word]) {
+      state.autoLearned[word] = true;
+    }
+    state.learnedWords[word] = true;
+  } else if (state.autoLearned[word]) {
+    state.learnedWords[word] = false;
+    delete state.autoLearned[word];
+  }
+  await saveState();
+}
+
+/* ---------- Flashcards ---------- */
+let flashDeck = [];
+let flashIndex = 0;
+let flashShowingBack = false;
+
+function buildFlashDeck() {
+  flashDeck = weightedPracticeSet(8);
+  flashIndex = 0;
+  flashShowingBack = false;
+}
+
+function renderFlashcard() {
+  if (flashDeck.length === 0) buildFlashDeck();
+  const navRow = document.querySelector('.flash-nav-row');
+  const progressEl = document.getElementById('flash-progress');
+  const card = document.getElementById('flashcard');
+  const rateRow = document.getElementById('flash-rate-row');
+
+  if (!card) return;
+
+  if (flashDeck.length === 0) {
+    if (progressEl) progressEl.textContent = '';
+    if (rateRow) rateRow.classList.remove('show');
+    if (navRow) navRow.style.display = 'none';
+    card.className = 'game-empty';
+    card.onclick = null;
+    card.textContent = UI_STRINGS[currentUiLang].gameEmptyFlash;
+    return;
+  }
+  if (navRow) navRow.style.display = '';
+  card.className = 'flashcard';
+
+  const w = flashDeck[flashIndex];
+  if (progressEl) progressEl.textContent = (currentUiLang === 'az' ? 'Kart ' : 'Card ') + (flashIndex + 1) + ' / ' + flashDeck.length;
+
+  if (!flashShowingBack) {
+    card.innerHTML = `
+      <div class="flash-front">
+        <p class="flash-word">${w.word}</p>
+        <p class="flash-hint">${w.level} ${w.pos ? '· ' + w.pos : ''} — ${UI_STRINGS[currentUiLang].lblFlashHint}</p>
+      </div>
+    `;
+    if (rateRow) rateRow.classList.remove('show');
+  } else {
+    card.innerHTML = `
+      <div class="flash-back">
+        <div class="az-block" style="margin-bottom:10px;">
+          <span class="az-flag-label">AZ</span>
+          <span class="az-word">${w.az_word}</span>
+          <span class="az-def">— ${w.az_def}</span>
+        </div>
+        <p class="flash-def">${w.def}</p>
+      </div>
+    `;
+    if (rateRow) {
+      rateRow.classList.add('show');
+      rateRow.innerHTML = `<span class="score-label">${UI_STRINGS[currentUiLang].lblFlashRate}</span>` +
+        `<button class="score-btn easy" data-score="2">${UI_STRINGS[currentUiLang].btnFlashEasy}</button>` +
+        `<button class="score-btn hard" data-score="4">${UI_STRINGS[currentUiLang].btnFlashHard}</button>`;
+      rateRow.querySelectorAll('.score-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          await setRecallScore(w.word, parseInt(btn.getAttribute('data-score'), 10));
+          flashIndex = (flashIndex + 1) % flashDeck.length;
+          flashShowingBack = false;
+          renderFlashcard();
+        });
+      });
+    }
+  }
+  card.onclick = () => {
+    flashShowingBack = !flashShowingBack;
+    renderFlashcard();
+  };
+}
+
+document.getElementById('flash-next-btn').addEventListener('click', () => {
+  if (flashDeck.length === 0) return;
+  flashIndex = (flashIndex + 1) % flashDeck.length;
+  flashShowingBack = false;
+  renderFlashcard();
+});
+document.getElementById('flash-prev-btn').addEventListener('click', () => {
+  if (flashDeck.length === 0) return;
+  flashIndex = (flashIndex - 1 + flashDeck.length) % flashDeck.length;
+  flashShowingBack = false;
+  renderFlashcard();
+});
+document.getElementById('flash-shuffle-btn').addEventListener('click', () => {
+  buildFlashDeck();
+  renderFlashcard();
+});
+
+/* ---------- Quiz ---------- */
+let quizDeck = [];
+let quizIndex = 0;
+let quizCorrect = 0;
+let quizLocked = false;
+
+function buildQuizDeck() {
+  quizDeck = weightedPracticeSet(8);
+  quizIndex = 0;
+  quizCorrect = 0;
+}
+
+function startQuiz() {
+  buildQuizDeck();
+  const resultEl = document.getElementById('quiz-result');
+  if (!resultEl) return;
+  if (quizDeck.length === 0) {
+    document.getElementById('quiz-progress').textContent = '';
+    document.getElementById('quiz-prompt').textContent = '';
+    document.getElementById('quiz-options').innerHTML = '';
+    resultEl.className = 'quiz-result show';
+    resultEl.textContent = UI_STRINGS[currentUiLang].gameEmptyQuiz;
+    return;
+  }
+  resultEl.classList.remove('show');
+  renderQuizQuestion();
+}
+
+function renderQuizQuestion() {
+  quizLocked = false;
+  const total = quizDeck.length;
+  const resultEl = document.getElementById('quiz-result');
+  if (!resultEl) return;
+  
+  if (quizIndex >= total) {
+    document.getElementById('quiz-progress').textContent = UI_STRINGS[currentUiLang].quizComplete;
+    document.getElementById('quiz-prompt').textContent = '';
+    document.getElementById('quiz-options').innerHTML = '';
+    resultEl.textContent = UI_STRINGS[currentUiLang].quizResultText.replace('{correct}', quizCorrect).replace('{total}', total);
+    resultEl.classList.add('show');
+    return;
+  }
+  resultEl.classList.remove('show');
+  const w = quizDeck[quizIndex];
+  document.getElementById('quiz-progress').textContent = (currentUiLang === 'az' ? 'Sual ' : 'Question ') + (quizIndex + 1) + ' / ' + quizDeck.length;
+  document.getElementById('quiz-prompt').innerHTML = `<span class="quiz-prompt-word">${w.word}</span><br><span class="quiz-az-hint">${w.az_word}</span>`;
+
+  const distractors = shuffle(getPracticePoolData().filter(x => x.word !== w.word)).slice(0, 3);
+  const options = shuffle([w, ...distractors]);
+
+  const optsEl = document.getElementById('quiz-options');
+  optsEl.innerHTML = '';
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt';
+    btn.textContent = opt.az_def;
+    btn.addEventListener('click', async () => {
+      if (quizLocked) return;
+      quizLocked = true;
+      const isCorrect = opt.word === w.word;
+      btn.classList.add(isCorrect ? 'correct' : 'wrong');
+      if (isCorrect) {
+        quizCorrect++;
+        await setRecallScore(w.word, Math.max(1, (state.recallScores[w.word] || 3) - 1));
+      } else {
+        optsEl.querySelectorAll('.quiz-opt').forEach(o => {
+          if (o.textContent === w.az_def) o.classList.add('correct');
+        });
+        await setRecallScore(w.word, Math.min(5, (state.recallScores[w.word] || 3) + 1));
+      }
+      setTimeout(() => {
+        quizIndex++;
+        renderQuizQuestion();
+      }, 900);
+    });
+    optsEl.appendChild(btn);
+  });
+}
+
+document.getElementById('quiz-restart-btn').addEventListener('click', startQuiz);
+
+/* ---------- Spelling ---------- */
+let spellDeck = [];
+let spellIndex = 0;
+
+function buildSpellDeck() {
+  spellDeck = weightedPracticeSet(8);
+  spellIndex = 0;
+}
+
+function startSpelling() {
+  buildSpellDeck();
+  renderSpellWord();
+}
+
+function renderSpellWord() {
+  const feedback = document.getElementById('spell-feedback');
+  if (!feedback) return;
+  feedback.textContent = '';
+  feedback.className = 'spell-feedback';
+  const input = document.getElementById('spell-input');
+  input.value = '';
+  input.disabled = false;
+
+  if (spellDeck.length === 0) {
+    document.getElementById('spell-progress').textContent = '';
+    const clueEl = document.getElementById('spell-clue');
+    clueEl.className = 'game-empty';
+    clueEl.textContent = UI_STRINGS[currentUiLang].gameEmptySpell;
+    input.disabled = true;
+    document.getElementById('spell-form').style.display = 'none';
+    document.getElementById('spell-skip-btn').style.display = 'none';
+    return;
+  }
+  document.getElementById('spell-clue').className = 'spell-clue';
+  document.getElementById('spell-form').style.display = '';
+  document.getElementById('spell-skip-btn').style.display = '';
+
+  if (spellIndex >= spellDeck.length) {
+    document.getElementById('spell-progress').textContent = UI_STRINGS[currentUiLang].spellComplete;
+    document.getElementById('spell-clue').innerHTML = '<p class="def-en">' + UI_STRINGS[currentUiLang].spellCompleteText.replace('{count}', spellDeck.length) + '</p>';
+    input.disabled = true;
+    return;
+  }
+
+  const w = spellDeck[spellIndex];
+  document.getElementById('spell-progress').textContent = (currentUiLang === 'az' ? 'Söz ' : 'Word ') + (spellIndex + 1) + ' / ' + spellDeck.length;
+  document.getElementById('spell-clue').innerHTML = `
+    <div class="az-block" style="margin-bottom:8px;">
+      <span class="az-flag-label">AZ</span>
+      <span class="az-word">${w.az_word}</span>
+      <span class="az-def">— ${w.az_def}</span>
+    </div>
+    <p class="def-en">${w.def}</p>
+  `;
+  input.focus();
+}
+
+document.getElementById('spell-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (spellIndex >= spellDeck.length) return;
+  const w = spellDeck[spellIndex];
+  const input = document.getElementById('spell-input');
+  const feedback = document.getElementById('spell-feedback');
+  const guess = input.value.trim().toLowerCase();
+
+  if (guess === w.word.toLowerCase()) {
+    feedback.textContent = UI_STRINGS[currentUiLang].spellFeedbackCorrect + w.word;
+    feedback.className = 'spell-feedback correct';
+    await setRecallScore(w.word, Math.max(1, (state.recallScores[w.word] || 3) - 1));
+    setTimeout(() => {
+      spellIndex++;
+      renderSpellWord();
+    }, 700);
+  } else {
+    feedback.textContent = UI_STRINGS[currentUiLang].spellFeedbackWrong + '"' + w.word + '"';
+    feedback.className = 'spell-feedback wrong';
+    await setRecallScore(w.word, Math.min(5, (state.recallScores[w.word] || 3) + 1));
+    setTimeout(() => {
+      spellIndex++;
+      renderSpellWord();
+    }, 1400);
+  }
+});
+
+document.getElementById('spell-skip-btn').addEventListener('click', () => {
+  if (spellIndex >= spellDeck.length) return;
+  spellIndex++;
+  renderSpellWord();
+});
+document.getElementById('spell-restart-btn').addEventListener('click', startSpelling);
+
+/* ---------- My Words ---------- */
+function renderMyWordsList() {
+  const list = document.getElementById('mywords-list');
+  if (!list) return;
+  list.innerHTML = '';
+  const myWords = state.myWords || [];
+  document.getElementById('mywords-count').textContent = myWords.length;
+  if (myWords.length === 0) {
+    list.innerHTML = '<p class="sub" style="margin-top:12px;">' + UI_STRINGS[currentUiLang].lblMyWordsEmpty + '</p>';
+    return;
+  }
+  myWords.forEach((w, i) => {
+    const isLearned = !!state.learnedWords[w.word];
+    const isHard = state.recallScores[w.word] >= 4;
+    const row = document.createElement('div');
+    row.className = 'word-card' + (isLearned ? ' word-card-learned' : '');
+    row.innerHTML = `
+      <div class="entry-top">
+        <div class="headword-row">
+          <p class="headword">${w.word}</p>
+          <span class="level-tag" style="background:var(--clay-soft);color:var(--clay);">${UI_STRINGS[currentUiLang].tagMyWord}</span>
+          ${isLearned ? `<span class="learned-badge">${UI_STRINGS[currentUiLang].badgeLearned}</span>` : ''}
+          ${isHard ? `<span class="hard-badge">${UI_STRINGS[currentUiLang].badgeHard}</span>` : ''}
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <button class="learned-toggle ${isLearned ? 'on' : ''}" data-myword="${w.word}" title="✓">✓</button>
+          <button class="myword-delete-btn" data-idx="${i}" title="✕" aria-label="✕">✕</button>
+        </div>
+      </div>
+      <hr class="entry-rule" />
+      <div class="az-block">
+        <span class="az-flag-label">AZ</span>
+        <span class="az-word">${w.az}</span>
+      </div>
+      ${w.en ? `<p class="def-en" style="margin-top:8px;">${w.en}</p>` : ''}
+    `;
+    list.appendChild(row);
+  });
+
+  list.querySelectorAll('.learned-toggle').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const word = btn.getAttribute('data-myword');
+      state.learnedWords[word] = !state.learnedWords[word];
+      await saveState();
+      renderMyWordsList();
+    });
+  });
+  list.querySelectorAll('.myword-delete-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const idx = parseInt(btn.getAttribute('data-idx'), 10);
+      state.myWords.splice(idx, 1);
+      await saveState();
+      renderMyWordsList();
+    });
+  });
+}
+
+/* ---------- Translation Game ---------- */
+const PASSAGES = [
+  {
+    az: "Müasir texnologiya həyatımızı dəyişdi. İndi insanlar telefonlardan istifadə edərək dünyadan istənilən məlumatı əldə edə bilərlər. Bu, həm üstünlük, həm də çatışmazlıqdır.",
+    en: "Modern technology has changed our lives. Now people can access any information in the world using their phones. This is both an advantage and a disadvantage."
+  },
+  {
+    az: "Kitab oxumaq zehni inkişaf etdirir. Hər gün az miqdarda oxumaq belə, bilikləri artırır və yaradıcılığı gücləndirir. Buna görə də uşaqlara erkən yaşdan oxumaq vərdişi aşılanmalıdır.",
+    en: "Reading books develops the mind. Even reading a small amount each day increases knowledge and enhances creativity. Therefore, children should be instilled with the habit of reading from an early age."
+  },
+  {
+    az: "Təbiəti qorumaq hər kəsin vəzifəsidir. İqlim dəyişikliyi ciddi problem yaradır və bu problemin həlli üçün bütün insanlar birlikdə çalışmalıdır. Kiçik addımlar böyük nəticələr verə bilər.",
+    en: "Protecting nature is everyone's duty. Climate change creates serious problems, and to solve this problem, all people must work together. Small steps can yield great results."
+  },
+  {
+    az: "Sağlam qidalanmaq uzun ömür üçün vacibdir. Meyvə, tərəvəz və su içmək bədəni qoruyur. Bunun əksinə, hazır yemək yemək müxtəlif xəstəliklərə səbəb ola bilər.",
+    en: "Eating healthily is important for a long life. Eating fruit, vegetables, and drinking water protects the body. On the contrary, eating fast food can cause various diseases."
+  }
+];
+
+let currentPassage = null;
+let translateChecked = false;
+
+function startTranslation() {
+  translateChecked = false;
+  const pool = PASSAGES;
+  currentPassage = pool[Math.floor(Math.random() * pool.length)];
+  document.getElementById('translate-passage').textContent = currentPassage.az;
+  document.getElementById('translate-input').value = '';
+  document.getElementById('translate-result').innerHTML = '';
+  document.getElementById('translate-result').className = 'translate-result';
+  document.getElementById('translate-status').textContent = UI_STRINGS[currentUiLang].translateStatusPrompt;
+  document.getElementById('translate-check-btn').textContent = UI_STRINGS[currentUiLang].btnTranslateCheck;
+  document.getElementById('translate-input').disabled = false;
+}
+
+document.getElementById('translate-check-btn').addEventListener('click', () => {
+  if (!currentPassage) return;
+  if (translateChecked) { startTranslation(); return; }
+  const userText = document.getElementById('translate-input').value.trim();
+  if (!userText) return;
+
+  const resultEl = document.getElementById('translate-result');
+  
+  resultEl.innerHTML = `
+    <strong>${UI_STRINGS[currentUiLang].translateYourTrans}</strong><br><span style="color: var(--ink-soft); font-style: italic;">"${userText}"</span><br><br>
+    <strong>${UI_STRINGS[currentUiLang].translateCorrectTrans}</strong><br><span style="color: var(--teal); font-weight: 600;">"${currentPassage.en}"</span>
+  `;
+  
+  resultEl.className = 'translate-result show';
+  document.getElementById('translate-status').textContent = UI_STRINGS[currentUiLang].translateStatusResult;
+  document.getElementById('translate-check-btn').textContent = UI_STRINGS[currentUiLang].btnTranslateNew;
+  document.getElementById('translate-input').disabled = true;
+  translateChecked = true;
+});
+
+document.getElementById('translate-new-btn').addEventListener('click', startTranslation);
+
+/* ---------- Init ---------- */
+(async function init() {
+  await loadState();
+  if (!state.myWords) state.myWords = [];
+  switchUiLanguage('az'); // default to Azerbaijani interface on boot
+})();
+</script>
+</body>
+</html>
