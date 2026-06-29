@@ -35,38 +35,40 @@
     max-width: 760px;
     margin: 0 auto;
     padding: 28px 20px 60px;
-    position: relative;
   }
 
   header.app-head {
     margin-bottom: 22px;
     position: relative;
-    padding-right: 100px;
   }
 
-  .ui-lang-switcher {
+  /* Interface Language Switcher */
+  .ui-lang-switch {
     position: absolute;
     top: 0;
     right: 0;
     display: flex;
     gap: 4px;
+    background: var(--paper-line);
+    padding: 2px;
+    border-radius: 6px;
   }
-
   .ui-lang-btn {
+    font-family: var(--sans);
     font-size: 11px;
     font-weight: 700;
     padding: 4px 8px;
-    border-radius: 5px;
-    border: 1px solid var(--paper-line);
-    background: var(--paper-card);
-    cursor: pointer;
+    border: none;
+    background: none;
     color: var(--ink-soft);
+    cursor: pointer;
+    border-radius: 4px;
+    text-transform: uppercase;
   }
-
   .ui-lang-btn.active {
-    background: var(--ink);
-    color: var(--paper);
-    border-color: var(--ink);
+    background: var(--paper-card);
+    color: var(--teal);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   }
 
   .eyebrow {
@@ -90,7 +92,7 @@
     font-size: 14px;
     color: var(--ink-soft);
     margin: 0;
-    line-height: 1.4;
+    line-height: 1.5;
   }
 
   /* Tabs */
@@ -747,13 +749,13 @@
 <div class="wrap">
 
   <header class="app-head">
-    <div class="ui-lang-switcher" role="group" aria-label="Interface Language">
-      <button class="ui-lang-btn" id="ui-lang-az">AZ</button>
-      <button class="ui-lang-btn" id="ui-lang-en">EN</button>
+    <div class="ui-lang-switch">
+      <button class="ui-lang-btn active" id="ui-lang-az">az</button>
+      <button class="ui-lang-btn" id="ui-lang-en">en</button>
     </div>
-    <p class="eyebrow"><span id="lbl-eyebrow-day">Gün</span> <span id="day-count">1</span> · C1 / C2</p>
+    <p class="eyebrow"><span id="lbl-day">Gün</span> <span id="day-count">1</span> · C1 / C2</p>
     <h1>Tenaxicon</h1>
-    <p class="sub" id="app-subtitle">Gündəlik beş C1/C2 İngilis sözü, Azərbaycan mənaları ilə — sonra özünü yoxla.</p>
+    <p class="sub" id="app-sub-heading">Gündəlik beş C1/C2 İngilis sözü ilə biliklərinizi zənginləşdirin və hər gün hədəflərinizə doğru <b>inamla irəliləyin (strive)</b> — sonra isə özünüzü oyunlarla yoxlayın.</p>
   </header>
 
   <nav class="tabs" role="tablist">
@@ -767,8 +769,8 @@
     <h2 class="sr-only">Azərbaycan və İngilis dilində günün beş lüğət sözü</h2>
 
     <div class="stat-strip">
-      <div class="stat"><b id="learned-count">0</b>/5 <span id="lbl-learned-of">öyrənildi</span></div>
-      <div class="stat"><span id="lbl-streak">Seria:</span> <b id="streak-count">1</b> <span id="lbl-streak-days">gün</span></div>
+      <div class="stat"><b id="learned-count">0</b>/5 <span id="lbl-learned-stat">öyrənildi</span></div>
+      <div class="stat"><span id="lbl-streak-stat">Seria:</span> <b id="streak-count">1</b> <span id="lbl-streak-days">gün</span></div>
     </div>
 
     <div id="word-list"></div>
@@ -782,7 +784,7 @@
   <section class="view" id="view-mywords" role="tabpanel">
     <h2 class="sr-only">Sözlərim siyahısı</h2>
     <div class="stat-strip">
-      <div class="stat"><span id="lbl-in-your-list">Siyahında:</span> <b id="mywords-count">0</b> <span id="lbl-mywords-count-label">söz</span></div>
+      <div class="stat"><span id="lbl-mywords-stat">Siyahında:</span> <b id="mywords-count">0</b> <span id="lbl-mywords-count-label">söz</span></div>
     </div>
     <p class="mywords-hint" id="lbl-mywords-hint">Günün sözlərindən ⊕ düyməsinə basaraq sözlərini bu siyahıya əlavə edə bilərsən. Çətin sözlər oyunlarda daha tez çıxır.</p>
     <div id="mywords-list"></div>
@@ -801,12 +803,179 @@
 
     <div class="game-subview active" id="sub-match">
       <div class="lang-select-row" role="group" aria-label="Oyun dili seç">
-        <button class="lang-pill active" data-lang="en" id="lbl-match-en-btn">İngiliscə uyğunlaşdır</button>
-        <button class="lang-pill" data-lang="az" id="lbl-match-az-btn">Azərbaycanca uyğunlaşdır</button>
+        <button class="lang-pill active" data-lang="en" id="game-lang-en">İngiliscə uyğunlaşdır</button>
+        <button class="lang-pill" data-lang="az" id="game-lang-az">Azərbaycanca uyğunlaşdır</button>
       </div>
 
       <div class="game-meta">
         <div class="game-stats">
           <div class="stat"><span id="lbl-moves">Hərəkət:</span> <b id="moves">0</b></div>
           <div class="stat"><span id="lbl-matches">Uyğun:</span> <b id="matches">0</b>/<span id="matches-total">8</span></div>
-          <div class="stat"><span id="lbl-timer">Vaxt:</span>
+          <div class="stat"><span id="lbl-timer">Vaxt:</span> <b id="timer">0:00</b></div>
+        </div>
+        <button class="btn" id="restart-btn">Yeni oyun</button>
+      </div>
+
+      <div class="board" id="board"></div>
+
+      <div class="win-banner" id="win-banner"></div>
+    </div>
+
+    <div class="game-subview" id="sub-flash">
+      <div class="flash-wrap">
+        <div class="flash-progress" id="flash-progress">Kart 1 / 8</div>
+        <div class="flashcard" id="flashcard"></div>
+        <div class="flash-rate-row" id="flash-rate-row" role="group" aria-label="Bu sözü nə qədər asanlıqla xatırladın?">
+          <span class="score-label">Nə qədər asanlıqla xatırladın?</span>
+        </div>
+        <div class="flash-nav-row">
+          <button class="btn" id="flash-prev-btn">Geri</button>
+          <button class="btn primary" id="flash-next-btn">Növbəti</button>
+          <button class="btn" id="flash-shuffle-btn">Qarışdır</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-subview" id="sub-quiz">
+      <div class="quiz-wrap">
+        <div class="quiz-progress" id="quiz-progress">Sual 1 / 8</div>
+        <p class="quiz-prompt" id="quiz-prompt"></p>
+        <div class="quiz-options" id="quiz-options"></div>
+        <div class="quiz-result" id="quiz-result"></div>
+        <div class="btn-row">
+          <button class="btn" id="quiz-restart-btn">Yeni quiz</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-subview" id="sub-spell">
+      <div class="spell-wrap">
+        <div class="spell-progress" id="spell-progress">Söz 1 / 8</div>
+        <div class="spell-clue" id="spell-clue"></div>
+        <form class="spell-input-row" id="spell-form">
+          <label class="sr-only" for="spell-input">İngilis sözünü yaz</label>
+          <input class="spell-input" id="spell-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="İngilis sözünü yaz" />
+          <button class="btn primary" type="submit" id="spell-check-submit-btn">Yoxla</button>
+        </form>
+        <div class="spell-feedback" id="spell-feedback"></div>
+        <div class="btn-row">
+          <button class="btn" id="spell-skip-btn">Keç</button>
+          <button class="btn" id="spell-restart-btn">Yeni dəst</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-subview" id="sub-translate">
+      <div class="translate-wrap">
+        <div class="translate-status" id="translate-status">Mətn yüklənir…</div>
+        <div class="translate-passage" id="translate-passage"></div>
+        <div class="translate-label" id="lbl-your-translation">İngilis dilinə tərcümən:</div>
+        <textarea class="translate-input" id="translate-input" placeholder="Azərbaycan mətni oxu, İngiliscəyə çevir…" rows="4"></textarea>
+        <div class="btn-row">
+          <button class="btn primary" id="translate-check-btn">Yoxla</button>
+          <button class="btn" id="translate-new-btn">Yeni mətn</button>
+        </div>
+        <div class="translate-result" id="translate-result"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-learned" role="tabpanel">
+    <h2 class="sr-only">Öyrəndiyiniz sözlərin siyahısı</h2>
+
+    <div class="stat-strip">
+      <div class="stat"><b id="learned-total-count">0</b> <span id="lbl-learned-total-label">söz öyrənilib</span></div>
+    </div>
+
+    <div id="learned-list"></div>
+    <p id="learned-empty" class="sub">Hələ heç bir söz öyrənilmiş kimi işarələnməyib. "Günün sözləri" bölməsindən sözləri işarələ.</p>
+  </section>
+
+  <footer class="app-foot" id="app-footer-text">
+    İrəliləyiş bu cihazda saxlanılır. Yarın yeni beş söz gözləyir.
+  </footer>
+
+</div>
+
+<script>
+/* ---------- Vocabulary bank (word, level, part of speech, EN def, EN example, AZ word, AZ def) ---------- */
+const VOCAB = [
+  { word: "ubiquitous", level: "C2", pos: "adj.", def: "present, appearing, or found everywhere", example: "Smartphones have become ubiquitous in modern life.", az_word: "hər yerdə olan", az_def: "hər yerdə mövcud olan, rast gəlinən" },
+  { word: "ephemeral", level: "C2", pos: "adj.", def: "lasting for a very short time", example: "Fame on social media can feel ephemeral.", az_word: "keçici", az_def: "qısa müddət davam edən, müvəqqəti" },
+  { word: "pragmatic", level: "C1", pos: "adj.", def: "dealing with things sensibly and realistically", example: "We need a pragmatic solution, not an idealistic one.", az_word: "praqmatik", az_def: "real vəziyyətə uyğun, ağılabatan yanaşan" },
+  { word: "ambiguous", level: "C1", pos: "adj.", def: "open to more than one interpretation; not clear", example: "His answer was ambiguous, so we asked him to clarify.", az_word: "qeyri-müəyyən", az_def: "bir neçə mənaya gələ bilən, aydın olmayan" },
+  { word: "meticulous", level: "C1", pos: "adj.", def: "showing great attention to detail; very careful", example: "She gave the contract a meticulous review before signing.", az_word: "diqqətli, ətraflı", az_def: "hər detala böyük diqqət yetirən" },
+  { word: "resilient", level: "C1", pos: "adj.", def: "able to recover quickly from difficulties", example: "Children are often remarkably resilient after hardship.", az_word: "davamlı, dözümlü", az_def: "çətinliklərdən tez bərpa olunan" },
+  { word: "candid", level: "C1", pos: "adj.", def: "truthful and straightforward; frank", example: "He gave a candid answer about why the project failed.", az_word: "açıq, səmimi", az_def: "düz danışan, riyasız" },
+  { word: "tenacious", level: "C1", pos: "adj.", def: "holding firmly to a course of action or belief", example: "Her tenacious negotiating style won the client over.", az_word: "inadcıl, mətanətli", az_def: "məqsədindən geri çəkilməyən" },
+  { word: "ostensible", level: "C2", pos: "adj.", def: "stated as the reason, but perhaps not the real one", example: "The ostensible purpose of the meeting was budgeting, but politics dominated.", az_word: "zahiri, görünüşdə olan", az_def: "əslində deyil, sadəcə görünüşdə belə olan" },
+  { word: "ambivalent", level: "C2", pos: "adj.", def: "having mixed or contradictory feelings about something", example: "I feel ambivalent about moving to a new city.", az_word: "ikili münasibətli", az_def: "bir məsələyə qarşı ziddiyyətli hisslər bəsləyən" },
+  { word: "discrepancy", level: "C2", pos: "n.", def: "a lack of agreement or consistency between facts", example: "There was a discrepancy between the two witness accounts.", az_word: "uyğunsuzluq", az_def: "faktlar arasında uyuşmazlıq" },
+  { word: "vindicate", level: "C2", pos: "v.", def: "to clear someone of blame after they were doubted", example: "New evidence finally vindicated the accused man.", az_word: "təmizə çıxarmaq", az_def: "günahsızlığını sübut etmək" },
+  { word: "scrupulous", level: "C2", pos: "adj.", def: "diligent and careful to do things correctly and ethically", example: "The auditor was scrupulous in checking every figure.", az_word: "vicdanlı, dəqiq", az_def: "düzgünlüyə ciddi əməl edən" },
+  { word: "intricate", level: "C1", pos: "adj.", def: "very complicated or detailed", example: "The watch had an intricate mechanism inside.", az_word: "mürəkkəb, incə", az_def: "çoxlu detaldan ibarət, mürəkkəb" },
+  { word: "deferential", level: "C2", pos: "adj.", def: "showing respect for someone's authority or wishes", example: "He was deferential toward his senior colleagues.", az_word: "hörmətkar, tabe olan", az_def: "başqasının nüfuzuna hörmət göstərən" },
+  { word: "conundrum", level: "C2", pos: "n.", def: "a confusing and difficult problem or question", example: "Choosing between the two job offers was a real conundrum.", az_word: "tapmaca, mürəkkəb məsələ", az_def: "həll edilməsi çətin olan problem" },
+  { word: "astute", level: "C2", pos: "adj.", def: "having a sharp mind; good at judging situations", example: "She made an astute observation about the market.", az_word: "iti zəkalı, sayıq", az_def: "vəziyyəti tez və düzgün qiymətləndirən" },
+  { word: "lucid", level: "C1", pos: "adj.", def: "clear and easy to understand; mentally clear", example: "He gave a lucid explanation of a complex topic.", az_word: "aydın", az_def: "asan başa düşülən, açıq-aydın" },
+  { word: "fortuitous", level: "C2", pos: "adj.", def: "happening by a lucky chance", example: "Their meeting at the airport was entirely fortuitous.", az_word: "təsadüfi, bəxtəvər", az_def: "xoşbəxt təsadüf nəticəsində baş verən" },
+  { word: "succinct", level: "C1", pos: "adj.", def: "expressed clearly and in few words", example: "Her report was succinct but covered everything important.", az_word: "qısa və dəqiq", az_def: "az sözlə dəqiq ifadə olunan" }
+];
+
+/* ---------- Translation Dictionary for App Interface ---------- */
+const UI_STRINGS = {
+  az: {
+    subHeading: "Gündəlik beş C1/C2 İngilis sözü ilə biliklərinizi zənginləşdirin və hər gün hədəflərinizə doğru <b>inamla irəliləyin (strive)</b> — sonra isə özünüzü oyunlarla yoxlayın.",
+    tabWords: "Günün sözləri",
+    tabMyWords: "Sözlərim",
+    tabGame: "Oyunlar",
+    tabLearned: "Öyrəndiklərim",
+    lblDay: "Gün",
+    lblLearnedStat: "öyrənildi",
+    lblStreakStat: "Seria:",
+    lblStreakDays: "gün",
+    btnNextBatch: "Yeni 5 söz",
+    btnGotoGame: "Oyunda məşq et",
+    lblMyWordsStat: "Siyahında:",
+    lblMyWordsCountLabel: "söz",
+    lblMyWordsHint: "Günün sözlərindən ⊕ düyməsinə basaraq sözlərini bu siyahıya əlavə edə bilərsən. Çətin sözlər oyunlarda daha tez çıxır.",
+    lblMyWordsEmpty: "Hələ söz əlavə edilməyib. \"Günün sözləri\" bölməsindəki kartlarda ⊕ düyməsinə bas.",
+    subtabMatch: "Uyğunlaşdır",
+    subtabFlash: "Flaş kart",
+    subtabQuiz: "Quiz",
+    subtabSpell: "İmla",
+    subtabTranslate: "Tərcümə",
+    gameLangEn: "İngiliscə uyğunlaşdır",
+    gameLangAz: "Azərbaycanca uyğunlaşdır",
+    lblMoves: "Hərəkət:",
+    lblMatches: "Uyğun:",
+    lblTimer: "Vaxt:",
+    btnRestart: "Yeni oyun",
+    btnRestartQuiz: "Yeni quiz",
+    btnRestartSpell: "Yeni dəst",
+    btnSkipSpell: "Keç",
+    btnCheckSpell: "Yoxla",
+    placeholderSpell: "İngilis sözünü yaz",
+    gameEmptyMatch: "Oyun üçün ən az 2 söz lazımdır. \"Günün sözləri\" bölməsindən daha çox söz əldə et.",
+    gameEmptyFlash: "Hələ heç bir söz yoxdur. Əvvəlcə \"Günün sözləri\" bölməsindən sözlər əldə et.",
+    gameEmptyQuiz: "Hələ heç bir söz yoxdur. Əvvəlcə \"Günün sözləri\" bölməsindən sözlər əldə et.",
+    gameEmptySpell: "Hələ heç bir söz yoxdur. Əvvəlcə \"Günün sözləri\" bölməsindən sözlər əldə et.",
+    lblFlashHint: "mənasını görmək üçün toxun",
+    lblFlashRate: "Bu sözü bilirsən?",
+    btnFlashEasy: "✓ Bəli",
+    btnFlashHard: "✗ Xeyr",
+    lblYourTranslation: "İngilis dilinə tərcümən:",
+    placeholderTranslate: "Azərbaycan mətni oxu, İngiliscəyə çevir…",
+    btnTranslateCheck: "Yoxla",
+    btnTranslateNew: "Yeni mətn",
+    translateStatusLoading: "Mətn yüklənir…",
+    translateStatusPrompt: "Bu Azərbaycan mətni İngiliscəyə tərcümə et:",
+    translateStatusResult: "Nəticə müqayisəsi:",
+    translateYourTrans: "Sənin tərcümən:",
+    translateCorrectTrans: "Düzgün versiya:",
+    lblLearnedTotalLabel: "söz öyrənilib",
+    lblLearnedEmpty: "Hələ heç bir söz öyrənilmiş kimi işarələnməyib. \"Günün sözləri\" bölməsindən sözləri işarələ.",
+    footerText: "İrəliləyiş bu cihazda saxlanılır. Yarın yeni beş söz gözləyir.",
+    tagMyWord: "Mənim",
+    badgeLearned: "✓ öyrənildi",
+    badge
