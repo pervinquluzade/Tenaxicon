@@ -1,0 +1,37 @@
+[
+  {
+    "word": "Acumen",
+    "part_of_speech": "noun",
+    "definition": "Fərasət, zehni itilik, uzaqgörənlik.",
+    "example": "Her business acumen helped the company double its profits.",
+    "category": "Intellect & Behavior"
+  },
+  {
+    "word": "Astute",
+    "part_of_speech": "adjective",
+    "definition": "Ayıq-sayıq, zəki, hiyləgər dərəcədə ağıllı.",
+    "example": "An astute observer would notice the subtle changes in the market.",
+    "category": "Intellect & Behavior"
+  },
+  {
+    "word": "Cognizant",
+    "part_of_speech": "adjective",
+    "definition": "Xəbərdar olmaq, dərk etmək (adətən 'of' ilə işlənir).",
+    "example": "We are fully cognizant of the potential risks involved.",
+    "category": "Intellect & Behavior"
+  },
+  {
+    "word": "Erudite",
+    "part_of_speech": "adjective",
+    "definition": "Savadlı, elmli, geniş dünyagörüşlü.",
+    "example": "The professor gave an erudite lecture on medieval history.",
+    "category": "Intellect & Behavior"
+  },
+  {
+    "word": "Meticulous",
+    "part_of_speech": "adjective",
+    "definition": "Həddən artıq diqqətli, vasvası, hər xırdalığa fikir verən.",
+    "example": "The laboratory analysis requires meticulous attention to detail.",
+    "category": "Intellect & Behavior"
+  }
+]
