@@ -231,6 +231,36 @@
   .word-card-learned { border-color: var(--teal); background: #f4fbf9; }
 
   footer.app-foot { margin-top: 32px; font-size: 12px; color: var(--ink-soft); text-align: center; }
+
+  /* Stats tab */
+  .stats-block { background: var(--paper-card); border: 1px solid var(--paper-line); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 18px; }
+  .stats-block h3 { font-family: var(--serif); font-size: 17px; font-weight: 400; margin: 0 0 14px; }
+
+  .cal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .cal-nav-btn { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--paper-line); background: var(--paper-card); cursor: pointer; color: var(--ink); font-size: 14px; display: flex; align-items: center; justify-content: center; }
+  .cal-nav-btn:hover { border-color: var(--ink-soft); }
+  .cal-title { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+  .cal-dow { font-size: 10.5px; text-align: center; color: var(--ink-soft); font-weight: 600; padding-bottom: 4px; }
+  .cal-cell { aspect-ratio: 1; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--ink-soft); background: var(--paper); position: relative; cursor: default; }
+  .cal-cell.empty { background: transparent; }
+  .cal-cell.today { box-shadow: inset 0 0 0 1.5px var(--clay); }
+  .cal-cell.lvl-1 { background: #cfe6e3; color: var(--ink); }
+  .cal-cell.lvl-2 { background: #9dcdc8; color: var(--ink); }
+  .cal-cell.lvl-3 { background: #63aca6; color: #fff; }
+  .cal-cell.lvl-4 { background: var(--teal); color: #fff; font-weight: 700; }
+  .cal-legend { display: flex; align-items: center; gap: 4px; margin-top: 10px; font-size: 10.5px; color: var(--ink-soft); justify-content: flex-end; }
+  .cal-legend-swatch { width: 11px; height: 11px; border-radius: 3px; background: var(--paper); }
+
+  .chart-range-row { display: flex; gap: 6px; margin-bottom: 14px; }
+  .chart-range-btn { font-size: 11.5px; font-weight: 600; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--paper-line); background: var(--paper-card); color: var(--ink-soft); cursor: pointer; }
+  .chart-range-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .chart-svg-wrap { width: 100%; overflow-x: auto; }
+  .chart-bar { fill: var(--teal); }
+  .chart-bar:hover { fill: var(--clay); }
+  .chart-axis-label { font-size: 9px; fill: var(--ink-soft); font-family: var(--sans); }
+  .chart-value-label { font-size: 9.5px; fill: var(--ink); font-family: var(--sans); font-weight: 600; }
+  .chart-empty { font-size: 13px; color: var(--ink-soft); text-align: center; padding: 20px 0; }
 </style>
 </head>
 <body>
@@ -250,6 +280,7 @@
     <button class="tab-btn" id="tab-mywords" role="tab" aria-selected="false">Sözlərim</button>
     <button class="tab-btn" id="tab-game" role="tab" aria-selected="false">Oyunlar</button>
     <button class="tab-btn" id="tab-learned" role="tab" aria-selected="false">Öyrəndiklərim</button>
+    <button class="tab-btn" id="tab-stats" role="tab" aria-selected="false">Statistika</button>
   </nav>
 
   <section class="view active" id="view-words" role="tabpanel">
@@ -348,6 +379,37 @@
     <p id="learned-empty" class="sub">Hələ heç bir söz öyrənilmiş kimi işarələnməyib.</p>
   </section>
 
+  <section class="view" id="view-stats" role="tabpanel">
+    <div class="stats-block">
+      <h3 id="lbl-cal-title">Təqvim</h3>
+      <div class="cal-nav">
+        <button class="cal-nav-btn" id="cal-prev-btn">‹</button>
+        <span class="cal-title" id="cal-month-label"></span>
+        <button class="cal-nav-btn" id="cal-next-btn">›</button>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div class="cal-legend">
+        <span id="lbl-cal-less">Az</span>
+        <span class="cal-legend-swatch" style="background:var(--paper);"></span>
+        <span class="cal-legend-swatch cal-cell lvl-1" style="width:11px;height:11px;"></span>
+        <span class="cal-legend-swatch cal-cell lvl-2" style="width:11px;height:11px;"></span>
+        <span class="cal-legend-swatch cal-cell lvl-3" style="width:11px;height:11px;"></span>
+        <span class="cal-legend-swatch cal-cell lvl-4" style="width:11px;height:11px;"></span>
+        <span id="lbl-cal-more">Çox</span>
+      </div>
+    </div>
+
+    <div class="stats-block">
+      <h3 id="lbl-chart-title">İrəliləyiş qrafiki</h3>
+      <div class="chart-range-row">
+        <button class="chart-range-btn active" data-range="7" id="range-7-btn">7 gün</button>
+        <button class="chart-range-btn" data-range="14" id="range-14-btn">14 gün</button>
+        <button class="chart-range-btn" data-range="30" id="range-30-btn">30 gün</button>
+      </div>
+      <div class="chart-svg-wrap" id="chart-wrap"></div>
+    </div>
+  </section>
+
   <footer class="app-foot" id="app-footer">
     İrəliləyiş brauzer yaddaşında saxlanılır. Tenaxicon C1/C2.
   </footer>
@@ -368,7 +430,11 @@ const LOCALIZATION = {
     spell_btn: "Yoxla", spell_correct: "Mükəmməl! Doğrudur.", spell_wrong: "Səhvdir, yenidən yoxlayın.", translate_placeholder: "Yuxarıdakı mətni İngilis dilinə çevirməyə çalışın...",
     translate_btn: "Nümunə Cavaba Bax", translate_next: "Növbəti mətn", translate_title: "Nümunə Cavab:", lbl_learned_total_label: "söz öyrənilib",
     learned_empty: "Hələ heç bir söz öyrənilmiş kimi işarələnməyib.", footer_text: "İrəliləyiş brauzer yaddaşında saxlanılır. Tenaxicon C1/C2.",
-    tab_match: "Uyğunlaşdır", tab_flash: "Flaş kart", tab_quiz: "Quiz", tab_spell: "İmla", tab_translate: "Tərcümə"
+    tab_match: "Uyğunlaşdır", tab_flash: "Flaş kart", tab_quiz: "Quiz", tab_spell: "İmla", tab_translate: "Tərcümə",
+    tab_stats: "Statistika", lbl_cal_title: "Təqvim", lbl_cal_less: "Az", lbl_cal_more: "Çox",
+    lbl_chart_title: "İrəliləyiş qrafiki", chart_empty: "Hələ məlumat yoxdur. Söz öyrənməyə başlayın!",
+    chart_unit: "söz", months: ["Yanvar","Fevral","Mart","Aprel","May","İyun","İyul","Avqust","Sentyabr","Oktyabr","Noyabr","Dekabr"],
+    dows: ["B.e","Ç.a","Ç","C.a","C","Ş","B"]
   },
   en: {
     tab_words: "Words of the Day", tab_mywords: "My Words", tab_game: "Games", tab_learned: "Learned",
@@ -380,14 +446,20 @@ const LOCALIZATION = {
     spell_btn: "Check", spell_correct: "Excellent! Correct.", spell_wrong: "Incorrect, try again.", translate_placeholder: "Try translating the text above into English...",
     translate_btn: "Show Sample Answer", translate_next: "Next Text", translate_title: "Sample Answer:", lbl_learned_total_label: "words learned",
     learned_empty: "No words have been marked as learned yet.", footer_text: "Progress is saved in browser storage. Tenaxicon C1/C2.",
-    tab_match: "Match", tab_flash: "Flashcards", tab_quiz: "Quiz", tab_spell: "Spelling", tab_translate: "Translation"
+    tab_match: "Match", tab_flash: "Flashcards", tab_quiz: "Quiz", tab_spell: "Spelling", tab_translate: "Translation",
+    tab_stats: "Stats", lbl_cal_title: "Calendar", lbl_cal_less: "Less", lbl_cal_more: "More",
+    lbl_chart_title: "Progress Chart", chart_empty: "No data yet. Start learning words!",
+    chart_unit: "words", months: ["January","February","March","April","May","June","July","August","September","October","November","December"],
+    dows: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
   }
 };
 
 let state = {
   dayCount: 1, streakCount: 1, currentBatchIndex: 0,
-  learnedWords: [], myWords: [], uiLang: 'az'
+  learnedWords: [], myWords: [], uiLang: 'az', learnedLog: {}
 };
+
+let calViewYear = null, calViewMonth = null;
 
 let activeBatch = [];
 let flashIndex = 0;
@@ -398,6 +470,7 @@ let translateIndex = 0;
 window.addEventListener('DOMContentLoaded', () => {
   const saved = localStorage.getItem('tenaxicon_state');
   if (saved) { try { state = JSON.parse(saved); } catch(e){} }
+  if (!state.learnedLog) state.learnedLog = {};
   
   setupTabs();
   setupGameSubtabs();
@@ -426,6 +499,25 @@ window.addEventListener('DOMContentLoaded', () => {
     if(!activeBatch.length) return;
     translateIndex = (translateIndex + 1) % activeBatch.length; 
     showTranslationPassage(); 
+  });
+
+  document.getElementById('cal-prev-btn').addEventListener('click', () => {
+    calViewMonth--;
+    if (calViewMonth < 0) { calViewMonth = 11; calViewYear--; }
+    renderCalendar();
+  });
+  document.getElementById('cal-next-btn').addEventListener('click', () => {
+    calViewMonth++;
+    if (calViewMonth > 11) { calViewMonth = 0; calViewYear++; }
+    renderCalendar();
+  });
+  document.querySelectorAll('.chart-range-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.chart-range-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      chartRangeDays = parseInt(btn.dataset.range, 10);
+      renderProgressChart();
+    });
   });
 
   let jsonPath = 'data.json';
@@ -507,6 +599,11 @@ function updateUI() {
   document.getElementById('tab-mywords').innerText = dict.tab_mywords;
   document.getElementById('tab-game').innerText = dict.tab_game;
   document.getElementById('tab-learned').innerText = dict.tab_learned;
+  document.getElementById('tab-stats').innerText = dict.tab_stats;
+  document.getElementById('lbl-cal-title').innerText = dict.lbl_cal_title;
+  document.getElementById('lbl-cal-less').innerText = dict.lbl_cal_less;
+  document.getElementById('lbl-cal-more').innerText = dict.lbl_cal_more;
+  document.getElementById('lbl-chart-title').innerText = dict.lbl_chart_title;
 
   document.getElementById('lbl-day').innerText = dict.lbl_day;
   document.getElementById('lbl-learned-stat').innerText = dict.lbl_learned_stat;
@@ -550,6 +647,8 @@ function updateUI() {
   renderDailyWords();
   renderMyWords();
   renderLearnedWords();
+  renderCalendar();
+  renderProgressChart();
 }
 
 function renderDailyWords() {
@@ -593,8 +692,17 @@ function renderDailyWords() {
       saveState();
     });
     card.querySelector('.learned-toggle').addEventListener('click', () => {
-      if (state.learnedWords.includes(item.word)) state.learnedWords = state.learnedWords.filter(w => w !== item.word);
-      else state.learnedWords.push(item.word);
+      const key = todayStr();
+      if (state.learnedWords.includes(item.word)) {
+        state.learnedWords = state.learnedWords.filter(w => w !== item.word);
+        if (state.learnedLog[key]) {
+          state.learnedLog[key] = Math.max(0, state.learnedLog[key] - 1);
+          if (state.learnedLog[key] === 0) delete state.learnedLog[key];
+        }
+      } else {
+        state.learnedWords.push(item.word);
+        state.learnedLog[key] = (state.learnedLog[key] || 0) + 1;
+      }
       saveState();
     });
     container.appendChild(card);
@@ -631,6 +739,111 @@ function renderLearnedWords() {
     div.querySelector('.speak-btn').addEventListener('click', (e) => speakWord(item.word, e.currentTarget));
     container.appendChild(div);
   });
+}
+
+function todayStr(d) {
+  d = d || new Date();
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+
+function heatLevel(count) {
+  if (!count) return 0;
+  if (count <= 1) return 1;
+  if (count <= 3) return 2;
+  if (count <= 5) return 3;
+  return 4;
+}
+
+function renderCalendar() {
+  const now = new Date();
+  if (calViewYear === null) { calViewYear = now.getFullYear(); calViewMonth = now.getMonth(); }
+  const dict = LOCALIZATION[state.uiLang];
+
+  document.getElementById('cal-month-label').innerText = `${dict.months[calViewMonth]} ${calViewYear}`;
+
+  const grid = document.getElementById('cal-grid');
+  grid.innerHTML = '';
+  dict.dows.forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'cal-dow';
+    el.innerText = d;
+    grid.appendChild(el);
+  });
+
+  const firstOfMonth = new Date(calViewYear, calViewMonth, 1);
+  let startOffset = firstOfMonth.getDay() - 1;
+  if (startOffset < 0) startOffset = 6;
+  const daysInMonth = new Date(calViewYear, calViewMonth + 1, 0).getDate();
+  const todayKey = todayStr();
+
+  for (let i = 0; i < startOffset; i++) {
+    const empty = document.createElement('div');
+    empty.className = 'cal-cell empty';
+    grid.appendChild(empty);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dateObj = new Date(calViewYear, calViewMonth, day);
+    const key = todayStr(dateObj);
+    const count = (state.learnedLog && state.learnedLog[key]) || 0;
+    const level = heatLevel(count);
+    const cell = document.createElement('div');
+    cell.className = `cal-cell ${level ? 'lvl-' + level : ''} ${key === todayKey ? 'today' : ''}`;
+    cell.innerText = day;
+    if (count) {
+      const unit = dict.chart_unit;
+      cell.title = `${key}: ${count} ${unit}`;
+    }
+    grid.appendChild(cell);
+  }
+}
+
+let chartRangeDays = 7;
+function renderProgressChart() {
+  const dict = LOCALIZATION[state.uiLang];
+  const wrap = document.getElementById('chart-wrap');
+  wrap.innerHTML = '';
+
+  const days = [];
+  const now = new Date();
+  for (let i = chartRangeDays - 1; i >= 0; i--) {
+    const d = new Date(now);
+    d.setDate(now.getDate() - i);
+    const key = todayStr(d);
+    days.push({ key, count: (state.learnedLog && state.learnedLog[key]) || 0, date: d });
+  }
+
+  const hasData = days.some(d => d.count > 0);
+  if (!hasData) {
+    wrap.innerHTML = `<div class="chart-empty">${dict.chart_empty}</div>`;
+    return;
+  }
+
+  const maxCount = Math.max(...days.map(d => d.count), 1);
+  const barW = chartRangeDays > 14 ? 18 : 32;
+  const gap = chartRangeDays > 14 ? 6 : 14;
+  const chartH = 140;
+  const labelH = 34;
+  const svgW = days.length * (barW + gap) + gap;
+  const svgH = chartH + labelH;
+
+  let bars = '';
+  days.forEach((d, i) => {
+    const x = gap + i * (barW + gap);
+    const h = d.count === 0 ? 2 : Math.max(6, (d.count / maxCount) * (chartH - 20));
+    const y = chartH - h;
+    const dLabel = `${d.date.getDate()}/${d.date.getMonth() + 1}`;
+    bars += `<rect class="chart-bar" x="${x}" y="${y}" width="${barW}" height="${h}" rx="3"><title>${dLabel}: ${d.count} ${dict.chart_unit}</title></rect>`;
+    if (d.count > 0) {
+      bars += `<text class="chart-value-label" x="${x + barW / 2}" y="${y - 5}" text-anchor="middle">${d.count}</text>`;
+    }
+    bars += `<text class="chart-axis-label" x="${x + barW / 2}" y="${chartH + 16}" text-anchor="middle">${dLabel}</text>`;
+  });
+
+  wrap.innerHTML = `<svg viewBox="0 0 ${svgW} ${svgH}" width="${svgW}" height="${svgH}" style="max-width:100%;">
+    <line x1="0" y1="${chartH}" x2="${svgW}" y2="${chartH}" stroke="var(--paper-line)" stroke-width="1"/>
+    ${bars}
+  </svg>`;
 }
 
 function getActiveBatch() {
