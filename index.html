@@ -102,6 +102,11 @@
     font-size: 13.5px;
     font-weight: 500;
   }
+  .inspiration-box strong {
+    font-style: normal;
+    color: var(--teal);
+    font-weight: 700;
+  }
 
   /* Tabs */
   .tabs {
@@ -145,33 +150,15 @@
   }
   .stat b { color: var(--ink); font-weight: 600; }
 
-  /* Word card (dictionary entry - hidden state style) */
+  /* Word card (dictionary entry) */
   .word-card {
     background: var(--paper-card);
     border: 1px solid var(--paper-line);
     border-radius: var(--radius);
     padding: 18px 20px;
     margin-bottom: 14px;
-    cursor: pointer;
     transition: background 0.2s, border-color 0.2s;
   }
-  
-  .word-card.hidden-mode .card-revealed-content {
-    display: none;
-  }
-  
-  .word-card.hidden-mode .card-hidden-placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px 0;
-    color: var(--teal);
-    font-weight: 600;
-    font-size: 15px;
-    font-style: italic;
-  }
-  
-  .card-hidden-placeholder { display: none; }
 
   .entry-top {
     display: flex;
@@ -190,6 +177,30 @@
     font-size: 22px;
     margin: 0;
   }
+  .speak-btn {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid var(--paper-line);
+    background: var(--paper-card);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 1;
+    padding: 0;
+    flex-shrink: 0;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  }
+  .speak-btn:hover {
+    background: var(--teal-soft);
+    border-color: var(--teal);
+  }
+  .speak-btn:active {
+    transform: scale(0.92);
+  }
+  .speak-btn:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
   .level-tag {
     font-size: 11px;
     font-weight: 600;
@@ -783,7 +794,6 @@
     </div>
     <p class="eyebrow"><span id="lbl-day">Gün</span> <span id="day-count">1</span> · C1 / C2</p>
     <h1>Tenaxicon</h1>
-    <p class="sub" id="app-sub-heading">Gündəlik beş C1/C2 İngilis sözü ilə biliklərinizi zənginləşdirin — hədəflərinizə doğru oyunlarla yoxlayın.</p>
     <div class="inspiration-box" id="inspiration-text"></div>
   </header>
 
@@ -957,31 +967,331 @@ const VOCAB = [
   { word: "astute", level: "C2", pos: "adj.", def: "having a sharp mind; good at judging situations", example: "She made an astute observation about the market.", az_word: "iti zəkalı, sayıq", az_def: "vəziyyəti tez və düzgün qiymətləndirən" },
   { word: "lucid", level: "C1", pos: "adj.", def: "clear and easy to understand; mentally clear", example: "He gave a lucid explanation of a complex topic.", az_word: "aydın", az_def: "asan başa düşülən, açıq-aydın" },
   { word: "fortuitous", level: "C2", pos: "adj.", def: "happening by a lucky chance", example: "Their meeting at the airport was entirely fortuitous.", az_word: "təsadüfi, bəxtəvər", az_def: "xoşbəxt təsadüf nəticəsində baş verən" },
-  { word: "succinct", level: "C1", pos: "adj.", def: "expressed clearly and in few words", example: "Her report was succinct but covered everything important.", az_word: "qısa və dəqiq", az_def: "az sözlə dəqiq ifadə olunan" }
+  { word: "succinct", level: "C1", pos: "adj.", def: "expressed clearly and in few words", example: "Her report was succinct but covered everything important.", az_word: "qısa və dəqiq", az_def: "az sözlə dəqiq ifadə olunan" },
+  { word: "eloquent", level: "C1", pos: "adj.", def: "fluent or persuasive in speaking or writing", example: "She gave an eloquent speech that moved the entire audience.", az_word: "natiqlik qabiliyyəti olan", az_def: "təsirli və axıcı danışan, ifadəli" },
+  { word: "relentless", level: "C1", pos: "adj.", def: "harsh or persistent without weakening", example: "He trained with relentless determination every single day.", az_word: "amansız, dayanmadan davam edən", az_def: "zəifləmədən davam edən, inadla israr edən" },
+  { word: "profound", level: "C1", pos: "adj.", def: "having or showing great depth of understanding", example: "The book had a profound impact on how I see the world.", az_word: "dərin, əhəmiyyətli", az_def: "böyük dərinliyə malik, ciddi təsir göstərən" },
+  { word: "plausible", level: "C1", pos: "adj.", def: "seeming reasonable or probable", example: "His explanation sounded plausible, but I still had doubts.", az_word: "inandırıcı, məntiqəuyğun", az_def: "ağlabatan görünən, doğru ola biləcək" },
+  { word: "notorious", level: "C1", pos: "adj.", def: "famous for something bad", example: "The area is notorious for its heavy traffic.", az_word: "bədnam, məşhur (mənfi mənada)", az_def: "mənfi cəhətdən tanınan, ad çıxarmış" },
+  { word: "versatile", level: "C1", pos: "adj.", def: "able to adapt to many different functions", example: "A versatile employee can handle several roles at once.", az_word: "çoxcəhətli, uyğunlaşan", az_def: "müxtəlif vəzifələrə uyğunlaşa bilən" },
+  { word: "inevitable", level: "C1", pos: "adj.", def: "certain to happen; unavoidable", example: "Change in the industry was inevitable given the new technology.", az_word: "qarşısıalınmaz", az_def: "qaçılmaz, mütləq baş verəcək" },
+  { word: "dismantle", level: "C1", pos: "v.", def: "to take apart a machine, system, or structure", example: "The committee voted to dismantle the outdated policy.", az_word: "sökmək, ləğv etmək", az_def: "bir sistemi və ya quruluşu hissə-hissə aradan götürmək" },
+  { word: "scrutinize", level: "C2", pos: "v.", def: "to examine something very closely and carefully", example: "Auditors scrutinized every transaction in the company's records.", az_word: "diqqətlə araşdırmaq", az_def: "çox ciddi və diqqətlə yoxlamaq" },
+  { word: "compelling", level: "C1", pos: "adj.", def: "evoking interest or attention in a powerful way", example: "The lawyer presented a compelling argument to the jury.", az_word: "cəlbedici, inandırıcı", az_def: "diqqəti cəlb edən, çox təsirli" },
+  { word: "redundant", level: "C1", pos: "adj.", def: "no longer needed; superfluous", example: "Several job positions became redundant after automation.", az_word: "artıq, lazımsız", az_def: "lazım olmayan, ehtiyacı qalmamış" },
+  { word: "vague", level: "B2", pos: "adj.", def: "of uncertain, indefinite, or unclear character", example: "His instructions were too vague to follow precisely.", az_word: "qeyri-müəyyən, qaranlıq", az_def: "dəqiq olmayan, aydın ifadə olunmamış" },
+  { word: "coherent", level: "C1", pos: "adj.", def: "logical and consistent", example: "She gave a coherent summary of the entire project.", az_word: "məntiqli, ardıcıl", az_def: "məntiqli şəkildə bir-birinə bağlı olan" },
+  { word: "arbitrary", level: "C1", pos: "adj.", def: "based on random choice rather than reason", example: "The decision seemed arbitrary, with no clear justification.", az_word: "ixtiyari, əsassız", az_def: "müəyyən qaydaya əsaslanmayan, təsadüfi" },
+  { word: "convoluted", level: "C2", pos: "adj.", def: "extremely complex and difficult to follow", example: "The plot of the novel was convoluted and hard to summarize.", az_word: "qarışıq, dolaşıq", az_def: "çox mürəkkəb və izləməsi çətin olan" },
+  { word: "daunting", level: "C1", pos: "adj.", def: "seeming difficult to deal with; intimidating", example: "Moving to a new country alone felt daunting at first.", az_word: "çətin, ürək qopardan", az_def: "öhdəsindən gəlmək çətin görünən" },
+  { word: "inherent", level: "C1", pos: "adj.", def: "existing as a natural or basic part of something", example: "There are inherent risks in any business venture.", az_word: "təbii, daxili", az_def: "bir şeyin əsl təbiətindən qaynaqlanan" },
+  { word: "mitigate", level: "C2", pos: "v.", def: "to make something less severe or harmful", example: "The company took steps to mitigate the environmental damage.", az_word: "yumşaltmaq, azaltmaq", az_def: "ziyanın və ya təsirin şiddətini azaltmaq" },
+  { word: "paramount", level: "C2", pos: "adj.", def: "more important than anything else", example: "Safety is of paramount importance on a construction site.", az_word: "ən vacib, üstün", az_def: "hər şeydən daha əhəmiyyətli olan" },
+  { word: "subtle", level: "C1", pos: "adj.", def: "so delicate as to be difficult to detect", example: "There was a subtle change in her tone of voice.", az_word: "incə, zərif", az_def: "çətin hiss olunan, az nəzərə çarpan" },
+  { word: "ascertain", level: "C2", pos: "v.", def: "to find something out for certain", example: "The investigators worked to ascertain the cause of the fire.", az_word: "dəqiqləşdirmək, müəyyən etmək", az_def: "bir şeyi tam dəqiqliklə öyrənmək" },
+  { word: "formidable", level: "C2", pos: "adj.", def: "inspiring fear or respect through impressive size or strength", example: "The team faced a formidable opponent in the final round.", az_word: "qorxulu, möhtəşəm", az_def: "böyüklüyü və ya gücü ilə hörmət və ya qorxu doğuran" },
+  { word: "dubious", level: "C1", pos: "adj.", def: "hesitating or doubting; of doubtful quality", example: "I'm dubious about the accuracy of these statistics.", az_word: "şübhəli", az_def: "şübhə doğuran, etibarı az olan" },
+  { word: "elaborate", level: "C1", pos: "adj.", def: "involving many carefully arranged parts or details", example: "They planned an elaborate celebration for the anniversary.", az_word: "ətraflı, mürəkkəb şəkildə hazırlanmış", az_def: "çoxlu detalla diqqətlə hazırlanmış" },
+  { word: "imminent", level: "C1", pos: "adj.", def: "about to happen very soon", example: "Forecasters warned that the storm's arrival was imminent.", az_word: "yaxınlaşan, gözlənilən", az_def: "çox tezliklə baş verəcək" },
+  { word: "tedious", level: "B2", pos: "adj.", def: "too long, slow, or dull; tiresome", example: "Filling out the same form repeatedly became tedious.", az_word: "yorucu, cansıxıcı", az_def: "uzun və darıxdırıcı olan" },
+  { word: "authentic", level: "B2", pos: "adj.", def: "of undisputed origin; genuine", example: "The restaurant serves authentic regional dishes.", az_word: "əsl, orijinal", az_def: "həqiqi, saxta olmayan" },
+  { word: "juxtapose", level: "C2", pos: "v.", def: "to place things side by side for contrasting effect", example: "The film juxtaposes scenes of wealth and poverty.", az_word: "yanaşı qoymaq, müqayisə etmək", az_def: "fərqi göstərmək üçün iki şeyi yan-yana qoymaq" },
+  { word: "cumbersome", level: "C2", pos: "adj.", def: "large or heavy and therefore awkward to carry or use", example: "The old software was cumbersome and slowed down our work.", az_word: "əlverişsiz, ağır", az_def: "istifadəsi çətin və yorucu olan" },
+  { word: "invariably", level: "C1", pos: "adv.", def: "in every case or on every occasion; always", example: "He invariably arrives at the office before everyone else.", az_word: "həmişə, istisnasız", az_def: "hər zaman, heç bir istisna olmadan" },
+  { word: "perpetuate", level: "C2", pos: "v.", def: "to make something continue indefinitely", example: "The policy only perpetuated inequality rather than fixing it.", az_word: "davam etdirmək", az_def: "bir vəziyyəti sona qədər davam etdirmək" },
+  { word: "discern", level: "C1", pos: "v.", def: "to perceive or recognize something", example: "It was hard to discern any pattern in the data.", az_word: "ayırd etmək, dərk etmək", az_def: "diqqətlə baxaraq fərq qoymaq, anlamaq" },
+  { word: "benevolent", level: "C1", pos: "adj.", def: "well-meaning and kindly", example: "The benevolent donor funded the entire scholarship program.", az_word: "xeyirxah, mehriban", az_def: "yaxşılıq etməyə meyilli, mərhəmətli" },
+  { word: "malicious", level: "C1", pos: "adj.", def: "intending to do harm", example: "The hacker spread a malicious virus across the network.", az_word: "qəsdən zərər vermək istəyən", az_def: "zərər vermək niyyəti ilə hərəkət edən" },
+  { word: "indifferent", level: "B2", pos: "adj.", def: "having no particular interest or sympathy", example: "He seemed indifferent to the outcome of the match.", az_word: "laqeyd", az_def: "maraq və ya rəğbət göstərməyən" },
+  { word: "reluctant", level: "B2", pos: "adj.", def: "unwilling and hesitant", example: "She was reluctant to share her personal opinion in public.", az_word: "könülsüz, çəkingən", az_def: "bir şeyi etməyə həvəssiz olan" },
+  { word: "entail", level: "C1", pos: "v.", def: "to involve something as a necessary part", example: "The new role entails frequent travel abroad.", az_word: "nəzərdə tutmaq, tələb etmək", az_def: "zəruri hissə kimi özündə daşımaq" },
+  { word: "ramification", level: "C2", pos: "n.", def: "a complex consequence of an action or decision", example: "The ramifications of the new law are still being studied.", az_word: "nəticə, törəmə", az_def: "bir qərarın doğurduğu mürəkkəb nəticə" },
+  { word: "circumvent", level: "C2", pos: "v.", def: "to find a way around an obstacle or rule", example: "They found a clever way to circumvent the regulations.", az_word: "yan keçmək, dövrə vurmaq", az_def: "maneəni və ya qaydanı dolayı yolla aşmaq" },
+  { word: "exacerbate", level: "C2", pos: "v.", def: "to make a problem or situation worse", example: "The drought exacerbated the country's food shortage.", az_word: "ağırlaşdırmaq", az_def: "vəziyyəti daha da pisləşdirmək" },
+  { word: "prevalent", level: "C1", pos: "adj.", def: "widespread in a particular area or at a particular time", example: "Remote work has become more prevalent in recent years.", az_word: "geniş yayılmış", az_def: "müəyyən vaxt və ya yerdə çox rast gəlinən" },
+  { word: "integral", level: "C1", pos: "adj.", def: "necessary to make a whole complete", example: "Trust is integral to any successful partnership.", az_word: "ayrılmaz, vacib", az_def: "bütövün tərkib hissəsi olan, vacib" },
+  { word: "dwindle", level: "C1", pos: "v.", def: "to diminish gradually in size, amount, or strength", example: "Their savings began to dwindle after months of unemployment.", az_word: "azalmaq, tükənmək", az_def: "tədricən kiçilmək, zəifləmək" },
+  { word: "substantiate", level: "C2", pos: "v.", def: "to provide evidence to support a claim", example: "She failed to substantiate her accusations with proof.", az_word: "sübut etmək, əsaslandırmaq", az_def: "bir iddianı dəlillərlə təsdiqləmək" },
+  { word: "indispensable", level: "C1", pos: "adj.", def: "absolutely necessary", example: "Clear communication is indispensable in any team.", az_word: "əvəzolunmaz, vacib", az_def: "olmadan keçinmək mümkün olmayan" },
+  { word: "ostentatious", level: "C2", pos: "adj.", def: "designed to impress others; showy", example: "Their ostentatious wedding cost a small fortune.", az_word: "təmtəraqlı, göstərişli", az_def: "diqqəti cəlb etmək üçün həddindən artıq göstərişli" },
+  { word: "frugal", level: "C1", pos: "adj.", def: "sparing or economical with money or food", example: "Growing up poor taught her to be frugal with her spending.", az_word: "qənaətcil", az_def: "puldan və resurslardan səmərəli istifadə edən" },
+  { word: "auspicious", level: "C2", pos: "adj.", def: "conducive to success; favorable", example: "The launch began under auspicious circumstances.", az_word: "xeyirli, müvəffəqiyyətli", az_def: "uğur üçün münbit, əlamətdar" },
+  { word: "complacent", level: "C2", pos: "adj.", def: "showing smug satisfaction with oneself", example: "Don't become complacent just because you had one good result.", az_word: "özündən razı, laqeyd", az_def: "öz uğuruna güvənərək səhlənkar olan" },
+  { word: "rigorous", level: "C1", pos: "adj.", def: "extremely thorough and careful", example: "The drug went through rigorous testing before approval.", az_word: "ciddi, sərt, dəqiq", az_def: "çox diqqətli və ciddi şəkildə aparılan" },
+  { word: "tantamount", level: "C2", pos: "adj.", def: "equivalent in seriousness to; virtually the same as", example: "Staying silent was tantamount to admitting guilt.", az_word: "bərabər tutulan", az_def: "əslində eyni mənaya gələn, bərabər sayılan" },
+  { word: "vehement", level: "C2", pos: "adj.", def: "showing strong, often aggressive feeling", example: "He gave a vehement denial of the accusations.", az_word: "şiddətli, hiddətli", az_def: "güclü və qəzəbli hiss ifadə edən" },
+  { word: "placate", level: "C2", pos: "v.", def: "to make someone less angry or hostile", example: "She tried to placate the furious customer with a refund.", az_word: "sakitləşdirmək", az_def: "qəzəbli birini yumşaltmaq, sakitləşdirmək" },
+  { word: "turbulent", level: "C1", pos: "adj.", def: "characterized by conflict, confusion, or instability", example: "The country went through a turbulent period of political change.", az_word: "qarışıq, çaxnaşmalı", az_def: "ixtilaf və qeyri-sabitliklə dolu olan" },
+  { word: "volatile", level: "C1", pos: "adj.", def: "liable to change rapidly and unpredictably", example: "The stock market has been extremely volatile this month.", az_word: "dəyişkən, sabit olmayan", az_def: "tez-tez və gözlənilmədən dəyişən" },
+  { word: "transient", level: "C2", pos: "adj.", def: "lasting only for a short time", example: "The pain was transient and disappeared within minutes.", az_word: "müvəqqəti, keçici", az_def: "qısa müddət davam edən" },
+  { word: "staunch", level: "C2", pos: "adj.", def: "loyal and committed in attitude", example: "He remained a staunch supporter of the cause his whole life.", az_word: "sadiq, mətanətli", az_def: "möhkəm və dəyişməz şəkildə sadiq olan" },
+  { word: "repercussion", level: "C1", pos: "n.", def: "an unintended consequence of an action", example: "The scandal had serious repercussions for the company's reputation.", az_word: "nəticə, əks-təsir", az_def: "bir hərəkətin gözlənilməz nəticəsi" },
+  { word: "appease", level: "C1", pos: "v.", def: "to pacify or calm someone by satisfying their demands", example: "The government offered subsidies to appease the protesters.", az_word: "yatırmaq, razı salmaq", az_def: "tələbləri ödəməklə sakitləşdirmək" },
+  { word: "contentious", level: "C2", pos: "adj.", def: "causing or likely to cause an argument", example: "Immigration remains a contentious topic in many countries.", az_word: "mübahisəli", az_def: "mübahisə yaradan, fikir ayrılığına səbəb olan" },
+  { word: "disparity", level: "C2", pos: "n.", def: "a great difference between two things", example: "There is a wide disparity in income across the regions.", az_word: "uyğunsuzluq, fərq", az_def: "iki şey arasında böyük fərq" },
+  { word: "forge", level: "C1", pos: "v.", def: "to make or shape something, especially through effort", example: "The two countries forged a strong alliance after the war.", az_word: "qurmaq, yaratmaq", az_def: "səy nəticəsində bir şey yaratmaq və ya formalaşdırmaq" },
+  { word: "galvanize", level: "C2", pos: "v.", def: "to shock or excite someone into taking action", example: "The speech galvanized the crowd into immediate action.", az_word: "həvəsləndirmək, ruhlandırmaq", az_def: "kütləni hərəkətə təhrik etmək" },
+  { word: "hamper", level: "C1", pos: "v.", def: "to hinder or impede the movement or progress of", example: "Heavy rain hampered the rescue operation.", az_word: "maneə törətmək", az_def: "tərəqqini və ya hərəkəti çətinləşdirmək" },
+  { word: "impervious", level: "C2", pos: "adj.", def: "unable to be affected by something", example: "He seemed impervious to criticism from his colleagues.", az_word: "təsirlənməyən, keçirməyən", az_def: "bir şeydən təsirlənməyən" },
+  { word: "incessant", level: "C2", pos: "adj.", def: "continuing without pause or interruption", example: "The incessant noise from construction kept everyone awake.", az_word: "fasiləsiz, dayanmayan", az_def: "heç fasilə vermədən davam edən" },
+  { word: "infer", level: "B2", pos: "v.", def: "to deduce or conclude information from evidence", example: "From her tone, I could infer she was upset.", az_word: "nəticə çıxarmaq", az_def: "dəlillərə əsasən nəticə çıxarmaq" },
+  { word: "intervene", level: "B2", pos: "v.", def: "to come between so as to prevent or alter a result", example: "The teacher intervened before the argument escalated.", az_word: "müdaxilə etmək", az_def: "nəticəni dəyişmək üçün aralarına girmək" },
+  { word: "lament", level: "C1", pos: "v.", def: "to express sorrow or regret about something", example: "She lamented the loss of the old neighborhood's charm.", az_word: "təəssüflənmək, ağlamaq", az_def: "kədər və ya təəssüf ifadə etmək" },
+  { word: "meager", level: "C2", pos: "adj.", def: "lacking in quantity or quality; scanty", example: "They survived on a meager diet during the famine.", az_word: "az, kifayət etməyən", az_def: "miqdar və ya keyfiyyət baxımından çox az olan" },
+  { word: "nuance", level: "C2", pos: "n.", def: "a subtle difference in meaning or expression", example: "A good translator captures the nuance of the original text.", az_word: "incəlik, çalar", az_def: "mənada və ya ifadədə incə fərq" },
+  { word: "obsolete", level: "C1", pos: "adj.", def: "no longer produced or used; out of date", example: "Many old technologies have become obsolete in the digital age.", az_word: "köhnəlmiş, istifadədən çıxmış", az_def: "artıq istifadə olunmayan, köhnəlmiş" },
+  { word: "partisan", level: "C2", pos: "adj.", def: "biased in support of a particular cause", example: "The debate quickly became partisan rather than factual.", az_word: "tərəfkeşlik edən", az_def: "bir tərəfi qızğın şəkildə müdafiə edən" },
+  { word: "precarious", level: "C1", pos: "adj.", def: "not securely held or in danger of falling", example: "The company's financial situation is precarious right now.", az_word: "qeyri-sabit, təhlükəli", az_def: "təhlükəli vəziyyətdə olan, sabit olmayan" },
+  { word: "proliferate", level: "C2", pos: "v.", def: "to increase rapidly in number", example: "Smartphones have proliferated across every part of society.", az_word: "sürətlə çoxalmaq", az_def: "say baxımından çox sürətlə artmaq" },
+  { word: "quell", level: "C2", pos: "v.", def: "to put an end to something, often by force", example: "Police were sent to quell the riot in the city center.", az_word: "yatırmaq, susdurmaq", az_def: "güc tətbiq edərək bir şeyə son qoymaq" },
+  { word: "reciprocate", level: "C2", pos: "v.", def: "to respond to an action with a similar action", example: "She reciprocated his kindness by helping him move.", az_word: "qarşılığını vermək", az_def: "edilən yaxşılığa eyni şəkildə cavab vermək" },
+  { word: "relinquish", level: "C2", pos: "v.", def: "to give up a right or position", example: "He was forced to relinquish control of the family business.", az_word: "tərk etmək, əl çəkmək", az_def: "bir hüquq və ya mövqedən imtina etmək" },
+  { word: "sporadic", level: "C2", pos: "adj.", def: "occurring at irregular intervals", example: "There were sporadic protests across the country last week.", az_word: "təsadüfi, ara-sıra", az_def: "müntəzəm olmayan vaxtlarda baş verən" },
+  { word: "stagnant", level: "C1", pos: "adj.", def: "showing no activity; not growing or developing", example: "The economy has remained stagnant for the past two years.", az_word: "durğun, inkişaf etməyən", az_def: "heç bir inkişaf və ya hərəkət göstərməyən" },
+  { word: "succumb", level: "C2", pos: "v.", def: "to fail to resist pressure, temptation, or another force", example: "He finally succumbed to the pressure and agreed to the deal.", az_word: "təslim olmaq, məğlub olmaq", az_def: "təzyiqə və ya təsirə müqavimət göstərə bilməmək" },
+  { word: "tactic", level: "B2", pos: "n.", def: "an action planned to achieve a specific result", example: "The team changed tactics in the second half of the game.", az_word: "taktika, üsul", az_def: "konkret nəticə üçün planlaşdırılmış üsul" },
+  { word: "undermine", level: "C1", pos: "v.", def: "to weaken something gradually or insidiously", example: "Constant criticism can undermine someone's confidence.", az_word: "zəiflətmək, sarsıtmaq", az_def: "tədricən və ya gizli şəkildə zəiflətmək" },
+  { word: "unprecedented", level: "C1", pos: "adj.", def: "never done or known before", example: "The pandemic caused unprecedented disruption to global trade.", az_word: "misli görünməmiş", az_def: "əvvəllər heç görülməmiş, bənzərsiz" },
+  { word: "viable", level: "C1", pos: "adj.", def: "capable of working successfully; feasible", example: "We need a financially viable plan before moving forward.", az_word: "həyata keçirilə bilən", az_def: "uğurla həyata keçirilə bilən" },
+  { word: "wary", level: "C1", pos: "adj.", def: "feeling or showing caution about possible dangers", example: "Investors remained wary after the market crash.", az_word: "ehtiyatlı, şübhəli", az_def: "mümkün təhlükəyə görə ehtiyatlı olan" },
+  { word: "yield", level: "B2", pos: "v.", def: "to produce or provide a result, profit, or benefit", example: "Years of research finally yielded a breakthrough.", az_word: "nəticə vermək, məhsul vermək", az_def: "müəyyən bir nəticə və ya fayda vermək" },
+  { word: "zealous", level: "C2", pos: "adj.", def: "having great energy or enthusiasm for a cause", example: "She is a zealous advocate for environmental protection.", az_word: "qızğın, həvəsli", az_def: "bir məqsəd üçün böyük həvəs göstərən" },
+  { word: "abate", level: "C2", pos: "v.", def: "to become less intense or widespread", example: "The storm finally abated after several hours.", az_word: "zəifləmək, sakitləşmək", az_def: "şiddətinin və ya gücünün azalması" },
+  { word: "abstain", level: "C1", pos: "v.", def: "to restrain oneself from doing something", example: "He decided to abstain from alcohol during training.", az_word: "çəkinmək, imtina etmək", az_def: "bir şeydən özünü saxlamaq, imtina etmək" },
+  { word: "acclaim", level: "C1", pos: "n.", def: "enthusiastic public praise", example: "Her latest novel received widespread critical acclaim.", az_word: "tərif, alqış", az_def: "ictimaiyyət tərəfindən coşqu ilə tərif olunma" },
+  { word: "adamant", level: "C2", pos: "adj.", def: "refusing to change one's mind; firmly resolved", example: "She was adamant that she would not change her decision.", az_word: "möhkəm, israrlı", az_def: "fikrini dəyişməyə qəti razı olmayan" },
+  { word: "adept", level: "C1", pos: "adj.", def: "very skilled or proficient at something", example: "He is adept at solving complex mathematical problems.", az_word: "mahir, bacarıqlı", az_def: "müəyyən bir işdə çox bacarıqlı olan" },
+  { word: "adversary", level: "C1", pos: "n.", def: "an opponent or enemy", example: "The two companies have been adversaries for decades.", az_word: "rəqib, düşmən", az_def: "qarşı tərəfdə dayanan rəqib və ya düşmən" },
+  { word: "affluent", level: "C1", pos: "adj.", def: "having a great deal of money; wealthy", example: "They live in one of the city's most affluent neighborhoods.", az_word: "varlı, dövlətli", az_def: "çoxlu maddi vəsaiti olan" },
+  { word: "alleviate", level: "C1", pos: "v.", def: "to make suffering or a problem less severe", example: "The medicine helped alleviate her chronic pain.", az_word: "yüngülləşdirmək", az_def: "əzab və ya problemin şiddətini azaltmaq" },
+  { word: "ambivalence", level: "C2", pos: "n.", def: "the state of having mixed feelings about something", example: "I feel a deep ambivalence about accepting the job offer.", az_word: "ikili münasibət", az_def: "bir şeyə qarşı ziddiyyətli hisslər bəsləmə" },
+  { word: "anomaly", level: "C2", pos: "n.", def: "something that deviates from what is standard or expected", example: "The scientist noticed an anomaly in the data set.", az_word: "anomaliya, qeyri-adi hal", az_def: "normadan kənara çıxan hadisə" },
+  { word: "antagonize", level: "C2", pos: "v.", def: "to cause someone to become hostile", example: "His blunt remarks tend to antagonize his coworkers.", az_word: "düşmənçiliyə təhrik etmək", az_def: "birini düşmən kəsilməyə təhrik etmək" },
+  { word: "apprehensive", level: "C1", pos: "adj.", def: "anxious or fearful that something bad may happen", example: "She felt apprehensive about her first day at the new job.", az_word: "narahat, qorxulu", az_def: "pis bir şeyin baş verəcəyindən qorxan" },
+  { word: "arduous", level: "C2", pos: "adj.", def: "involving great effort and difficulty", example: "Climbing the mountain was an arduous task that took two days.", az_word: "çətin, ağır", az_def: "böyük səy və çətinlik tələb edən" },
+  { word: "articulate", level: "C1", pos: "adj.", def: "able to express ideas clearly and effectively", example: "She is a very articulate speaker who explains things well.", az_word: "ifadəli, açıq danışan", az_def: "fikirlərini aydın və effektiv şəkildə ifadə edən" },
+  { word: "assertive", level: "C1", pos: "adj.", def: "having a confident and forceful personality", example: "Being assertive at work helped her get the promotion.", az_word: "qətiyyətli, israrlı", az_def: "özünü inamla və qətiyyətlə ifadə edən" },
+  { word: "astound", level: "C2", pos: "v.", def: "to surprise someone greatly; to amaze", example: "The magician's final trick astounded the entire audience.", az_word: "heyrətə gətirmək", az_def: "kimisə çox təəccübləndirmək" },
+  { word: "attain", level: "C1", pos: "v.", def: "to succeed in achieving something", example: "It took years of hard work to attain such expertise.", az_word: "əldə etmək, nail olmaq", az_def: "böyük səylə bir nəticəyə nail olmaq" },
+  { word: "audacious", level: "C2", pos: "adj.", def: "showing willingness to take bold risks", example: "The startup made an audacious bid to enter the market.", az_word: "cəsarətli, qoçaq", az_def: "böyük risk götürməyə hazır olan" },
+  { word: "authoritative", level: "C1", pos: "adj.", def: "able to be trusted as accurate; commanding respect", example: "He spoke in an authoritative tone that left no room for doubt.", az_word: "etibarlı, nüfuzlu", az_def: "etibar oyadan, hörmət doğuran" },
+  { word: "avert", level: "C1", pos: "v.", def: "to prevent or ward off an undesirable occurrence", example: "Quick thinking helped avert a major disaster.", az_word: "qarşısını almaq", az_def: "pis bir hadisənin qarşısını almaq" },
+  { word: "belated", level: "B2", pos: "adj.", def: "coming or happening later than it should", example: "He sent a belated apology after weeks of silence.", az_word: "gecikmiş", az_def: "vaxtından gec gələn" },
+  { word: "bewilder", level: "C1", pos: "v.", def: "to confuse someone completely", example: "The complicated instructions bewildered most of the new employees.", az_word: "çaşdırmaq, mat qoymaq", az_def: "kimisə tamamilə çaşdırmaq" },
+  { word: "blatant", level: "C2", pos: "adj.", def: "completely obvious in a negative way", example: "It was a blatant violation of the company's rules.", az_word: "açıq-aşkar, həyasızcasına", az_def: "mənfi mənada tam aşkar olan" },
+  { word: "bolster", level: "C2", pos: "v.", def: "to support or strengthen something", example: "The new evidence helped bolster their legal case.", az_word: "gücləndirmək, dəstəkləmək", az_def: "bir şeyi möhkəmləndirmək, dəstəkləmək" },
+  { word: "bureaucracy", level: "C1", pos: "n.", def: "a system of government with many departments and rules", example: "Starting a business here involves a lot of bureaucracy.", az_word: "bürokratiya", az_def: "çoxlu qayda və şöbədən ibarət idarəetmə sistemi" },
+  { word: "candor", level: "C2", pos: "n.", def: "the quality of being open and honest", example: "I appreciate your candor in telling me the bad news directly.", az_word: "səmimiyyət, açıqlıq", az_def: "açıq və düz danışma keyfiyyəti" },
+  { word: "capitulate", level: "C2", pos: "v.", def: "to give up resistance; to surrender", example: "After months of pressure, the company finally capitulated.", az_word: "təslim olmaq", az_def: "müqavimət göstərmədən təslim olmaq" },
+  { word: "catalyst", level: "C1", pos: "n.", def: "something that causes a significant change or event", example: "The protest acted as a catalyst for political reform.", az_word: "katalizator, təkanverici", az_def: "böyük dəyişikliyə səbəb olan amil" },
+  { word: "censure", level: "C2", pos: "v.", def: "to express strong disapproval of someone publicly", example: "The senator was censured for his inappropriate remarks.", az_word: "qınamaq, töhmət vermək", az_def: "kimisə açıq şəkildə qınamaq" },
+  { word: "chronic", level: "C1", pos: "adj.", def: "persisting for a long time or constantly recurring", example: "He suffers from a chronic back condition.", az_word: "xroniki, daimi", az_def: "uzun müddət davam edən, daimi təkrarlanan" },
+  { word: "coerce", level: "C2", pos: "v.", def: "to persuade someone using force or threats", example: "They were coerced into signing the unfair contract.", az_word: "məcbur etmək", az_def: "təhdid və ya zorla razılaşdırmaq" },
+  { word: "commendable", level: "C1", pos: "adj.", def: "deserving praise", example: "Her dedication to the project was truly commendable.", az_word: "tərifəlayiq", az_def: "təqdirəlayiq, alqışlanmalı" },
+  { word: "compatible", level: "B2", pos: "adj.", def: "able to exist or work together without conflict", example: "The new software isn't compatible with our old systems.", az_word: "uyğun, uzlaşan", az_def: "bir-biri ilə ziddiyyət olmadan birgə işləyə bilən" },
+  { word: "compliance", level: "C1", pos: "n.", def: "the act of obeying an order, rule, or request", example: "The factory was fined for failing to ensure compliance with safety codes.", az_word: "tabeçilik, riayət etmə", az_def: "qayda və ya əmrə əməl etmə" },
+  { word: "comprehensive", level: "B2", pos: "adj.", def: "complete and including everything necessary", example: "The report offers a comprehensive analysis of the market.", az_word: "hərtərəfli, tam", az_def: "lazım olan hər şeyi əhatə edən" },
+  { word: "conciliatory", level: "C2", pos: "adj.", def: "intended to placate or pacify", example: "He made a conciliatory gesture to end the dispute.", az_word: "barışdırıcı", az_def: "sülh yaratmaq məqsədi ilə edilən" },
+  { word: "condone", level: "C2", pos: "v.", def: "to accept and allow behavior that is considered wrong", example: "The school does not condone any form of bullying.", az_word: "bağışlamaq, göz yummaq", az_def: "yanlış hərəkəti qəbul edib icazə vermək" },
+  { word: "confound", level: "C2", pos: "v.", def: "to cause surprise or confusion", example: "The result confounded even the most experienced scientists.", az_word: "çaşdırmaq, mat qoymaq", az_def: "təəccüb və ya çaşqınlıq yaratmaq" },
+  { word: "congruent", level: "C2", pos: "adj.", def: "in agreement or harmony", example: "Her actions were congruent with her stated values.", az_word: "uyğun, harmoniyalı", az_def: "bir-biri ilə uzlaşan, razılaşan" },
+  { word: "conjecture", level: "C2", pos: "n.", def: "an opinion formed without complete evidence", example: "Without more data, this theory remains pure conjecture.", az_word: "fərziyyə, ehtimal", az_def: "tam dəlil olmadan formalaşan fikir" },
+  { word: "connoisseur", level: "C2", pos: "n.", def: "an expert judge in matters of taste", example: "He is a true connoisseur of fine wine.", az_word: "bilici, mütəxəssis", az_def: "zövq məsələlərində mütəxəssis sayılan şəxs" },
+  { word: "consensus", level: "C1", pos: "n.", def: "general agreement among a group", example: "The team reached a consensus after a long discussion.", az_word: "ümumi razılıq", az_def: "qrup daxilində ümumi razılaşma" },
+  { word: "consolidate", level: "C1", pos: "v.", def: "to combine separate elements into a single whole", example: "The two banks decided to consolidate their operations.", az_word: "birləşdirmək, möhkəmləndirmək", az_def: "ayrı hissələri vahid bütövdə birləşdirmək" },
+  { word: "constrain", level: "C1", pos: "v.", def: "to severely restrict the scope of something", example: "Budget limits constrain what the team can build this year.", az_word: "məhdudlaşdırmaq", az_def: "bir şeyin əhatə dairəsini ciddi şəkildə daraltmaq" },
+  { word: "contemplate", level: "B2", pos: "v.", def: "to think deeply about something", example: "She sat by the window, contemplating her next move.", az_word: "düşünmək, dərindən fikirləşmək", az_def: "bir şey haqqında dərindən düşünmək" },
+  { word: "contradict", level: "B2", pos: "v.", def: "to say the opposite of a previous statement", example: "His new statement seemed to contradict what he said yesterday.", az_word: "ziddiyyət təşkil etmək", az_def: "əvvəlki ifadəyə zidd olan fikir söyləmək" },
+  { word: "conventional", level: "B2", pos: "adj.", def: "based on what is generally done or believed", example: "They rejected conventional methods and tried something new.", az_word: "ənənəvi, adi", az_def: "ümumi qəbul edilmiş üsullara əsaslanan" },
+  { word: "corroborate", level: "C2", pos: "v.", def: "to confirm or support a statement with evidence", example: "New witnesses corroborated the original account of events.", az_word: "təsdiqləmək", az_def: "bir ifadəni dəlillərlə təsdiq etmək" },
+  { word: "counterpart", level: "C1", pos: "n.", def: "a person or thing with the same function elsewhere", example: "The minister met with his counterpart from the neighboring country.", az_word: "həmkar, qarşılığı olan şəxs", az_def: "başqa yerdə eyni vəzifəni yerinə yetirən şəxs" },
+  { word: "credible", level: "C1", pos: "adj.", def: "able to be believed; convincing", example: "She offered a credible explanation for the missing funds.", az_word: "inanılan, etibarlı", az_def: "inandırıcı, etibar oyandıran" },
+  { word: "cryptic", level: "C2", pos: "adj.", def: "having a meaning that is mysterious or obscure", example: "He left a cryptic message that no one could understand.", az_word: "anlaşılmaz, sirli", az_def: "mənası gizli və ya qaranlıq olan" },
+  { word: "culminate", level: "C2", pos: "v.", def: "to reach a climax or point of highest development", example: "Years of training culminated in an Olympic gold medal.", az_word: "başa çatmaq, son nöqtəyə çatmaq", az_def: "ən yüksək nöqtəyə çatma" },
+  { word: "debilitate", level: "C2", pos: "v.", def: "to make someone weak and infirm", example: "The illness debilitated him for several months.", az_word: "zəiflətmək", az_def: "kimisə zəif və gücsüz hala salmaq" },
+  { word: "decipher", level: "C1", pos: "v.", def: "to succeed in understanding something obscure", example: "It took experts years to decipher the ancient text.", az_word: "şifrəni açmaq, anlamaq", az_def: "gizli və ya qarışıq bir şeyi anlamağa nail olmaq" },
+  { word: "deduce", level: "C1", pos: "v.", def: "to reach a conclusion by reasoning", example: "From the clues, the detective deduced who the thief was.", az_word: "nəticə çıxarmaq", az_def: "məntiqlə nəticəyə gəlmək" },
+  { word: "default", level: "B2", pos: "v.", def: "to fail to fulfill an obligation, especially financial", example: "The company defaulted on its loan payments last year.", az_word: "öhdəlikdən boyun qaçırmaq", az_def: "öhdəliyi, xüsusilə maliyyə öhdəliyini yerinə yetirməmək" },
+  { word: "defy", level: "C1", pos: "v.", def: "to openly resist or refuse to obey", example: "The protesters defied the government's curfew order.", az_word: "qarşı çıxmaq, tabe olmamaq", az_def: "açıq şəkildə tabe olmamaq, müqavimət göstərmək" },
+  { word: "delineate", level: "C2", pos: "v.", def: "to describe or portray something precisely", example: "The contract clearly delineates each party's responsibilities.", az_word: "dəqiq müəyyən etmək", az_def: "bir şeyi dəqiq şəkildə təsvir etmək" },
+  { word: "deplete", level: "C2", pos: "v.", def: "to use up the supply or resources of", example: "Years of overfishing have depleted the local fish population.", az_word: "tükətmək, azaltmaq", az_def: "ehtiyatı və ya resursu tükətmək" },
+  { word: "deplore", level: "C2", pos: "v.", def: "to feel or express strong disapproval of", example: "World leaders deplored the attack on civilians.", az_word: "qəzəblə qınamaq", az_def: "bir hadisəyə qarşı şiddətli narazılıq bildirmək" },
+  { word: "deprivation", level: "C2", pos: "n.", def: "the state of lacking something considered essential", example: "The study examined the effects of sleep deprivation.", az_word: "məhrumiyyət", az_def: "zəruri sayılan bir şeyin olmaması vəziyyəti" },
+  { word: "derive", level: "B2", pos: "v.", def: "to obtain something from a specified source", example: "Much of our vocabulary derives from Latin and Greek.", az_word: "əldə etmək, qaynaqlanmaq", az_def: "müəyyən bir mənbədən əldə etmək" },
+  { word: "derogatory", level: "C2", pos: "adj.", def: "showing a critical or disrespectful attitude", example: "He was fired for making derogatory comments about a client.", az_word: "təhqiramiz, kiçildici", az_def: "hörmətsiz və tənqidi münasibət göstərən" },
+  { word: "despondent", level: "C2", pos: "adj.", def: "in low spirits from loss of hope", example: "She became despondent after failing the exam a second time.", az_word: "ümidsiz, kədərli", az_def: "ümidini itirərək kədərə qapılmış" },
+  { word: "deter", level: "C1", pos: "v.", def: "to discourage someone from doing something", example: "Higher fines are meant to deter people from speeding.", az_word: "çəkindirmək", az_def: "kimisə bir işdən çəkindirmək" },
+  { word: "detrimental", level: "C1", pos: "adj.", def: "tending to cause harm", example: "Excessive screen time can be detrimental to children's health.", az_word: "zərərli", az_def: "ziyan verən, mənfi təsir göstərən" },
+  { word: "devastate", level: "C1", pos: "v.", def: "to destroy or severely damage", example: "The earthquake devastated the entire coastal region.", az_word: "dağıtmaq, məhv etmək", az_def: "böyük ziyan vurmaq, dağıtmaq" },
+  { word: "deviate", level: "C1", pos: "v.", def: "to depart from an established course or standard", example: "The plane had to deviate from its usual route due to weather.", az_word: "kənara çıxmaq, yayınmaq", az_def: "müəyyən edilmiş yoldan kənara çıxmaq" },
+  { word: "diligent", level: "B2", pos: "adj.", def: "showing careful and persistent effort", example: "She is a diligent student who never misses a deadline.", az_word: "səylə çalışan, vicdanlı", az_def: "ciddi və davamlı səy göstərən" },
+  { word: "diminish", level: "B2", pos: "v.", def: "to make or become less", example: "His influence in the company began to diminish over time.", az_word: "azalmaq, kiçilmək", az_def: "azalmaq və ya kiçilmək" },
+  { word: "disclose", level: "B2", pos: "v.", def: "to make secret information known", example: "The company refused to disclose its financial details.", az_word: "açıqlamaq, ifşa etmək", az_def: "gizli məlumatı bildirmək" },
+  { word: "discord", level: "C2", pos: "n.", def: "disagreement between people, often causing tension", example: "The decision created discord among the family members.", az_word: "ixtilaf, narazılıq", az_def: "insanlar arasında gərginlik yaradan razılaşmazlıq" },
+  { word: "disdain", level: "C2", pos: "n.", def: "the feeling that someone is unworthy of respect", example: "He looked at the proposal with obvious disdain.", az_word: "nifrət, hörmətsizlik", az_def: "birinin hörmətə layiq olmadığı hissi" },
+  { word: "disparage", level: "C2", pos: "v.", def: "to regard or describe as having little worth", example: "She often disparages other people's ideas in meetings.", az_word: "kiçiltmək, lağ etmək", az_def: "bir şeyi dəyərsiz kimi təqdim etmək" },
+  { word: "disperse", level: "C1", pos: "v.", def: "to spread over a wide area; to scatter", example: "Police asked the crowd to disperse peacefully.", az_word: "dağılmaq, yayılmaq", az_def: "geniş bir sahəyə yayılmaq" },
+  { word: "dissent", level: "C2", pos: "n.", def: "disagreement with an official or commonly held opinion", example: "There was significant dissent within the party over the new policy.", az_word: "etiraz, narazılıq", az_def: "rəsmi fikirlə razılaşmama" },
+  { word: "distort", level: "C1", pos: "v.", def: "to give a misleading account of something", example: "The media often distorts the facts to attract attention.", az_word: "təhrif etmək", az_def: "faktları yanlış şəkildə təqdim etmək" },
+  { word: "diverge", level: "C1", pos: "v.", def: "to separate and go in different directions", example: "Their opinions began to diverge as the debate continued.", az_word: "ayrılmaq, fərqlənmək", az_def: "fərqli istiqamətlərə ayrılmaq" },
+  { word: "dogmatic", level: "C2", pos: "adj.", def: "inclined to lay down principles as undeniably true", example: "He's too dogmatic to consider any other point of view.", az_word: "dogmatik, sərt fikirli", az_def: "öz fikrini mütləq həqiqət kimi qəbul edən" },
+  { word: "dormant", level: "C2", pos: "adj.", def: "temporarily inactive", example: "The volcano had been dormant for over a century.", az_word: "yatmış, fəaliyyətsiz", az_def: "müvəqqəti olaraq fəaliyyətsiz olan" },
+  { word: "dubiously", level: "C2", pos: "adv.", def: "in a way that shows doubt or hesitation", example: "She dubiously eyed the contract before signing it.", az_word: "şübhə ilə", az_def: "şübhə və ya tərəddüd göstərərək" },
+  { word: "eccentric", level: "C1", pos: "adj.", def: "unconventional and slightly strange", example: "The eccentric millionaire lived alone in a huge mansion.", az_word: "qeyri-adi, qəribə", az_def: "adət-ənənəyə uymayan, qəribə davranan" },
+  { word: "egregious", level: "C2", pos: "adj.", def: "outstandingly bad; shocking", example: "The report revealed an egregious error in the calculations.", az_word: "dəhşətli, ifrat", az_def: "olduqca pis, çox təəccüblü" },
+  { word: "elicit", level: "C2", pos: "v.", def: "to draw out a response or reaction", example: "The question elicited an unexpected answer from the audience.", az_word: "ortaya çıxarmaq", az_def: "müəyyən bir reaksiya və ya cavab almaq" },
+  { word: "emanate", level: "C2", pos: "v.", def: "to issue or spread out from a source", example: "A strange smell emanated from the old kitchen.", az_word: "yayılmaq, qaynaqlanmaq", az_def: "bir mənbədən yaranıb yayılmaq" },
+  { word: "embark", level: "C1", pos: "v.", def: "to begin a new project or undertaking", example: "She embarked on a new career in journalism.", az_word: "başlamaq, girişmək", az_def: "yeni bir işə başlamaq" },
+  { word: "eminent", level: "C1", pos: "adj.", def: "famous and respected, especially in a particular field", example: "He consulted an eminent professor of economics.", az_word: "məşhur, görkəmli", az_def: "öz sahəsində tanınan və hörmət olunan" },
+  { word: "empathy", level: "B2", pos: "n.", def: "the ability to understand and share another's feelings", example: "Good leaders show empathy toward their employees.", az_word: "empatiya, anlayış", az_def: "başqasının hisslərini başa düşmə bacarığı" },
+  { word: "encompass", level: "C1", pos: "v.", def: "to include a wide range of things", example: "The course encompasses both theory and practical skills.", az_word: "əhatə etmək", az_def: "geniş bir sahəni özündə birləşdirmək" },
+  { word: "endeavor", level: "C1", pos: "n.", def: "an attempt to achieve a goal", example: "Their business endeavor finally succeeded after years of effort.", az_word: "cəhd, səy", az_def: "bir məqsədə nail olmaq üçün cəhd" },
+  { word: "enigmatic", level: "C2", pos: "adj.", def: "difficult to interpret or understand; mysterious", example: "The artist remained an enigmatic figure throughout his life.", az_word: "sirli, anlaşılmaz", az_def: "izahı çətin, sirli olan" },
+  { word: "enthrall", level: "C2", pos: "v.", def: "to capture the fascinated attention of", example: "The performance enthralled audiences around the world.", az_word: "valeh etmək", az_def: "tamaşaçının diqqətini tam cəlb etmək" },
+  { word: "epitomize", level: "C2", pos: "v.", def: "to be a perfect example of something", example: "This building epitomizes modern architectural design.", az_word: "təcəssüm etdirmək", az_def: "bir şeyin ən mükəmməl nümunəsi olmaq" },
+  { word: "equanimity", level: "C2", pos: "n.", def: "mental calmness in a difficult situation", example: "She handled the crisis with remarkable equanimity.", az_word: "sakitlik, dinclik", az_def: "çətin vəziyyətdə göstərilən ruh sakitliyi" },
+  { word: "eradicate", level: "C1", pos: "v.", def: "to destroy or get rid of something completely", example: "The vaccine helped eradicate the disease worldwide.", az_word: "kökündən yox etmək", az_def: "bir şeyi tam şəkildə aradan götürmək" },
+  { word: "erratic", level: "C2", pos: "adj.", def: "not even or regular; unpredictable", example: "His erratic behavior worried his close friends.", az_word: "qeyri-sabit, dəyişkən", az_def: "qeyri-müntəzəm və gözlənilməz olan" },
+  { word: "escalate", level: "C1", pos: "v.", def: "to increase rapidly in extent or intensity", example: "Tensions between the two countries continued to escalate.", az_word: "şiddətlənmək, artmaq", az_def: "sürətlə şiddətlənmək" },
+  { word: "euphoric", level: "C2", pos: "adj.", def: "feeling intense excitement and happiness", example: "The team was euphoric after winning the championship.", az_word: "şən, sevincli", az_def: "intensiv sevinc və xoşbəxtlik hissi" },
+  { word: "evade", level: "C1", pos: "v.", def: "to escape or avoid, especially cleverly", example: "He managed to evade the question entirely.", az_word: "yan keçmək, qaçmaq", az_def: "məharətlə bir şeydən yayınmaq" },
+  { word: "evoke", level: "C1", pos: "v.", def: "to bring a feeling or memory into the mind", example: "The old photograph evoked memories of her childhood.", az_word: "yada salmaq, oyatmaq", az_def: "bir hiss və ya xatirəni canlandırmaq" },
+  { word: "exempt", level: "C1", pos: "adj.", def: "free from an obligation imposed on others", example: "Charities are often exempt from certain taxes.", az_word: "azad, müstəsna", az_def: "başqalarına qoyulan öhdəlikdən azad olan" },
+  { word: "exemplify", level: "C1", pos: "v.", def: "to be a typical example of something", example: "Her career exemplifies dedication and hard work.", az_word: "nümunə göstərmək", az_def: "bir şeyin tipik nümunəsi olmaq" },
+  { word: "exonerate", level: "C2", pos: "v.", def: "to absolve someone from blame", example: "New DNA evidence finally exonerated the wrongly convicted man.", az_word: "təqsirdən azad etmək", az_def: "günahdan azad etmək" },
+  { word: "expedite", level: "C2", pos: "v.", def: "to make an action or process happen sooner", example: "We hired extra staff to expedite the delivery process.", az_word: "tezləşdirmək", az_def: "bir prosesi daha tez həyata keçirmək" },
+  { word: "explicit", level: "B2", pos: "adj.", def: "stated clearly and in detail, leaving no room for confusion", example: "He gave explicit instructions on how to use the equipment.", az_word: "açıq, dəqiq", az_def: "aydın və ətraflı şəkildə ifadə olunan" },
+  { word: "exploit", level: "B2", pos: "v.", def: "to make full use of and benefit from a resource", example: "The company exploited new markets in Asia.", az_word: "istifadə etmək (faydalanmaq)", az_def: "bir resursdan tam fayda əldə etmək" },
+  { word: "extol", level: "C2", pos: "v.", def: "to praise enthusiastically", example: "The critics extolled the film's stunning visuals.", az_word: "tərifləmək", az_def: "böyük həvəslə tərifləmək" },
+  { word: "extraneous", level: "C2", pos: "adj.", def: "irrelevant or unrelated to the subject", example: "He removed all extraneous details from his report.", az_word: "əlaqəsiz, artıq", az_def: "mövzu ilə əlaqəsi olmayan" },
+  { word: "fabricate", level: "C2", pos: "v.", def: "to invent or create false information", example: "The journalist was fired for fabricating quotes.", az_word: "uydurmaq, saxtalaşdırmaq", az_def: "yalan məlumat yaratmaq" },
+  { word: "facilitate", level: "B2", pos: "v.", def: "to make an action or process easier", example: "Technology has facilitated communication across the globe.", az_word: "asanlaşdırmaq", az_def: "bir prosesi daha asan etmək" },
+  { word: "falter", level: "C1", pos: "v.", def: "to lose strength or momentum; to hesitate", example: "Her voice faltered as she spoke about the loss.", az_word: "tərəddüd etmək, zəifləmək", az_def: "güc itirmək, tərəddüd göstərmək" },
+  { word: "fastidious", level: "C2", pos: "adj.", def: "very attentive to detail and accuracy; fussy", example: "He's extremely fastidious about how his desk is organized.", az_word: "həddindən artıq diqqətli, ərklik edən", az_def: "detallara çox diqqət yetirən, çox seçici" },
+  { word: "fervent", level: "C2", pos: "adj.", def: "having or displaying passionate intensity", example: "She is a fervent believer in social justice.", az_word: "alovlu, qızğın", az_def: "böyük ehtirasla bağlı olan" },
+  { word: "flagrant", level: "C2", pos: "adj.", def: "conspicuously or obviously offensive", example: "It was a flagrant breach of the agreement.", az_word: "açıq-aşkar (mənfi)", az_def: "açıq şəkildə qanun və ya qaydaya zidd olan" },
+  { word: "fledgling", level: "C2", pos: "adj.", def: "new and inexperienced", example: "The fledgling company struggled to find investors.", az_word: "təcrübəsiz, yeni", az_def: "yeni yaranmış, hələ təcrübəsi olmayan" },
+  { word: "forfeit", level: "C2", pos: "v.", def: "to lose or give up as a penalty", example: "He forfeited his deposit by canceling at the last minute.", az_word: "itirmək (cəza olaraq)", az_def: "cəza olaraq bir şeydən məhrum olmaq" },
+  { word: "fortify", level: "C1", pos: "v.", def: "to strengthen something against attack or weakness", example: "The walls were fortified to withstand the siege.", az_word: "möhkəmləndirmək", az_def: "hücuma qarşı gücləndirmək" },
+  { word: "fraudulent", level: "C1", pos: "adj.", def: "obtained or done by deception", example: "The investigation uncovered a fraudulent insurance claim.", az_word: "fırıldaqçı, saxta", az_def: "aldatma yolu ilə əldə edilmiş" },
+  { word: "frivolous", level: "C2", pos: "adj.", def: "not having any serious purpose or value", example: "The judge dismissed the lawsuit as frivolous.", az_word: "boş, əhəmiyyətsiz", az_def: "ciddi məqsədi olmayan" },
+  { word: "fundamental", level: "B2", pos: "adj.", def: "forming a necessary base or core", example: "Trust is fundamental to any healthy relationship.", az_word: "əsas, vacib", az_def: "bir şeyin zəruri əsasını təşkil edən" },
+  { word: "furtive", level: "C2", pos: "adj.", def: "attempting to avoid notice; secretive", example: "She gave a furtive glance toward the door.", az_word: "gizli, oğurluqcasına", az_def: "diqqəti çəkməmək üçün gizli hərəkət edən" },
+  { word: "genuine", level: "B2", pos: "adj.", def: "truly what it is said to be; authentic", example: "His apology seemed genuine and heartfelt.", az_word: "həqiqi, səmimi", az_def: "həqiqətən olduğu kimi olan" },
+  { word: "grapple", level: "C1", pos: "v.", def: "to struggle to deal with or understand something", example: "The country is still grappling with high inflation.", az_word: "çarpışmaq, mübarizə aparmaq", az_def: "bir problemlə mübarizə aparmaq" },
+  { word: "gratuitous", level: "C2", pos: "adj.", def: "uncalled for; lacking good reason", example: "The movie was criticized for its gratuitous violence.", az_word: "səbəbsiz, lazımsız", az_def: "heç bir əsaslı səbəb olmadan edilən" },
+  { word: "gravitate", level: "C2", pos: "v.", def: "to move toward something because of its attraction", example: "Most guests gravitated toward the buffet table.", az_word: "cəzb olunmaq", az_def: "bir şeyə doğru cəzb olunaraq yaxınlaşmaq" },
+  { word: "grim", level: "B2", pos: "adj.", def: "very serious or worrying", example: "The doctor delivered the grim news as gently as possible.", az_word: "qaranlıq, ağır", az_def: "çox ciddi və narahatedici" },
+  { word: "hackneyed", level: "C2", pos: "adj.", def: "overused and unoriginal", example: "The speech was full of hackneyed phrases.", az_word: "köhnəlmiş, bayağı", az_def: "həddindən artıq istifadə olunmuş, orijinal olmayan" },
+  { word: "hapless", level: "C2", pos: "adj.", def: "unfortunate; unlucky", example: "The hapless tourist lost his passport on the first day.", az_word: "bədbəxt, şanssız", az_def: "uğursuz, bəxti gətirməyən" },
+  { word: "hazardous", level: "B2", pos: "adj.", def: "risky; dangerous", example: "Working at such heights without safety gear is hazardous.", az_word: "təhlükəli", az_def: "risk daşıyan, təhlükəli" },
+  { word: "heed", level: "C1", pos: "v.", def: "to pay attention to advice or a warning", example: "He failed to heed the doctor's warning about his diet.", az_word: "diqqət yetirmək", az_def: "məsləhət və ya xəbərdarlığa əməl etmək" },
+  { word: "hinder", level: "C1", pos: "v.", def: "to create difficulties that delay progress", example: "Poor infrastructure hindered the country's economic growth.", az_word: "maneə törətmək", az_def: "tərəqqiyə mane olmaq" },
+  { word: "hypothetical", level: "B2", pos: "adj.", def: "based on a suggested idea, not proven facts", example: "Let's consider a hypothetical scenario for a moment.", az_word: "fərziyyə üzərində qurulan", az_def: "sübut olunmamış fikrə əsaslanan" },
+  { word: "idiosyncratic", level: "C2", pos: "adj.", def: "peculiar to an individual", example: "Each writer has their own idiosyncratic style.", az_word: "fərdi, özünəməxsus", az_def: "şəxsə xas olan, özünəməxsus" },
+  { word: "ignite", level: "C1", pos: "v.", def: "to start a fire, or to trigger strong emotion", example: "His speech ignited a passionate debate among the crowd.", az_word: "alovlanmaq, alışdırmaq", az_def: "od yandırmaq, və ya güclü hisslər oyatmaq" },
+  { word: "illicit", level: "C1", pos: "adj.", def: "forbidden by law, rules, or custom", example: "Police seized a large amount of illicit drugs.", az_word: "qanunsuz, qadağan olunmuş", az_def: "qanun və ya qaydaya zidd olan" },
+  { word: "immerse", level: "B2", pos: "v.", def: "to involve oneself deeply in an activity", example: "She immersed herself in the local culture during her trip.", az_word: "qərq olmaq, dalmaq", az_def: "bir fəaliyyətə dərindən qoşulmaq" },
+  { word: "impede", level: "C1", pos: "v.", def: "to delay or block the progress of", example: "Heavy snowfall impeded traffic across the city.", az_word: "mane olmaq", az_def: "tərəqqini gecikdirmək, bloklamaq" },
+  { word: "imperative", level: "C1", pos: "adj.", def: "extremely important; urgent", example: "It's imperative that we finish this report by Friday.", az_word: "vacib, zəruri", az_def: "təcili əhəmiyyət kəsb edən" },
+  { word: "impetuous", level: "C2", pos: "adj.", def: "acting quickly without thought or care", example: "His impetuous decision cost him a great deal of money.", az_word: "tələsik, fikirsiz", az_def: "düşünmədən tələsik hərəkət edən" },
+  { word: "implausible", level: "C2", pos: "adj.", def: "not seeming reasonable or probable", example: "The alibi he gave was completely implausible.", az_word: "inandırıcı olmayan", az_def: "ağlabatan görünməyən" },
+  { word: "implicate", level: "C2", pos: "v.", def: "to show that someone is involved in a crime", example: "New evidence implicated two more suspects in the case.", az_word: "qarışdırmaq, ifşa etmək", az_def: "kiməsə bir cinayətdə iştirakını göstərmək" },
+  { word: "inadvertent", level: "C2", pos: "adj.", def: "happening unintentionally", example: "It was an inadvertent mistake, not a deliberate act.", az_word: "bilməyərəkdən, təsadüfi", az_def: "qəsdən deyil, təsadüfən baş verən" },
+  { word: "incite", level: "C2", pos: "v.", def: "to encourage someone to act violently or unlawfully", example: "He was accused of inciting the crowd to riot.", az_word: "təhrik etmək", az_def: "kimisə zorakı hərəkətə təhrik etmək" },
+  { word: "inclination", level: "C1", pos: "n.", def: "a person's natural tendency or preference", example: "She has always had an inclination toward the arts.", az_word: "meyl, həvəs", az_def: "təbii meyl və ya seçim" },
+  { word: "incongruous", level: "C2", pos: "adj.", def: "not in harmony or keeping with the surroundings", example: "The modern building looked incongruous next to the ancient castle.", az_word: "uyğunsuz", az_def: "ətraf mühitlə uyğun olmayan" },
+  { word: "incorporate", level: "B2", pos: "v.", def: "to include something as part of a whole", example: "The new design incorporates several environmental features.", az_word: "daxil etmək, birləşdirmək", az_def: "bir şeyi bütövün tərkibinə qatmaq" },
+  { word: "incur", level: "C1", pos: "v.", def: "to become subject to something unwelcome as a result of an action", example: "Late payments will incur an additional fee.", az_word: "məruz qalmaq, yüklənmək", az_def: "bir hərəkət nəticəsində arzuolunmaz bir şeyə düçar olmaq" },
+  { word: "indignant", level: "C1", pos: "adj.", def: "feeling or showing anger at unfair treatment", example: "She was indignant at being blamed for the mistake.", az_word: "qəzəblənmiş (haqsızlığa görə)", az_def: "ədalətsizliyə görə qəzəblənmə hissi" },
+  { word: "indiscriminate", level: "C2", pos: "adj.", def: "done without careful judgment", example: "The bombing caused indiscriminate damage to the entire city.", az_word: "ayrı-seçkisiz, fikirsiz", az_def: "diqqətli mühakimə olmadan edilən" },
+  { word: "inexorable", level: "C2", pos: "adj.", def: "impossible to stop or prevent", example: "Technology's inexorable advance continues to change society.", az_word: "qarşısıalınmaz", az_def: "dayandırılması mümkün olmayan" },
+  { word: "infallible", level: "C2", pos: "adj.", def: "incapable of failing or being wrong", example: "No system is truly infallible, no matter how advanced.", az_word: "səhvsiz, mütləq doğru", az_def: "səhv etməsi mümkün olmayan" },
+  { word: "infiltrate", level: "C2", pos: "v.", def: "to enter a place secretly in order to gain information", example: "Agents managed to infiltrate the criminal organization.", az_word: "sızmaq, daxil olmaq (gizli)", az_def: "məlumat əldə etmək üçün gizli daxil olmaq" },
+  { word: "inflict", level: "C1", pos: "v.", def: "to cause something unpleasant to be experienced", example: "The storm inflicted serious damage on the coastal town.", az_word: "vurmaq, məruz qoymaq", az_def: "xoşagəlməz bir şeyə səbəb olmaq" },
+  { word: "ingenious", level: "C1", pos: "adj.", def: "clever, original, and inventive", example: "The engineers came up with an ingenious solution to the problem.", az_word: "dahiyanə, yaradıcı", az_def: "ağıllı və orijinal şəkildə yaradıcı olan" },
+  { word: "inhibit", level: "C1", pos: "v.", def: "to hinder or restrain a process or action", example: "Fear of failure can inhibit creative thinking.", az_word: "maneə törətmək, ləngitmək", az_def: "bir prosesi ləngitmək və ya dayandırmaq" },
+  { word: "innate", level: "C1", pos: "adj.", def: "inborn; natural rather than learned", example: "She has an innate talent for music.", az_word: "təbii, doğuşdan olan", az_def: "öyrənilmiş deyil, anadangəlmə olan" },
+  { word: "innovative", level: "B2", pos: "adj.", def: "featuring new methods or ideas", example: "The company is known for its innovative approach to design.", az_word: "innovativ, yeniliksevər", az_def: "yeni metod və ideyalar tətbiq edən" },
+  { word: "insatiable", level: "C2", pos: "adj.", def: "impossible to satisfy", example: "He has an insatiable curiosity about the natural world.", az_word: "doymaz, tükənməz", az_def: "doydurulması mümkün olmayan" },
+  { word: "insolvent", level: "C2", pos: "adj.", def: "unable to pay debts owed", example: "The company was declared insolvent after years of losses.", az_word: "müflis, ödəmə qabiliyyəti olmayan", az_def: "borclarını ödəyə bilməyən" },
+  { word: "instigate", level: "C2", pos: "v.", def: "to bring about or initiate an action or event", example: "The reporter's story instigated a formal investigation.", az_word: "təşviq etmək, başlatmaq", az_def: "bir hadisəni başlatmaq, təşviq etmək" },
+  { word: "intermittent", level: "C2", pos: "adj.", def: "occurring at irregular intervals; not continuous", example: "There will be intermittent showers throughout the afternoon.", az_word: "ara-sıra olan, fasiləli", az_def: "müntəzəm olmayan fasilələrlə baş verən" },
+  { word: "intricacy", level: "C2", pos: "n.", def: "the state of being very complex or detailed", example: "Understanding the intricacy of the legal system takes years.", az_word: "mürəkkəblik", az_def: "çox mürəkkəb və detallı olma vəziyyəti" },
+  { word: "intuitive", level: "C1", pos: "adj.", def: "based on instinct or feeling rather than reasoning", example: "The new app has a very intuitive interface.", az_word: "intuitiv, hiss ilə dərk edilən", az_def: "məntiqdən çox instinktə əsaslanan" },
+  { word: "invoke", level: "C1", pos: "v.", def: "to cite or use as an authority or justification", example: "The lawyer invoked an old precedent to support her case.", az_word: "müraciət etmək, istinad etmək", az_def: "bir əsas kimi istinad etmək" },
+  { word: "irrevocable", level: "C2", pos: "adj.", def: "not able to be changed, reversed, or recovered", example: "Once submitted, the decision is irrevocable.", az_word: "geri dönməz", az_def: "dəyişdirilməsi və ya geri qaytarılması mümkün olmayan" },
+  { word: "jeopardize", level: "C1", pos: "v.", def: "to put something at risk of being lost or harmed", example: "One mistake could jeopardize the entire project.", az_word: "təhlükəyə atmaq", az_def: "bir şeyi itirilmə riski qarşısında qoymaq" },
+  { word: "judicious", level: "C2", pos: "adj.", def: "having or showing good judgment", example: "She made a judicious decision based on all the facts.", az_word: "müdrik, ağılla qərar verən", az_def: "yaxşı mühakimə qabiliyyəti göstərən" },
+  { word: "wistful", level: "C2", pos: "adj.", def: "having a feeling of vague or regretful longing", example: "She gave a wistful smile when remembering her childhood home.", az_word: "həsrətli, kədərli arzulu", az_def: "qarışıq həsrət və kədər hissi ilə dolu olan" },
+  { word: "latent", level: "C2", pos: "adj.", def: "existing but not yet developed or visible", example: "The training helped uncover his latent leadership skills.", az_word: "gizli, açılmamış", az_def: "mövcud olan, lakin hələ üzə çıxmamış" },
+  { word: "lavish", level: "C1", pos: "adj.", def: "sumptuously rich, elaborate, or luxurious", example: "They held a lavish wedding ceremony by the sea.", az_word: "təmtəraqlı, israfçı", az_def: "çox bol və zəngin olan" },
+  { word: "legitimate", level: "B2", pos: "adj.", def: "conforming to the law or to rules", example: "She had a legitimate reason for missing the meeting.", az_word: "qanuni, əsaslı", az_def: "qanuna və ya qaydaya uyğun olan" },
+  { word: "lethargic", level: "C2", pos: "adj.", def: "lacking energy; sluggish", example: "The heat made everyone feel lethargic in the afternoon.", az_word: "yorğun, halsız", az_def: "enerjisi olmayan, ləng hərəkət edən" },
+  { word: "lucrative", level: "C1", pos: "adj.", def: "producing a great deal of profit", example: "He left teaching for a more lucrative career in finance.", az_word: "gəlirli, sərfəli", az_def: "böyük gəlir gətirən" },
+  { word: "malleable", level: "C2", pos: "adj.", def: "easily influenced or shaped", example: "Young minds tend to be more malleable than older ones.", az_word: "uyğunlaşan, formalaşan", az_def: "asanlıqla təsir edilə bilən, formalaşdırıla bilən" },
+  { word: "mandate", level: "C1", pos: "n.", def: "an official order or commission to do something", example: "The government received a mandate to reform the tax system.", az_word: "səlahiyyət, vəzifə", az_def: "bir işi görmək üçün rəsmi tapşırıq" },
+  { word: "manifest", level: "C1", pos: "v.", def: "to display a quality or feeling clearly", example: "Her anxiety began to manifest as physical symptoms.", az_word: "üzə çıxmaq, təzahür etmək", az_def: "bir hissin və ya keyfiyyətin aşkar şəkildə göstərilməsi" },
+  { word: "marginal", level: "C1", pos: "adj.", def: "minor in extent or importance", example: "The new policy had only a marginal effect on sales.", az_word: "kiçik, əhəmiyyətsiz", az_def: "əhəmiyyət baxımından kiçik olan" },
+  { word: "meticulously", level: "C1", pos: "adv.", def: "in a very careful and precise manner", example: "The room had been meticulously cleaned before the inspection.", az_word: "diqqətlə, ətraflı şəkildə", az_def: "çox diqqətli və dəqiq şəkildə" },
+  { word: "mundane", level: "C1", pos: "adj.", def: "lacking interest or excitement; dull", example: "Most of his job involves mundane administrative tasks.", az_word: "adi, maraqsız", az_def: "maraq və həyəcan oyatmayan, gündəlik" },
+  { word: "negate", level: "C2", pos: "v.", def: "to nullify or make ineffective", example: "One bad review can negate weeks of positive marketing.", az_word: "ləğv etmək, etibarsız etmək", az_def: "bir şeyin təsirini sıfıra endirmək" },
+  { word: "notwithstanding", level: "C2", pos: "prep.", def: "in spite of; despite", example: "Notwithstanding the heavy rain, the event went ahead as planned.", az_word: "buna baxmayaraq", az_def: "bir şeyə baxmayaraq, ona rəğmən" },
+  { word: "nullify", level: "C2", pos: "v.", def: "to make legally void or ineffective", example: "The court moved to nullify the unfair contract.", az_word: "ləğv etmək (hüquqi)", az_def: "hüquqi baxımdan etibarsız etmək" },
+  { word: "obstinate", level: "C2", pos: "adj.", def: "stubbornly refusing to change one's opinion", example: "He remained obstinate even when shown clear evidence.", az_word: "inadcıl", az_def: "fikrini dəyişməyə qəti razı olmayan" },
+  { word: "opaque", level: "C2", pos: "adj.", def: "not able to be seen through; hard to understand", example: "The company's pricing policy remains frustratingly opaque.", az_word: "qeyri-şəffaf, anlaşılmaz", az_def: "görünməyən, başa düşülməsi çətin olan" },
+  { word: "oscillate", level: "C2", pos: "v.", def: "to move repeatedly between two states or positions", example: "Her mood seemed to oscillate between joy and frustration.", az_word: "tərəddüd etmək, yırğalanmaq", az_def: "iki vəziyyət arasında təkrar-təkrar dəyişmək" },
+  { word: "overt", level: "C2", pos: "adj.", def: "done or shown openly; not secret", example: "There was no overt sign of disagreement during the meeting.", az_word: "açıq, gizli olmayan", az_def: "gizli olmayan, aşkar göstərilən" },
+  { word: "painstaking", level: "C1", pos: "adj.", def: "done with great care and thoroughness", example: "The restoration required painstaking attention to detail.", az_word: "əziyyətli, diqqətli", az_def: "böyük diqqət və zəhmətlə edilən" },
+  { word: "palpable", level: "C2", pos: "adj.", def: "able to be felt or perceived; obvious", example: "There was a palpable sense of relief in the room.", az_word: "hiss olunan, aydın", az_def: "aydın şəkildə hiss edilən" },
+  { word: "pertinent", level: "C1", pos: "adj.", def: "relevant to a particular matter", example: "Please include only information pertinent to the case.", az_word: "aidiyyatlı, münasib", az_def: "müəyyən bir mövzuya uyğun olan" },
+  { word: "vicarious", level: "C2", pos: "adj.", def: "experienced through the actions of another person", example: "She felt a vicarious thrill watching her daughter's success.", az_word: "dolayı yolla yaşanan", az_def: "başqasının hərəkəti vasitəsilə yaşanan" },
+  { word: "zenith", level: "C2", pos: "n.", def: "the highest point reached; the peak", example: "He reached the zenith of his career in his late forties.", az_word: "zirvə, ən yüksək nöqtə", az_def: "çatılan ən yüksək nöqtə" },
+  { word: "acquiesce", level: "C2", pos: "v.", def: "to accept something reluctantly but without protest", example: "After much debate, the board finally acquiesced to the new plan.", az_word: "razılaşmaq (könülsüz)", az_def: "etiraz etmədən, lakin könülsüz qəbul etmək" },
 ];
 
 /* ---------- Inspiration Quotes Bank ---------- */
 const INSPIRATIONS = {
   az: [
-    "Hər gün bir addım: Məqsədlərinizə doğru inamla irəliləyin (strive)!",
-    "Bilik sərvətdir. Cəhd etməkdən və öyrənməkdən əsla vaz keçməyin.",
-    "Böyük nailiyyətlər hər gün atılan kiçik və məqsədyönlü addımlarla gəlir.",
-    "Zirvəyə gedən yol davamlı inkişafdan və əzmkarlıqdan keçir.",
-    "Öyrəndiyiniz hər yeni söz sizi gələcək hədəflərinizə bir addım daha yaxınlaşdırır."
+    "Hər gün bir addım: bu gün öyrən — {word} — və məqsədlərinə doğru inamla irəliləy!",
+    "Bilik sərvətdir. Məsələn, {word} sözü kimi yeni ifadələr öyrənməkdən əsla vaz keçmə.",
+    "Böyük nailiyyətlər kiçik addımlarla gəlir — {word} sözünü bu gün yadında saxla!",
+    "Zirvəyə gedən yol davamlı inkişafdan keçir. Bu gün {word} sözü ilə bir addım da irəli get.",
+    "Öyrəndiyin hər yeni söz səni hədəfinə yaxınlaşdırır — bu gün {word} sözünü mənimsə.",
+    "Söz bazanı genişlət: {word} sözü ilə bu gün lüğətini zənginləşdir.",
+    "Davamlılıq qələbənin açarıdır. {word} sözünü öyrənərək seriana davam et!",
+    "Hər kiçik səy böyük nəticəyə aparır — bu gün {word} sözünü kəşf et."
   ],
   en: [
-    "Step by step: Strive toward your goals with unwavering confidence!",
-    "Knowledge is wealth. Never stop trying and exploring.",
-    "Great achievements are built on small, purposeful daily steps.",
-    "The path to the top requires consistent growth and relentless perseverance.",
-    "Every new word you master brings you one step closer to your ultimate dreams."
+    "Step by step: learn {word} today and move toward your goals with confidence!",
+    "Knowledge is wealth — words like {word} are worth exploring every single day.",
+    "Great achievements are built on small steps. Remember {word} today!",
+    "The path to the top requires consistent growth — master {word} and keep climbing.",
+    "Every new word brings you closer to your goals — make {word} yours today.",
+    "Expand your vocabulary: today's word to remember is {word}.",
+    "Consistency is the key to success. Learn {word} and keep your streak alive!",
+    "Every small effort leads to a big result — discover {word} today."
   ]
 };
+
+/* ---------- Pronunciation (Text-to-Speech) ---------- */
+function speakWord(word) {
+  if (!word) return;
+  if (!('speechSynthesis' in window)) return;
+  try {
+    window.speechSynthesis.cancel(); // stop any current speech first
+    const utter = new SpeechSynthesisUtterance(word);
+    utter.lang = 'en-US';
+    utter.rate = 0.9;
+    window.speechSynthesis.speak(utter);
+  } catch (err) {
+    console.error('Speech synthesis error:', err);
+  }
+}
 
 /* ---------- Translation Dictionary for App Interface ---------- */
 const UI_STRINGS = {
   az: {
-    subHeading: "Gündəlik beş C1/C2 İngilis sözü ilə biliklərinizi zənginləşdirin — hədəflərinizə doğru oyunlarla yoxlayın.",
     tabWords: "Günün sözləri",
     tabMyWords: "Sözlərim",
     tabGame: "Oyunlar",
@@ -1041,10 +1351,9 @@ const UI_STRINGS = {
     spellFeedbackWrong: "Səhv — düzgün yazılışı: ",
     quizComplete: "Bitdi",
     quizResultText: "Nəticə: {correct} / {total} düzgün.",
-    cardHiddenPlaceholderText: "Sözü görmək üçün klikləyin 👀"
+    titleSpeak: "Tələffüzü dinlə"
   },
   en: {
-    subHeading: "Enrich your knowledge with five daily C1/C2 English words — then challenge yourself with games.",
     tabWords: "Daily Words",
     tabMyWords: "My Words",
     tabGame: "Games",
@@ -1104,17 +1413,24 @@ const UI_STRINGS = {
     spellFeedbackWrong: "Incorrect — correct spelling: ",
     quizComplete: "Finished",
     quizResultText: "Result: {correct} / {total} correct.",
-    cardHiddenPlaceholderText: "Click to reveal the word 👀"
+    titleSpeak: "Listen to pronunciation"
   }
 };
 
 let currentUiLang = 'az';
-let revealedCards = {}; // Tracks which card IDs are revealed in the daily list
 
 function updateInspirationQuote() {
   const quotes = INSPIRATIONS[currentUiLang];
   const randomIdx = Math.floor(Math.random() * quotes.length);
-  document.getElementById('inspiration-text').textContent = quotes[randomIdx];
+  const template = quotes[randomIdx];
+
+  // Pick a random word from the full vocabulary bank
+  const randomVocab = VOCAB[Math.floor(Math.random() * VOCAB.length)];
+  const wordHtml = currentUiLang === 'az'
+    ? `<strong>${randomVocab.word}</strong> (${randomVocab.az_word})`
+    : `<strong>${randomVocab.word}</strong>`;
+
+  document.getElementById('inspiration-text').innerHTML = template.replace('{word}', wordHtml);
 }
 
 function switchUiLanguage(lang) {
@@ -1125,7 +1441,6 @@ function switchUiLanguage(lang) {
   const s = UI_STRINGS[lang];
   
   // Static content update
-  document.getElementById('app-sub-heading').innerHTML = s.subHeading;
   document.getElementById('tab-words').textContent = s.tabWords;
   document.getElementById('tab-mywords').textContent = s.tabMyWords;
   document.getElementById('tab-game').textContent = s.tabGame;
@@ -1284,21 +1599,17 @@ function renderWordList() {
     if (!w) return;
     const isLearned = !!state.learnedWords[w.word];
     const isInMyWords = (state.myWords || []).some(m => m.word === w.word);
-    const isRevealed = !!revealedCards[wordStr];
 
     const card = document.createElement('div');
-    // Words are hidden by default under .hidden-mode until clicked
-    card.className = 'word-card' + (isLearned ? ' word-card-learned' : '') + (!isRevealed ? ' hidden-mode' : '');
+    card.className = 'word-card' + (isLearned ? ' word-card-learned' : '');
     card.dataset.wordStr = wordStr;
     
     card.innerHTML = `
-      <div class="card-hidden-placeholder">
-        ${UI_STRINGS[currentUiLang].cardHiddenPlaceholderText}
-      </div>
       <div class="card-revealed-content">
         <div class="entry-top">
           <div class="headword-row">
             <p class="headword">${w.word}</p>
+            <button class="speak-btn" data-speak="${w.word}" title="${UI_STRINGS[currentUiLang].titleSpeak}" aria-label="${UI_STRINGS[currentUiLang].titleSpeak}">🔊</button>
             <span class="level-tag">${w.level}</span>
             <span class="pos">${w.pos}</span>
             ${isLearned ? `<span class="learned-badge">${UI_STRINGS[currentUiLang].badgeLearned}</span>` : ''}
@@ -1318,16 +1629,17 @@ function renderWordList() {
         <p class="example">"${w.example}"</p>
       </div>
     `;
-    
-    // Clicking the placeholder reveals it
-    card.addEventListener('click', (e) => {
-      if (!revealedCards[wordStr]) {
-        revealedCards[wordStr] = true;
-        card.classList.remove('hidden-mode');
-      }
-    });
 
-    // Prevent toggle/pin button clicks from re-hiding or interfering
+    // Pronunciation button: speaks the word aloud
+    const speakBtn = card.querySelector('.speak-btn');
+    if (speakBtn) {
+      speakBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        speakWord(speakBtn.getAttribute('data-speak'));
+      });
+    }
+
+    // Prevent toggle/pin button clicks from interfering
     const pinBtn = card.querySelector('.mywords-pin-btn');
     if(pinBtn) {
       pinBtn.addEventListener('click', async (e) => {
@@ -1366,10 +1678,10 @@ document.getElementById('next-batch-btn').addEventListener('click', async () => 
   state.dayCount += 1;
   state.streak += 1;
   state.todaysWords = pickBatch(state.batchIndex).map(w => w.word);
-  revealedCards = {}; // Reset revelations for the new batch
   await saveState();
   renderWordList();
   buildGameFromWords(true);
+  updateInspirationQuote();
 });
 
 /* ---------- Tabs ---------- */
