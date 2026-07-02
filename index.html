@@ -409,19 +409,27 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('translate-check-btn').addEventListener('click', doTranslationCheck);
   document.getElementById('translate-next-btn').addEventListener('click', () => { translateIndex = (translateIndex + 1) % 5; showTranslationPassage(); });
 
-  // Dinamik JSON Sorğusu
-  fetch('data.json')
-    .then(response => response.json())
-    .then(data => {
-      VOCAB = data;
-      saveState();
-      initGames();
-    })
-    .catch(error => {
-      console.error('JSON faylı yüklənərkən xəta yarandı:', error);
-      document.getElementById('word-list').innerHTML = '<p style="color:red; padding:20px;">Məlumat bazası (data.json) yüklənə bilmədi. Lokal serverin aktiv olduğundan əmin olun.</p>';
-    });
-});
+fetch('data.json?v=' + Date.now()) // ?v= timestamp əlavə edərək brauzerin həmişə ən son JSON-u yükləməsini təmin edir
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Şəbəkə xətası: ' + response.status);
+    }
+    return response.json();
+  })
+  .then(data => {
+    VOCAB = data;
+    saveState();
+    initGames();
+  })
+  .catch(error => {
+    console.error('JSON faylı yüklənərkən xəta yarandı:', error);
+    document.getElementById('word-list').innerHTML = `
+      <div style="color: var(--clay); background: var(--clay-soft); padding: 20px; border-radius: var(--radius); border: 1px solid var(--paper-line);">
+        <strong>Məlumat bazası yüklənə bilmədi.</strong><br>
+        Zəhmət olmasa 'data.json' faylının GitHub-da eyni qovluqda və adının tamamilə kiçik hərflərlə olduğundan əmin olun.
+      </div>
+    `;
+  });
 
 function saveState() {
   localStorage.setItem('tenaxicon_state', JSON.stringify(state));
