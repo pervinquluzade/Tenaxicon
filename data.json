@@ -1,35 +1,52 @@
+[
   {
     "word": "Acumen",
-    "part_of_speech": "noun",
-    "definition": "Fərasət, zehni itilik, uzaqgörənlik.",
-    "example": "Her business acumen helped the company double its profits.",
-    "category": "Intellect & Behavior"
+    "level": "C1",
+    "pos": "noun",
+    "def": "The ability to make good judgments and quick decisions, typically in a particular domain.",
+    "az_word": "fərasət / zehni itilik / uzaqgörənlik",
+    "az_text": "Onun biznes fərasəti şirkətin mənfəətini iki dəfə artırmağa kömək etdi. Strategiyanı düzgün qurmaq hər kəsin bacardığı bir iş deyil. İdarəetmədə bu cür uzaqgörənlik çox vacibdir.",
+    "en_text": "Her business acumen helped the company double its profits. Setting up the strategy correctly is not something everyone can do. This kind of foresight is crucial in management.",
+    "example": "Her business acumen helped the company double its profits."
   },
   {
     "word": "Astute",
-    "part_of_speech": "adjective",
-    "definition": "Ayıq-sayıq, zəki, hiyləgər dərəcədə ağıllı.",
-    "example": "An astute observer would notice the subtle changes in the market.",
-    "category": "Intellect & Behavior"
+    "level": "C1",
+    "pos": "adj.",
+    "def": "Having or showing an ability to accurately assess situations or people and turn this to one's advantage.",
+    "az_word": "ayıq-sayıq / zəki / uzaqgörən",
+    "az_text": "Ayıq-sayıq bir müşahidəçi bazardakı incə dəyişiklikləri dərhal hiss edərdi. Riskli addımlardan qaçmaq üçün mütləq diqqətli olmaq lazımdır. O, hər zaman qərarlarında çox zəkidir.",
+    "en_text": "An astute observer would notice the subtle changes in the market. To avoid risky steps, it is absolutely necessary to be careful. He is always very astute in his decisions.",
+    "example": "An astute observer would notice the subtle changes in the market."
   },
   {
     "word": "Cognizant",
-    "part_of_speech": "adjective",
-    "definition": "Xəbərdar olmaq, dərk etmək (adətən 'of' ilə işlənir).",
-    "example": "We are fully cognizant of the potential risks involved.",
-    "category": "Intellect & Behavior"
+    "level": "C2",
+    "pos": "adj.",
+    "def": "Having knowledge or being aware of something.",
+    "az_word": "xəbərdar / dərk edən",
+    "az_text": "Biz mövcud ola biləcək potensial risklərdən tamamilə xəbərdarıq. Buna görə də təhlükəsizlik tədbirlərini maksimum dərəcədə artırmışıq. Hər bir addım öncədən hesablanıb.",
+    "en_text": "We are fully cognizant of the potential risks involved. Therefore, we have maximized the safety measures. Every single step is calculated in advance.",
+    "example": "We are fully cognizant of the potential risks involved."
   },
   {
     "word": "Erudite",
-    "part_of_speech": "adjective",
-    "definition": "Savadlı, elmli, geniş dünyagörüşlü.",
-    "example": "The professor gave an erudite lecture on medieval history.",
-    "category": "Intellect & Behavior"
+    "level": "C2",
+    "pos": "adj.",
+    "def": "Having or showing great knowledge or learning.",
+    "az_word": "savadlı / elmli / dünyagörüşlü",
+    "az_text": "Professor orta əsrlər tarixi haqqında çox savadlı bir mühazirə söylədi. Onun dərin bilikləri bütün auditoriyanı heyran etdi. Bu mövzuda onun qədər elmli mütəxəssis az tapılar.",
+    "en_text": "The professor gave an erudite lecture on medieval history. His deep knowledge amazed the entire audience. Few experts are as erudite as him on this subject.",
+    "example": "The professor gave an erudite lecture on medieval history."
   },
   {
     "word": "Meticulous",
-    "part_of_speech": "adjective",
-    "definition": "Həddən artıq diqqətli, vasvası, hər xırdalığa fikir verən.",
-    "example": "The laboratory analysis requires meticulous attention to detail.",
-    "category": "Intellect & Behavior"
+    "level": "C1",
+    "pos": "adj.",
+    "def": "Showing great attention to detail; very careful and precise.",
+    "az_word": "həddən artıq diqqətli / vasvası / titiz",
+    "az_text": "Laboratoriya analizi hər bir xırdalığa qarşı həddən artıq diqqətli yanaşma tələb edir. Kiçik bir səhv belə nəticəni tamamilə dəyişə bilər. Cihazların kalibrlənməsi xüsusi titizlik istəyir.",
+    "en_text": "The laboratory analysis requires meticulous attention to detail. Even a small error can completely alter the result. Calibration of devices requires special meticulousness.",
+    "example": "The laboratory analysis requires meticulous attention to detail."
   }
+]
