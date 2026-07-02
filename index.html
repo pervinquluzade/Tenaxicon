@@ -261,6 +261,19 @@
   .chart-axis-label { font-size: 9px; fill: var(--ink-soft); font-family: var(--sans); }
   .chart-value-label { font-size: 9.5px; fill: var(--ink); font-family: var(--sans); font-weight: 600; }
   .chart-empty { font-size: 13px; color: var(--ink-soft); text-align: center; padding: 20px 0; }
+
+  .mini-stats-block { margin-top: 22px; }
+  .mini-stats-row { display: flex; gap: 10px; text-align: center; }
+  .mini-stat { flex: 1; display: flex; flex-direction: column; gap: 2px; padding: 4px 2px; }
+  .mini-stat b { font-family: var(--serif); font-size: 22px; color: var(--teal); font-weight: 400; }
+  .mini-stat span { font-size: 11px; color: var(--ink-soft); line-height: 1.3; }
+  .mini-heat-row { display: flex; gap: 5px; justify-content: center; margin: 16px 0 4px; }
+  .mini-heat-cell { width: 26px; height: 26px; border-radius: 6px; background: var(--paper); display: flex; align-items: center; justify-content: center; font-size: 9.5px; color: var(--ink-soft); }
+  .mini-heat-cell.today { box-shadow: inset 0 0 0 1.5px var(--clay); }
+  .mini-heat-cell.lvl-1 { background: #cfe6e3; color: var(--ink); }
+  .mini-heat-cell.lvl-2 { background: #9dcdc8; color: var(--ink); }
+  .mini-heat-cell.lvl-3 { background: #63aca6; color: #fff; }
+  .mini-heat-cell.lvl-4 { background: var(--teal); color: #fff; font-weight: 700; }
 </style>
 </head>
 <body>
@@ -273,6 +286,7 @@
     </div>
     <p class="eyebrow"><span id="lbl-day">Gün</span> <span id="day-count">1</span> · C1 / C2</p>
     <h1>Tenaxicon</h1>
+    <p class="sub" id="today-date-label"></p>
   </header>
 
   <nav class="tabs" role="tablist">
@@ -293,6 +307,16 @@
     <div class="btn-row">
       <button class="btn primary" id="next-batch-btn">Yeni 5 söz</button>
       <button class="btn" id="goto-game-btn">Oyunda məşq et</button>
+    </div>
+
+    <div class="stats-block mini-stats-block">
+      <div class="mini-stats-row">
+        <div class="mini-stat"><b id="mini-total-learned">0</b><span id="lbl-mini-total-learned">cəmi öyrənilib</span></div>
+        <div class="mini-stat"><b id="mini-today-count">0</b><span id="lbl-mini-today-count">bu gün öyrənilib</span></div>
+        <div class="mini-stat"><b id="mini-streak-count">1</b><span id="lbl-mini-streak-count">gün seriya</span></div>
+      </div>
+      <div class="mini-heat-row" id="mini-heat-row"></div>
+      <button class="btn" id="mini-stats-link-btn" style="width:100%; margin-top:12px;">Ətraflı statistika →</button>
     </div>
   </section>
 
@@ -434,7 +458,10 @@ const LOCALIZATION = {
     tab_stats: "Statistika", lbl_cal_title: "Təqvim", lbl_cal_less: "Az", lbl_cal_more: "Çox",
     lbl_chart_title: "İrəliləyiş qrafiki", chart_empty: "Hələ məlumat yoxdur. Söz öyrənməyə başlayın!",
     chart_unit: "söz", months: ["Yanvar","Fevral","Mart","Aprel","May","İyun","İyul","Avqust","Sentyabr","Oktyabr","Noyabr","Dekabr"],
-    dows: ["B.e","Ç.a","Ç","C.a","C","Ş","B"]
+    dows: ["B.e","Ç.a","Ç","C.a","C","Ş","B"],
+    weekdays_full: ["Bazar ertəsi","Çərşənbə axşamı","Çərşənbə","Cümə axşamı","Cümə","Şənbə","Bazar"],
+    lbl_mini_total_learned: "cəmi öyrənilib", lbl_mini_today_count: "bu gün öyrənilib", lbl_mini_streak_count: "gün seriya",
+    mini_stats_link: "Ətraflı statistika →"
   },
   en: {
     tab_words: "Words of the Day", tab_mywords: "My Words", tab_game: "Games", tab_learned: "Learned",
@@ -450,7 +477,10 @@ const LOCALIZATION = {
     tab_stats: "Stats", lbl_cal_title: "Calendar", lbl_cal_less: "Less", lbl_cal_more: "More",
     lbl_chart_title: "Progress Chart", chart_empty: "No data yet. Start learning words!",
     chart_unit: "words", months: ["January","February","March","April","May","June","July","August","September","October","November","December"],
-    dows: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
+    dows: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
+    weekdays_full: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    lbl_mini_total_learned: "total learned", lbl_mini_today_count: "learned today", lbl_mini_streak_count: "day streak",
+    mini_stats_link: "View full statistics →"
   }
 };
 
@@ -484,6 +514,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('goto-game-btn').addEventListener('click', () => {
     document.getElementById('tab-game').click();
+  });
+
+  document.getElementById('mini-stats-link-btn').addEventListener('click', () => {
+    document.getElementById('tab-stats').click();
   });
 
   document.getElementById('ui-lang-az').addEventListener('click', () => { state.uiLang = 'az'; saveState(); });
@@ -604,6 +638,11 @@ function updateUI() {
   document.getElementById('lbl-cal-less').innerText = dict.lbl_cal_less;
   document.getElementById('lbl-cal-more').innerText = dict.lbl_cal_more;
   document.getElementById('lbl-chart-title').innerText = dict.lbl_chart_title;
+  document.getElementById('lbl-mini-total-learned').innerText = dict.lbl_mini_total_learned;
+  document.getElementById('lbl-mini-today-count').innerText = dict.lbl_mini_today_count;
+  document.getElementById('lbl-mini-streak-count').innerText = dict.lbl_mini_streak_count;
+  document.getElementById('mini-stats-link-btn').innerText = dict.mini_stats_link;
+  document.getElementById('today-date-label').innerText = formatTodayLong();
 
   document.getElementById('lbl-day').innerText = dict.lbl_day;
   document.getElementById('lbl-learned-stat').innerText = dict.lbl_learned_stat;
@@ -649,6 +688,7 @@ function updateUI() {
   renderLearnedWords();
   renderCalendar();
   renderProgressChart();
+  renderMiniStats();
 }
 
 function renderDailyWords() {
@@ -739,6 +779,37 @@ function renderLearnedWords() {
     div.querySelector('.speak-btn').addEventListener('click', (e) => speakWord(item.word, e.currentTarget));
     container.appendChild(div);
   });
+}
+
+function formatTodayLong() {
+  const dict = LOCALIZATION[state.uiLang];
+  const now = new Date();
+  const dowIndex = (now.getDay() + 6) % 7; // convert Sun=0 based to Mon=0 based
+  return `${dict.weekdays_full[dowIndex]}, ${now.getDate()} ${dict.months[now.getMonth()]} ${now.getFullYear()}`;
+}
+
+function renderMiniStats() {
+  const dict = LOCALIZATION[state.uiLang];
+  const todayKey = todayStr();
+  document.getElementById('mini-total-learned').innerText = state.learnedWords.length;
+  document.getElementById('mini-today-count').innerText = (state.learnedLog && state.learnedLog[todayKey]) || 0;
+  document.getElementById('mini-streak-count').innerText = state.streakCount;
+
+  const row = document.getElementById('mini-heat-row');
+  row.innerHTML = '';
+  const now = new Date();
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(now);
+    d.setDate(now.getDate() - i);
+    const key = todayStr(d);
+    const count = (state.learnedLog && state.learnedLog[key]) || 0;
+    const level = heatLevel(count);
+    const cell = document.createElement('div');
+    cell.className = `mini-heat-cell ${level ? 'lvl-' + level : ''} ${key === todayKey ? 'today' : ''}`;
+    cell.innerText = dict.dows[(d.getDay() + 6) % 7][0];
+    if (count) cell.title = `${key}: ${count} ${dict.chart_unit}`;
+    row.appendChild(cell);
+  }
 }
 
 function todayStr(d) {
