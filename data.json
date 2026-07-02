@@ -36,6 +36,33 @@
     "category": "Intellect & Behavior"
   },
   {
+    "word": "Idiosyncrasy",
+    "part_of_speech": "noun",
+    "definition": "Özünəməxsusluq, xarakterik qəribəlik.",
+    "az_word": "Özünəməxsusluq, xarakterik qəribəlik.",
+    "def": "A distinctive or peculiar feature or characteristic of a place or thing.",
+    "example": "One of his idiosyncrasies is that he only writes with green ink.",
+    "category": "Intellect & Behavior"
+  },
+  {
+    "word": "Impetuous",
+    "part_of_speech": "adjective",
+    "definition": "Hövsələsiz, impulsiv, nəticəsini düşünmədən hərəkət edən.",
+    "az_word": "Hövsələsiz, impulsiv, nəticəsini düşünmədən hərəkət edən.",
+    "def": "Acting or done quickly and without thought or care.",
+    "example": "An impetuous decision can lead to long-term regrets.",
+    "category": "Intellect & Behavior"
+  },
+  {
+    "word": "Magnanimous",
+    "part_of_speech": "adjective",
+    "definition": "Alicənab, rəhmdil, comərd.",
+    "az_word": "Alicənab, rəhmdil, comərd.",
+    "def": "Very generous or forgiving, especially toward a rival.",
+    "example": "He was magnanimous in defeat, praising his opponent's skills.",
+    "category": "Intellect & Behavior"
+  },
+  {
     "word": "Meticulous",
     "part_of_speech": "adjective",
     "definition": "Həddən artıq diqqətli, vasvası, hər xırdalığa fikir verən.",
@@ -43,5 +70,680 @@
     "def": "Showing great attention to detail; very careful and precise.",
     "example": "The laboratory analysis requires meticulous attention to detail.",
     "category": "Intellect & Behavior"
+  },
+  {
+    "word": "Sagacity",
+    "part_of_speech": "noun",
+    "definition": "Müdriklik, uzaqgörənlik, dərin zəka.",
+    "az_word": "Müdriklik, uzaqgörənlik, dərin zəka.",
+    "def": "The quality of being sagacious; keen mental discernment and good judgment.",
+    "example": "The leader's sagacity guided the nation through the crisis.",
+    "category": "Intellect & Behavior"
+  },
+  {
+    "word": "Vacillate",
+    "part_of_speech": "verb",
+    "definition": "Tərəddüd etmək, qərarsız qalmaq.",
+    "az_word": "Tərəddüd etmək, qərarsız qalmaq.",
+    "def": "To alternate or waver between different opinions or actions.",
+    "example": "She vacillated between accepting the new job offer or staying.",
+    "category": "Intellect & Behavior"
+  },
+  {
+    "word": "Anachronism",
+    "part_of_speech": "noun",
+    "definition": "Zaman xətası, dövrünə uyğun olmayan köhnəlmiş şey/hadisə.",
+    "az_word": "Zaman xətası, dövrünə uyğun olmayan.",
+    "def": "A thing belonging or appropriate to a period other than that in which it exists.",
+    "example": "Using a typewriter in a modern digital office is an anachronism.",
+    "category": "Change, Evolution & Time"
+  },
+  {
+    "word": "Catalyst",
+    "part_of_speech": "noun",
+    "definition": "Katalizator, bir hadisənin sürətlənməsinə səbəb olan amil.",
+    "az_word": "Katalizator, sürətləndirici amil.",
+    "def": "A person or thing that precipitates an event.",
+    "example": "The new policy acted as a catalyst for economic growth.",
+    "category": "Change, Evolution & Time"
+  },
+  {
+    "word": "Ephemeral",
+    "part_of_speech": "adjective",
+    "definition": "Keçici, müvəqqəti, ömrü qısa olan.",
+    "az_word": "Keçici, müvəqqəti.",
+    "def": "Lasting for a very short time.",
+    "example": "Fame in the internet age is often ephemeral.",
+    "category": "Change, Evolution & Time"
+  },
+  {
+    "word": "Immutability",
+    "part_of_speech": "noun",
+    "definition": "Dəyişməzlik, sabitlik.",
+    "az_word": "Dəyişməzlik, sabitlik.",
+    "def": "The quality of being unchangeable.",
+    "example": "The immutability of physical laws governs the universe.",
+    "category": "Change, Evolution & Time"
+  },
+  {
+    "word": "Incipient",
+    "part_of_speech": "adjective",
+    "definition": "Başlanğıc mərhələsində olan, yeni başlayan.",
+    "az_word": "Başlanğıc mərhələsində olan.",
+    "def": "In an initial stage; beginning to happen or develop.",
+    "example": "The doctor detected an incipient signs of the illness.",
+    "category": "Change, Evolution & Time"
+  },
+  {
+    "word": "Metamorphosis",
+    "part_of_speech": "noun",
+    "definition": "Metamorfoz, tamamilə başqa bir formaya çevrilmə.",
+    "az_word": "Metamorfoz, formaya çevrilmə.",
+    "def": "A change of the form or nature of a thing or person.",
+    "example": "The small startup underwent a complete metamorphosis into a global tech giant.",
+    "category": "Change, Evolution & Time"
+  },
+  {
+    "word": "Perennial",
+    "part_of_speech": "adjective",
+    "definition": "Daimi, uzunmüddətli, hər il təkrarlanan.",
+    "az_word": "Daimi, uzunmüddətli.",
+    "def": "Lasting or existing for a long or apparently infinite time.",
+    "example": "Lack of resources is a perennial problem for the department.",
+    "category": "Change, Evolution & Time"
+  },
+  {
+    "word": "Transient",
+    "part_of_speech": "adjective",
+    "definition": "Müvəqqəti, gəldi-gedər.",
+    "az_word": "Müvəqqəti, gəldi-gedər.",
+    "def": "Lasting only for a short time; impermanent.",
+    "example": "The storm caused only transient damage to the power grid.",
+    "category": "Change, Evolution & Time"
+  },
+  {
+    "word": "Vicissitude",
+    "part_of_speech": "noun",
+    "definition": "Həyatın eniş-yoxuşları, taleyin dəyişkənliyi.",
+    "az_word": "Həyatın eniş-yoxuşları.",
+    "def": "A change of circumstances or fortune, typically one that is unwelcome or unpleasant.",
+    "example": "She managed to survive the vicissitudes of a long and turbulent career.",
+    "category": "Change, Evolution & Time"
+  },
+  {
+    "word": "Acrimonious",
+    "part_of_speech": "adjective",
+    "definition": "Acıqlı, nifrət dolu, sərt (müzakirə və ya münasibət).",
+    "az_word": "Acıqlı, nifrət dolu, sərt.",
+    "def": "Angry and bitter (typically of speech or a debate).",
+    "example": "Their divorce legal battles became increasingly acrimonious.",
+    "category": "Conflict, Criticism & Consensus"
+  },
+  {
+    "word": "Animosity",
+    "part_of_speech": "noun",
+    "definition": "Düşmənçilik, ədavət, güclü nifrət.",
+    "az_word": "Düşmənçilik, ədavət.",
+    "def": "Strong hostility.",
+    "example": "There is no lingering animosity between the two former business partners.",
+    "category": "Conflict, Criticism & Consensus"
+  },
+  {
+    "word": "Capitulate",
+    "part_of_speech": "verb",
+    "definition": "Təslim olmaq, şərtləri qəbul etmək.",
+    "az_word": "Təslim olmaq, şərtləri qəbul etmək.",
+    "def": "To cease to resist an opponent or an unwelcome demand.",
+    "example": "The management finally capitulated to the demands of the labor union.",
+    "category": "Conflict, Criticism & Consensus"
+  },
+  {
+    "word": "Concede",
+    "part_of_speech": "verb",
+    "definition": "Gözlənildiyindən tez razılaşmaq, məğlubiyyəti və ya həqiqəti qəbul etmək.",
+    "az_word": "Məğlubiyyəti qəbul etmək.",
+    "def": "To admit that something is true or valid after first denying or resisting it.",
+    "example": "He was forced to concede that his initial estimates were wrong.",
+    "category": "Conflict, Criticism & Consensus"
+  },
+  {
+    "word": "Contentious",
+    "part_of_speech": "adjective",
+    "definition": "Mübahisəli, fikir ayrılığına səbəb olan.",
+    "az_word": "Mübahisəli, fikir ayrılığına səbəb olan.",
+    "def": "Causing or likely to cause an argument; controversial.",
+    "example": "Genetically modified food remains a highly contentious issue.",
+    "category": "Conflict, Criticism & Consensus"
+  },
+  {
+    "word": "Disparage",
+    "part_of_speech": "verb",
+    "definition": "Aşağılamaq, kiçiltmək, əhəmiyyətsiz görmək.",
+    "az_word": "Aşağılamaq, kiçiltmək.",
+    "def": "To regard or represent as being of little worth.",
+    "example": "You shouldn't disparage his achievements just because you dislike him.",
+    "category": "Conflict, Criticism & Consensus"
+  },
+  {
+    "word": "Exacerbate",
+    "part_of_speech": "verb",
+    "definition": "Vəziyyəti daha da pisləşdirmək, gərginləşdirmək.",
+    "az_word": "Vəziyyəti pisləşdirmək.",
+    "def": "To make a problem, bad situation, or negative feeling worse.",
+    "example": "Scratching an insect bite will only exacerbate the itch.",
+    "category": "Conflict, Criticism & Consensus"
+  },
+  {
+    "word": "Exonerate",
+    "part_of_speech": "verb",
+    "definition": "Bəraət qazandırmaq, təqsirsiz olduğunu sübut etmək.",
+    "az_word": "Bəraət qazandırmaq.",
+    "def": "To absolve someone from blame for a fault or wrongdoing.",
+    "example": "The newly discovered DNA evidence will exonerate the defendant.",
+    "category": "Conflict, Criticism & Consensus"
+  },
+  {
+    "word": "Invective",
+    "part_of_speech": "noun",
+    "definition": "Söyüş, təhqir, ağır tənqid.",
+    "az_word": "Söyüş, təhqir, ağır tənqid.",
+    "def": "Insulting, abusive, or highly critical language.",
+    "example": "The text was full of harsh personal invective against the critic.",
+    "category": "Conflict, Criticism & Consensus"
+  },
+  {
+    "word": "Mollify",
+    "part_of_speech": "verb",
+    "definition": "Sakitləşdirmək, yumşaltmaq, qəzəbini yatırmaq.",
+    "az_word": "Sakitləşdirmək, yumşaltmaq.",
+    "def": "To appease the anger or anxiety of someone.",
+    "example": "The company offered a full refund to mollify the angry customer.",
+    "category": "Conflict, Criticism & Consensus"
+  },
+  {
+    "word": "Obsequious",
+    "part_of_speech": "adjective",
+    "definition": "Yaltaq, nökərsayaq mütilik göstərən.",
+    "az_word": "Yaltaq, nökərsayaq mütilik.",
+    "def": "Obedient or attentive to an excessive or servile degree.",
+    "example": "The manager was surrounded by obsequious assistants who agreed with everything.",
+    "category": "Conflict, Criticism & Consensus"
+  },
+  {
+    "word": "Pugnacious",
+    "part_of_speech": "adjective",
+    "definition": "Dava-dalaş axtaran, dalaşqan, təcavüzkar.",
+    "az_word": "Dalaşqan, təcavüzkar.",
+    "def": "Eager or quick to argue, quarrel, or fight.",
+    "example": "The politician's pugnacious attitude alienated many moderate voters.",
+    "category": "Conflict, Criticism & Consensus"
+  },
+  {
+    "word": "Rancor",
+    "part_of_speech": "noun",
+    "definition": "Kin, ədavət, keçmişdən qalan acıq.",
+    "az_word": "Kin, ədavət.",
+    "def": "Bitterness or resentfulness, especially when long-standing.",
+    "example": "They parted ways without any bitterness or rancor.",
+    "category": "Conflict, Criticism & Consensus"
+  },
+  {
+    "word": "Reconcile",
+    "part_of_speech": "verb",
+    "definition": "Barışdırmaq, iki ziddiyyətli fikri uzlaşdırmaq.",
+    "az_word": "Barışdırmaq, uzlaşdırmaq.",
+    "def": "To restore friendly relations between; to make consistent or compatible.",
+    "example": "It is difficult to reconcile economic growth with environmental protection.",
+    "category": "Conflict, Criticism & Consensus"
+  },
+  {
+    "word": "Repudiate",
+    "part_of_speech": "verb",
+    "definition": "İmtina etmək, rədd etmək, tanımamaq.",
+    "az_word": "İmtina etmək, rədd etmək.",
+    "def": "To refuse to accept or be associated with.",
+    "example": "The government chose to repudiate the old treaty.",
+    "category": "Conflict, Criticism & Consensus"
+  },
+  {
+    "word": "Scathing",
+    "part_of_speech": "adjective",
+    "definition": "Sərt, amansız, məhvredici (tənqid).",
+    "az_word": "Sərt, amansız tənqid.",
+    "def": "Witheringly scornful; severely critical.",
+    "example": "The journalist wrote a scathing review of the new movie.",
+    "category": "Conflict, Criticism & Consensus"
+  },
+  {
+    "word": "Vindicate",
+    "part_of_speech": "verb",
+    "definition": "Doğruluğunu sübut etmək, bəraət qazandırmaq, haqlı çıxarmaq.",
+    "az_word": "Doğruluğunu sübut etmək.",
+    "def": "To clear of blame or suspicion.",
+    "example": "The success of the product vindicated the design team's risky strategy.",
+    "category": "Conflict, Criticism & Consensus"
+  },
+  {
+    "word": "Copious",
+    "part_of_speech": "adjective",
+    "definition": "Bol, çoxlu miqdarda.",
+    "az_word": "Bol, çoxlu miqdarda.",
+    "def": "Abundant in supply or quantity.",
+    "example": "She took copious notes during the three-hour lecture.",
+    "category": "Abundance, Scarcity & Quantity"
+  },
+  {
+    "word": "Dearth",
+    "part_of_speech": "noun",
+    "definition": "Qıtlıq, çatışmazlıq.",
+    "az_word": "Qıtlıq, çatışmazlıq.",
+    "def": "A scarcity or lack of something.",
+    "example": "There is a dearth of reliable data regarding this rare polymer.",
+    "category": "Abundance, Scarcity & Quantity"
+  },
+  {
+    "word": "Glut",
+    "part_of_speech": "noun",
+    "definition": "Həddinden artıq çoxluq, bazarda təklif bolluğu.",
+    "az_word": "Həddən artıq çoxluq.",
+    "def": "An excessively abundant supply of something.",
+    "example": "The current glut of oil has caused prices to drop significantly.",
+    "category": "Abundance, Scarcity & Quantity"
+  },
+  {
+    "word": "Inordinate",
+    "part_of_speech": "adjective",
+    "definition": "Həddinden artıq, normadan çox.",
+    "az_word": "Həddən artıq, normadan çox.",
+    "def": "Unusually or disproportionately large; excessive.",
+    "example": "They spent an inordinate amount of time discussing minor details.",
+    "category": "Abundance, Scarcity & Quantity"
+  },
+  {
+    "word": "Multifaceted",
+    "part_of_speech": "adjective",
+    "definition": "Çoxşaxəli, çoxcəhətli.",
+    "az_word": "Çoxşaxəli, çoxcəhətli.",
+    "def": "Having many facets; many-sided.",
+    "example": "Managing a major international project is a multifaceted task.",
+    "category": "Abundance, Scarcity & Quantity"
+  },
+  {
+    "word": "Paucity",
+    "part_of_speech": "noun",
+    "definition": "Azlıq, qıtlıq, yetərsiz miqdar.",
+    "az_word": "Azlıq, qıtlıq, yetərsizlik.",
+    "def": "The presence of something only in small or insufficient quantities or amounts.",
+    "example": "A paucity of evidence prevented the police from making an arrest.",
+    "category": "Abundance, Scarcity & Quantity"
+  },
+  {
+    "word": "Plethora",
+    "part_of_speech": "noun",
+    "definition": "Həddinden artıq bolluq, ifrat dərəcədə çoxluq.",
+    "az_word": "Həddən artıq bolluq.",
+    "def": "A large or excessive amount of something.",
+    "example": "The internet provides a plethora of information on any given topic.",
+    "category": "Abundance, Scarcity & Quantity"
+  },
+  {
+    "word": "Prodigious",
+    "part_of_speech": "adjective",
+    "definition": "Heyranedici dərəcədə böyük, nəhəng, qeyri-adi.",
+    "az_word": "Heyranedici, qeyri-adi.",
+    "def": "Remarkably or impressively great in extent, size, or degree.",
+    "example": "The young pianist demonstrated a prodigious talent.",
+    "category": "Abundance, Scarcity & Quantity"
+  },
+  {
+    "word": "Profuse",
+    "part_of_speech": "adjective",
+    "definition": "Bol, fəvvarə vuran, hədsiz (məs. tərləmə, üzr istəmə).",
+    "az_word": "Bol, hədsiz.",
+    "def": "Exuberantly plentiful; abundant.",
+    "example": "He offered profuse apologies for making us wait so long.",
+    "category": "Abundance, Scarcity & Quantity"
+  },
+  {
+    "word": "Superfluous",
+    "part_of_speech": "adjective",
+    "definition": "Artıq, lüzumsuz, lazımsız dərəcədə çox.",
+    "az_word": "Artıq, lüzumsuz.",
+    "def": "Unnecessary, especially through being more than enough.",
+    "example": "Delete any superfluous words to make your sentences clearer.",
+    "category": "Abundance, Scarcity & Quantity"
+  },
+  {
+    "word": "Ambiguity",
+    "part_of_speech": "noun",
+    "definition": "Qeyri-müəyyənlik, ikimənalılıq.",
+    "az_word": "Qeyri-müəyyənlik, ikimənalılıq.",
+    "def": "The quality of being open to more than one interpretation.",
+    "example": "To avoid legal disputes, we must eliminate any ambiguity in the contract.",
+    "category": "Abstract Concepts & Truth"
+  },
+  {
+    "word": "Axiomatic",
+    "part_of_speech": "adjective",
+    "definition": "Aksioomatik, aşkar, sübuta ehtiyacı olmayan.",
+    "az_word": "Aşkar, sübuta ehtiyacı olmayan.",
+    "def": "Self-evident or unquestionable.",
+    "example": "It is axiomatic that good communication is vital for teamwork.",
+    "category": "Abstract Concepts & Truth"
+  },
+  {
+    "word": "Chimerical",
+    "part_of_speech": "adjective",
+    "definition": "Xəyali, xülyadır mahiyyətli, gerçəkləşməsi qeyri-mümkün olan.",
+    "az_word": "Xəyali, xülyadır.",
+    "def": "Realized as impossible to achieve; purely imaginary.",
+    "example": "His schemes for getting rich quickly were completely chimerical.",
+    "category": "Abstract Concepts & Truth"
+  },
+  {
+    "word": "Conundrum",
+    "part_of_speech": "noun",
+    "definition": "Tapmaca, çətin tapılan sual, müəmmalı problem.",
+    "az_word": "Müəmmalı problem.",
+    "def": "A confusing and difficult problem or question.",
+    "example": "How to reduce inflation without rising unemployment is a major economic conundrum.",
+    "category": "Abstract Concepts & Truth"
+  },
+  {
+    "word": "Dichotomy",
+    "part_of_speech": "noun",
+    "definition": "Dixotomiya, iki tam zidd hissəyə bölünmə.",
+    "az_word": "Zidd hissələrə bölünmə.",
+    "def": "A division or contrast between two things that are represented as being opposed or entirely different.",
+    "example": "There is a strict dichotomy between the theory and actual practice.",
+    "category": "Abstract Concepts & Truth"
+  },
+  {
+    "word": "Duplicity",
+    "part_of_speech": "noun",
+    "definition": "İkiüzlülük, riyakarlıq, aldatma.",
+    "az_word": "İkiüzlülük, riyakarlıq.",
+    "def": "Deceitfulness; double-dealing.",
+    "example": "The spy's duplicity was finally uncovered by intelligence officers.",
+    "category": "Abstract Concepts & Truth"
+  },
+  {
+    "word": "Empirical",
+    "part_of_speech": "adjective",
+    "definition": "Empirik, təcrübəyə və müşahidəyə əsaslanan.",
+    "az_word": "Təcrübəyə əsaslanan.",
+    "def": "Based on, concerned with, or verifiable by observation or experience rather than theory or pure logic.",
+    "example": "Our conclusions are backed by solid empirical evidence.",
+    "category": "Abstract Concepts & Truth"
+  },
+  {
+    "word": "Equivocal",
+    "part_of_speech": "adjective",
+    "definition": "İkimənalı, şübhəli, dəqiq olmayan.",
+    "az_word": "İkimənalı, şübhəli.",
+    "def": "Open to more than one interpretation; ambiguous.",
+    "example": "The results of the initial laboratory test were equivocal.",
+    "category": "Abstract Concepts & Truth"
+  },
+  {
+    "word": "Fallacious",
+    "part_of_speech": "adjective",
+    "definition": "Səhv, yanlış fikrə əsaslanan, aldadıcı.",
+    "az_word": "Səhv, aldadıcı.",
+    "def": "Based on a mistaken belief.",
+    "example": "The argument rests on a fallacious assumption.",
+    "category": "Abstract Concepts & Truth"
+  },
+  {
+    "word": "Intangible",
+    "part_of_speech": "adjective",
+    "definition": "Maddi olmayan, gözlə görünməyən, toxunulmaz (məs. dəyər).",
+    "az_word": "Maddi olmayan, görünməz.",
+    "def": "Unable to be touched or grasped; not having physical presence.",
+    "example": "Brand loyalty is an intangible but highly valuable asset.",
+    "category": "Abstract Concepts & Truth"
+  },
+  {
+    "word": "Nepotism",
+    "part_of_speech": "noun",
+    "definition": "Yerlibazlıq, qohumbazlıq (işə götürərkən).",
+    "az_word": "Qohumbazlıq.",
+    "def": "The practice among those with power or influence of favoring relatives or friends.",
+    "example": "The appointment was criticized as a clear case of nepotism.",
+    "category": "Society, Law & Politics"
+  },
+  {
+    "word": "Ostracize",
+    "part_of_speech": "verb",
+    "definition": "Cəmiyyətdən qovmaq, boykot etmək, təcrid etmək.",
+    "az_word": "Cəmiyyətdən təcrid etmək.",
+    "def": "Exclude (someone) from a society or group.",
+    "example": "He was ostracized by his colleagues after blowing the whistle.",
+    "category": "Society, Law & Politics"
+  },
+  {
+    "word": "Sanction",
+    "part_of_speech": "noun/verb",
+    "definition": "Sanksiya, rəsmi icazə və ya cəza tədbiri.",
+    "az_word": "Sanksiya, rəsmi icazə.",
+    "def": "A threatened penalty for disobeying a law or rule.",
+    "example": "The UN voted to impose economic sanctions on the country.",
+    "category": "Society, Law & Politics"
+  },
+  {
+    "word": "Sovereignty",
+    "part_of_speech": "noun",
+    "definition": "Suverenlik, müstəqillik, ali hakimiyyət.",
+    "az_word": "Suverenlik, müstəqillik.",
+    "def": "Supreme power or authority.",
+    "example": "The nation defended its territorial sovereignty during the conflict.",
+    "category": "Society, Law & Politics"
+  },
+  {
+    "word": "Subversive",
+    "part_of_speech": "adjective",
+    "definition": "Dağıdıcı, mövcud sistemi/hökuməti sarsıtmağa yönəlmiş.",
+    "az_word": "Dağıdıcı, sarsıdıcı.",
+    "def": "Seeking or intended to subvert an established system or institution.",
+    "example": "The underground group published subversive articles against the regime.",
+    "category": "Society, Law & Politics"
+  },
+  {
+    "word": "Articulate",
+    "part_of_speech": "adjective/verb",
+    "definition": "Fikrini aydın ifade edən / Səlis danışmaq.",
+    "az_word": "Səlis danışan.",
+    "def": "Having or showing the ability to speak fluently and coherently.",
+    "example": "She is an articulate speaker who clearly delivers her points.",
+    "category": "Style, Expression & Speech"
+  },
+  {
+    "word": "Bombastic",
+    "part_of_speech": "adjective",
+    "definition": "Təmtəraqlı, gurultulu amma içi boş (bəlağətli danışıq).",
+    "az_word": "Təmtəraqlı, içi boş.",
+    "def": "High-sounding but with little meaning; inflated.",
+    "example": "I grew tired of his bombastic speeches and empty promises.",
+    "category": "Style, Expression & Speech"
+  },
+  {
+    "word": "Circumlocution",
+    "part_of_speech": "noun",
+    "definition": "Dolayısı ilə danışma, sözü fırlatma, bəhanəli uzatma.",
+    "az_word": "Sözü fırlatma.",
+    "def": "The use of many words where fewer would do, especially in a deliberate attempt to be vague or evasive.",
+    "example": "Politicians are masters of circumlocution when answering direct questions.",
+    "category": "Style, Expression & Speech"
+  },
+  {
+    "word": "Cogent",
+    "part_of_speech": "adjective",
+    "definition": "İnandırıcı, tutarlı, güclü (arqument).",
+    "az_word": "İnandırıcı, tutarlı.",
+    "def": "Clear, logical, and convincing.",
+    "example": "The lawyer presented a cogent argument that convinced the jury.",
+    "category": "Style, Expression & Speech"
+  },
+  {
+    "word": "Eloquent",
+    "part_of_speech": "adjective",
+    "definition": "Natiq, bəlağətli, təsirli və gözəl danışan.",
+    "az_word": "Təsirli danışan.",
+    "def": "Fluent or persuasive in speaking or writing.",
+    "example": "His eloquent speech moved many in the audience to tears.",
+    "category": "Style, Expression & Speech"
+  },
+  {
+    "word": "Laconic",
+    "part_of_speech": "adjective",
+    "definition": "Lakonik, qısa və lakonik, az sözlə çox məna ifadə edən.",
+    "az_word": "Qısa və mənalı.",
+    "def": "Using very few words.",
+    "example": "His laconic reply left no room for further questioning.",
+    "category": "Style, Expression & Speech"
+  },
+  {
+    "word": "Loquacious",
+    "part_of_speech": "adjective",
+    "definition": "Danışqan, bəlağətli, çox danışmağı sevən.",
+    "az_word": "Danışqan.",
+    "def": "Tending to talk a great deal; talkative.",
+    "example": "She became quite loquacious after a cup of coffee.",
+    "category": "Style, Expression & Speech"
+  },
+  {
+    "word": "Pithy",
+    "part_of_speech": "adjective",
+    "definition": "Qısa və mənalı, tutarlı, yığcam.",
+    "az_word": "Yığcam, mənalı.",
+    "def": "Concise and forcefully expressive.",
+    "example": "The book is full of pithy sayings and practical wisdom.",
+    "category": "Style, Expression & Speech"
+  },
+  {
+    "word": "Rhetoric",
+    "part_of_speech": "noun",
+    "definition": "Ritorika, bəlağət, təsirli danışıq sənəti.",
+    "az_word": "Ritorika, təsirli danışıq.",
+    "def": "The art of effective or persuasive speaking or writing.",
+    "example": "We need to look past the rhetoric and examine the actual facts.",
+    "category": "Style, Expression & Speech"
+  },
+  {
+    "word": "Succinct",
+    "part_of_speech": "adjective",
+    "definition": "Yığcam, qısa və aydın, lakonik.",
+    "az_word": "Yığcam, qısa və aydın.",
+    "def": "Briefly and clearly expressed.",
+    "example": "Please provide a succinct summary of the laboratory findings.",
+    "category": "Style, Expression & Speech"
+  },
+  {
+    "word": "Taciturn",
+    "part_of_speech": "adjective",
+    "definition": "Azdanışan, qapalı, dinc, sakit xasiyyətli.",
+    "az_word": "Azdanışan, qapalı.",
+    "def": "Reserved or uncommunicative in speech; saying little.",
+    "example": "He was a taciturn man who rarely spoke about his past.",
+    "category": "Style, Expression & Speech"
+  },
+  {
+    "word": "Terse",
+    "part_of_speech": "adjective",
+    "definition": "Qısa və kəskin, sərt dərəcədə yığcam.",
+    "az_word": "Qısa və kəskin.",
+    "def": "Sparing in the use of words; abrupt.",
+    "example": "She gave a terse one-word answer that signaled the discussion was over.",
+    "category": "Style, Expression & Speech"
+  },
+  {
+    "word": "Verbose",
+    "part_of_speech": "adjective",
+    "definition": "Çoxsözlü, lüzumsuz dərəcədə uzun yazılmış/deyilmiş.",
+    "az_word": "Çoxsözlü, uzun.",
+    "def": "Using or expressed in more words than are needed.",
+    "example": "His report was too verbose and desperately needed heavy editing.",
+    "category": "Style, Expression & Speech"
+  },
+  {
+    "word": "Capricious",
+    "part_of_speech": "adjective",
+    "definition": "Şıltaq, gözlənilmədən dəyişən, etibarsız.",
+    "az_word": "Şıltaq, qeyri-sabit.",
+    "def": "Given to sudden and unaccountable changes of mood or behavior.",
+    "example": "The administration's capricious decisions made planning impossible.",
+    "category": "Advanced Descriptive Adjectives"
+  },
+  {
+    "word": "Conspicuous",
+    "part_of_speech": "adjective",
+    "definition": "Nəzərəçarpan, diqqətçəkən, aşkar.",
+    "az_word": "Nəzərəçarpan, diqqətçəkən.",
+    "def": "Standing out so as to be clearly visible.",
+    "example": "The green building was conspicuously visible from miles away.",
+    "category": "Advanced Descriptive Adjectives"
+  },
+  {
+    "word": "Deleterious",
+    "part_of_speech": "adjective",
+    "definition": "Zərərli, ziyanverici (sağlamlığa və ya gedişata).",
+    "az_word": "Zərərli, ziyanverici.",
+    "def": "Causing harm or damage.",
+    "example": "Smoking has a proven deleterious effect on lung capacity.",
+    "category": "Advanced Descriptive Adjectives"
+  },
+  {
+    "word": "Corroborate",
+    "part_of_speech": "verb",
+    "definition": "Təsdiqləmək, sübutlarla bərkitmək.",
+    "az_word": "Təsdiqləmək.",
+    "def": "To confirm or give support to (a statement, theory, or finding).",
+    "example": "The laboratory results corroborate our initial theory.",
+    "category": "High-Level Verbs"
+  },
+  {
+    "word": "Curtail",
+    "part_of_speech": "verb",
+    "definition": "Qısaltmaq, məhdudlaşdırmaq, azaltmaq.",
+    "az_word": "Qısaltmaq, azaltmaq.",
+    "def": "To reduce in extent or quantity; impose a restriction on.",
+    "example": "We had to curtail our budget due to unexpected operational costs.",
+    "category": "High-Level Verbs"
+  },
+  {
+    "word": "Delineate",
+    "part_of_speech": "verb",
+    "definition": "Dəqiq təsvir etmək, xətlərini/sərhədlərini çəkmək.",
+    "az_word": "Dəqiq təsvir etmək.",
+    "def": "To describe or portray (something) precisely.",
+    "example": "The contract clearly delineates the responsibilities of each party.",
+    "category": "High-Level Verbs"
+  },
+  {
+    "word": "Disseminate",
+    "part_of_speech": "verb",
+    "definition": "Yaymaq, geniş kütləyə çatdırmaq (məlumat, ideya).",
+    "az_word": "Yaymaq.",
+    "def": "To spread (something, especially information) widely.",
+    "example": "The internet allows us to disseminate information globally within seconds.",
+    "category": "High-Level Verbs"
+  },
+  {
+    "word": "Elicit",
+    "part_of_speech": "verb",
+    "definition": "Meydana çıxarmaq, reaksiya/məlumat qoparmaq.",
+    "az_word": "Meydana çıxarmaq.",
+    "def": "To evoke or draw out (a response, answer, or fact) from someone.",
+    "example": "The questionnaire was designed to elicit feedback from users.",
+    "category": "High-Level Verbs"
+  },
+  {
+    "word": "Emulate",
+    "part_of_speech": "verb",
+    "definition": "Təqlid etmək, bənzəməyə çalışmaq (uğurlu birini).",
+    "az_word": "Təqlid etmək, bənzəmək.",
+    "def": "To match or surpass (a person or achievement), typically by imitation.",
+    "example": "Many young athletes try to emulate their favorite sports stars.",
+    "category": "High-Level Verbs"
   }
 ]
