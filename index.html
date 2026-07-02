@@ -248,7 +248,7 @@
       <div class="stat"><span id="lbl-streak-stat">Seriya:</span> <b id="streak-count">1</b> <span id="lbl-streak-days">gün</span></div>
       <div class="stat"><span id="lbl-total-stat">Ümumi Baza:</span> <b id="total-vocab-count">0</b> <span id="lbl-total-words">söz</span></div>
     </div>
-    <div id="word-list"></div>
+    <div id="word-list">Sözlər yüklənir, zəhmət olmasa gözləyin...</div>
     <div class="btn-row">
       <button class="btn primary" id="next-batch-btn">Yeni 5 söz</button>
       <button class="btn" id="goto-game-btn">Oyunda məşq et</button>
@@ -345,7 +345,6 @@
 </div>
 
 <script>
-// Xarici JSON yüklənənə qədər boş massiv yaradılır
 let VOCAB = [];
 
 const LOCALIZATION = {
@@ -409,31 +408,40 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('translate-check-btn').addEventListener('click', doTranslationCheck);
   document.getElementById('translate-next-btn').addEventListener('click', () => { translateIndex = (translateIndex + 1) % 5; showTranslationPassage(); });
 
-// index.html daxilindəki mövcud fetch hissəsini tamamilə bununla əvəzləyin:
-
-const gitHubJsonUrl = "https://raw.githubusercontent.com/pervinquluzade/Tenaxicon/main/data.json";
-
-fetch(gitHubJsonUrl + '?v=' + Date.now())
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('JSON tapılmadı: ' + response.status);
+  // AVTOMATİK GITHUB LINK TƏYİNİ (ZƏMANƏTLİ METOD)
+  // Bu hissə cari url daxilindən istifadəçi adı və repo adını özü tapır
+  let jsonPath = 'data.json';
+  if (window.location.hostname.includes('github.io')) {
+    const segments = window.location.pathname.split('/');
+    const repoName = segments[1];
+    const user = window.location.hostname.split('.')[0];
+    if(repoName) {
+      jsonPath = `https://raw.githubusercontent.com/${user}/${repoName}/main/data.json`;
     }
-    return response.json();
-  })
-  .then(data => {
-    VOCAB = data;
-    saveState();
-    initGames();
-  })
-  .catch(error => {
-    console.error('Xəta:', error);
-    document.getElementById('word-list').innerHTML = `
-      <div style="color: var(--clay); background: var(--clay-soft); padding: 20px; border-radius: var(--radius); text-align:center;">
-        <strong>Sözlər yüklənə bilmədi!</strong><br>
-        Konsoldakı xəta: ${error.message}
-      </div>
-    `;
-  });
+  }
+
+  fetch(jsonPath + '?v=' + Date.now())
+    .then(response => {
+      if (!response.ok) throw new Error('Status: ' + response.status);
+      return response.json();
+    })
+    .then(data => {
+      VOCAB = data;
+      saveState();
+      initGames();
+    })
+    .catch(error => {
+      console.error('Yükləmə xətası:', error);
+      document.getElementById('word-list').innerHTML = `
+        <div style="color: var(--clay); background: var(--clay-soft); padding: 16px; border-radius: var(--radius); border: 1px solid var(--paper-line); font-size:14px; line-height:1.5;">
+          <strong>Söz bazası yüklənə bilmədi.</strong><br>
+          1. GitHub-da <strong>data.json</strong> faylının index.html ilə eyni qovluqda olduğundan əmin olun.<br>
+          2. JSON faylının daxilində kvadrat mötərizələrin <code>[ ]</code> düzgün qoyulduğunu yoxlayın.<br>
+          <small style="color:gray; display:block; margin-top:8px;">Xəta kodu: ${error.message}</small>
+        </div>
+      `;
+    });
+});
 
 function saveState() {
   localStorage.setItem('tenaxicon_state', JSON.stringify(state));
@@ -477,13 +485,11 @@ function updateUI() {
   document.getElementById('ui-lang-az').classList.toggle('active', lang === 'az');
   document.getElementById('ui-lang-en').classList.toggle('active', lang === 'en');
 
-  // Nav Tabs
   document.getElementById('tab-words').innerText = dict.tab_words;
   document.getElementById('tab-mywords').innerText = dict.tab_mywords;
   document.getElementById('tab-game').innerText = dict.tab_game;
   document.getElementById('tab-learned').innerText = dict.tab_learned;
 
-  // Static labels
   document.getElementById('lbl-day').innerText = dict.lbl_day;
   document.getElementById('lbl-learned-stat').innerText = dict.lbl_learned_stat;
   document.getElementById('lbl-streak-stat').innerText = dict.lbl_streak_stat;
@@ -498,28 +504,23 @@ function updateUI() {
   document.getElementById('learned-empty').innerText = dict.learned_empty;
   document.getElementById('app-footer').innerText = dict.footer_text;
 
-  // Game Subtabs Labels
   document.getElementById('subtab-match').innerText = dict.tab_match;
   document.getElementById('subtab-flash').innerText = dict.tab_flash;
   document.getElementById('subtab-quiz').innerText = dict.tab_quiz;
   document.getElementById('subtab-spell').innerText = dict.tab_spell;
   document.getElementById('subtab-translate').innerText = dict.tab_translate;
 
-  // Match game UI
   document.getElementById('lbl-match-moves').innerText = dict.lbl_match_moves;
   document.getElementById('lbl-match-matches').innerText = dict.lbl_match_matches;
   document.getElementById('restart-btn').innerText = dict.btn_restart;
   document.getElementById('win-banner').innerText = dict.win_match;
 
-  // Flashcards UI
   document.getElementById('flash-prev-btn').innerText = dict.btn_flash_prev;
   document.getElementById('flash-next-btn').innerText = dict.btn_flash_next;
 
-  // Spelling UI
   document.getElementById('spell-input').placeholder = dict.spell_placeholder;
   document.getElementById('spell-submit-btn').innerText = dict.spell_btn;
 
-  // Translation UI
   document.getElementById('translate-input').placeholder = dict.translate_placeholder;
   document.getElementById('translate-check-btn').innerText = dict.translate_btn;
   document.getElementById('translate-next-btn').innerText = dict.translate_next;
@@ -540,6 +541,7 @@ function renderDailyWords() {
   for (let i = 0; i < 5; i++) {
     let index = (state.currentBatchIndex + i) % VOCAB.length;
     let item = VOCAB[index];
+    if(!item) continue;
     const isLearned = state.learnedWords.includes(item.word);
     const isPinned = state.myWords.includes(item.word);
     if (isLearned) currentBatchLearned++;
@@ -550,8 +552,8 @@ function renderDailyWords() {
       <div class="entry-top">
         <div class="headword-row">
           <h3 class="headword">${item.word}</h3>
-          <span class="level-tag">${item.level}</span>
-          <span class="pos">${item.pos}</span>
+          <span class="level-tag">${item.level || 'C1'}</span>
+          <span class="pos">${item.pos || ''}</span>
         </div>
         <div style="display:flex; gap:8px;">
           <button class="mywords-pin-btn ${isPinned ? 'pinned' : ''}">＋</button>
@@ -559,9 +561,9 @@ function renderDailyWords() {
         </div>
       </div>
       <hr class="entry-rule">
-      <p class="def-en">${item.def}</p>
-      <div class="example">"${item.example}"</div>
-      <div class="az-block"><span class="az-word">${item.az_word}</span></div>
+      <p class="def-en">${item.def || ''}</p>
+      <div class="example">"${item.example || ''}"</div>
+      <div class="az-block"><span class="az-word">${item.az_word || ''}</span></div>
     `;
     card.querySelector('.mywords-pin-btn').addEventListener('click', () => {
       if (state.myWords.includes(item.word)) state.myWords = state.myWords.filter(w => w !== item.word);
@@ -607,14 +609,13 @@ function renderLearnedWords() {
   });
 }
 
-/* ---------- OYUN FUNKSİYALARI ---------- */
 let activeBatch = [];
 function getActiveBatch() {
   let b = [];
   if(!VOCAB.length) return b;
   for (let i = 0; i < 5; i++) {
     let index = (state.currentBatchIndex + i) % VOCAB.length;
-    b.push(VOCAB[index]);
+    if(VOCAB[index]) b.push(VOCAB[index]);
   }
   return b;
 }
@@ -629,7 +630,6 @@ function initGames() {
   initTranslationGame();
 }
 
-// 1. Uyğunlaşdırma
 let firstCard = null, secondCard = null, lockBoard = false, matchCount = 0, moveCount = 0;
 function initMatchGame() {
   const board = document.getElementById('board');
@@ -665,7 +665,7 @@ function initMatchGame() {
         firstCard.classList.add('matched'); secondCard.classList.add('matched');
         firstCard = null; secondCard = null; matchCount++;
         document.getElementById('matches').innerText = matchCount;
-        if (matchCount === 5) winBanner.style.display = 'block';
+        if (matchCount === activeBatch.length) winBanner.style.display = 'block';
       } else {
         lockBoard = true;
         setTimeout(() => {
@@ -679,7 +679,6 @@ function initMatchGame() {
 }
 document.getElementById('restart-btn').addEventListener('click', initMatchGame);
 
-// 2. Flaş Kartlar
 let flashIndex = 0;
 function initFlashcardGame() {
   flashIndex = 0;
@@ -688,7 +687,7 @@ function initFlashcardGame() {
 function showFlashcard() {
   if(!activeBatch.length) return;
   let item = activeBatch[flashIndex];
-  const progressText = state.uiLang === 'az' ? `Kart ${flashIndex + 1} / 5` : `Card ${flashIndex + 1} / 5`;
+  const progressText = state.uiLang === 'az' ? `Kart ${flashIndex + 1} / ${activeBatch.length}` : `Card ${flashIndex + 1} / ${activeBatch.length}`;
   document.getElementById('flash-progress').innerText = progressText;
   const card = document.getElementById('flashcard');
   card.innerHTML = `<div class="flash-word">${item.word}</div><div class="flash-hint">${LOCALIZATION[state.uiLang].flash_hint}</div>`;
@@ -703,10 +702,9 @@ function showFlashcard() {
     }
   };
 }
-document.getElementById('flash-next-btn').addEventListener('click', () => { flashIndex = (flashIndex + 1) % 5; showFlashcard(); });
-document.getElementById('flash-prev-btn').addEventListener('click', () => { flashIndex = (flashIndex - 1 + 5) % 5; showFlashcard(); });
+document.getElementById('flash-next-btn').addEventListener('click', () => { flashIndex = (flashIndex + 1) % activeBatch.length; showFlashcard(); });
+document.getElementById('flash-prev-btn').addEventListener('click', () => { flashIndex = (flashIndex - 1 + activeBatch.length) % activeBatch.length; showFlashcard(); });
 
-// 3. Quiz
 let quizIndex = 0;
 function initQuizGame() {
   quizIndex = 0;
@@ -714,7 +712,7 @@ function initQuizGame() {
 }
 function showQuizQuestion() {
   if(!activeBatch.length) return;
-  const progressText = state.uiLang === 'az' ? `Sual ${quizIndex + 1} / 5` : `Question ${quizIndex + 1} / 5`;
+  const progressText = state.uiLang === 'az' ? `Sual ${quizIndex + 1} / ${activeBatch.length}` : `Question ${quizIndex + 1} / ${activeBatch.length}`;
   document.getElementById('quiz-progress').innerText = progressText;
   let item = activeBatch[quizIndex];
   
@@ -726,7 +724,7 @@ function showQuizQuestion() {
   optsDiv.innerHTML = '';
   
   let options = [item.word];
-  while(options.length < 4) {
+  while(options.length < Math.min(4, VOCAB.length)) {
     let rand = VOCAB[Math.floor(Math.random() * VOCAB.length)].word;
     if(!options.includes(rand)) options.push(rand);
   }
@@ -741,7 +739,7 @@ function showQuizQuestion() {
         btn.classList.add('correct');
         setTimeout(() => {
           quizIndex++;
-          if(quizIndex < 5) showQuizQuestion();
+          if(quizIndex < activeBatch.length) showQuizQuestion();
           else document.getElementById('quiz-prompt').innerText = LOCALIZATION[state.uiLang].quiz_win;
         }, 800);
       } else {
@@ -752,7 +750,6 @@ function showQuizQuestion() {
   });
 }
 
-// 4. İmla (Spelling) Mexanizmi
 let spellIndex = 0;
 function initSpellingGame() {
   spellIndex = 0;
@@ -760,7 +757,7 @@ function initSpellingGame() {
 }
 function showSpellingWord() {
   if(!activeBatch.length) return;
-  const progressText = state.uiLang === 'az' ? `Söz ${spellIndex + 1} / 5` : `Word ${spellIndex + 1} / 5`;
+  const progressText = state.uiLang === 'az' ? `Söz ${spellIndex + 1} / ${activeBatch.length}` : `Word ${spellIndex + 1} / ${activeBatch.length}`;
   document.getElementById('spell-progress').innerText = progressText;
   let item = activeBatch[spellIndex];
   
@@ -782,7 +779,7 @@ function doSpellingCheck() {
     feedback.innerText = LOCALIZATION[state.uiLang].spell_correct;
     setTimeout(() => {
       spellIndex++;
-      if(spellIndex < 5) showSpellingWord();
+      if(spellIndex < activeBatch.length) showSpellingWord();
       else feedback.innerText = LOCALIZATION[state.uiLang].quiz_win;
     }, 1000);
   } else {
@@ -791,7 +788,6 @@ function doSpellingCheck() {
   }
 }
 
-// 5. Tərcümə (Translation) Mexanizmi
 let translateIndex = 0;
 function initTranslationGame() {
   translateIndex = 0;
@@ -800,7 +796,7 @@ function initTranslationGame() {
 function showTranslationPassage() {
   if(!activeBatch.length) return;
   let item = activeBatch[translateIndex];
-  document.getElementById('translate-passage').innerText = state.uiLang === 'az' ? item.az_text : item.en_text;
+  document.getElementById('translate-passage').innerText = state.uiLang === 'az' ? (item.az_text || 'Mətn yoxdur') : (item.en_text || 'No text');
   document.getElementById('translate-input').value = '';
   document.getElementById('translate-result').style.display = 'none';
 }
