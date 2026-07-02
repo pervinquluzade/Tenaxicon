@@ -18,6 +18,8 @@
     --leaf: #3E8E5C;
     --leaf-soft: #E5F3EA;
     --rose: #C1493D;
+    --gold: #B8862E;
+    --gold-soft: #F6ECD6;
     --serif: Georgia, 'Times New Roman', serif;
     --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     --radius: 10px;
@@ -294,6 +296,40 @@
   .chart-value-label { font-size: 9.5px; fill: var(--ink); font-family: var(--sans); font-weight: 600; }
   .chart-empty { font-size: 13px; color: var(--ink-soft); text-align: center; padding: 20px 0; }
 
+  /* Related words (category map) */
+  .related-wrap { margin-top: 10px; }
+  .related-label { font-size: 11px; font-weight: 600; color: var(--ink-soft); margin-bottom: 6px; }
+  .related-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .related-chip {
+    font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; cursor: pointer;
+    border: none; font-family: var(--sans); transition: transform 0.1s;
+  }
+  .related-chip:hover { transform: translateY(-1px); }
+
+  /* Badges */
+  .badge-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 12px; }
+  .badge-item { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; padding: 10px 6px; border-radius: 12px; background: var(--paper); }
+  .badge-icon-circle {
+    width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 22px; background: var(--paper-line); filter: grayscale(1); opacity: 0.45;
+  }
+  .badge-item.earned .badge-icon-circle {
+    background: linear-gradient(135deg, var(--gold-soft), #fff); filter: none; opacity: 1;
+    box-shadow: 0 0 0 2px var(--gold);
+  }
+  .badge-title { font-size: 10.5px; font-weight: 600; color: var(--ink-soft); line-height: 1.3; }
+  .badge-item.earned .badge-title { color: var(--ink); }
+  .badge-summary { font-size: 12.5px; color: var(--ink-soft); margin-bottom: 14px; }
+
+  .badge-toast {
+    position: fixed; top: 16px; left: 50%; transform: translateX(-50%) translateY(-20px);
+    background: var(--ink); color: var(--paper); padding: 12px 20px; border-radius: 999px;
+    font-size: 13px; font-weight: 600; box-shadow: 0 6px 20px rgba(0,0,0,0.25); z-index: 999;
+    opacity: 0; transition: opacity 0.3s, transform 0.3s; pointer-events: none; white-space: nowrap;
+  }
+  .badge-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .mini-badge-count { cursor: pointer; }
+
   .mini-stats-block { margin-top: 22px; }
   .mini-stats-row { display: flex; gap: 10px; text-align: center; }
   .mini-stat { flex: 1; display: flex; flex-direction: column; gap: 2px; padding: 4px 2px; }
@@ -309,6 +345,7 @@
 </style>
 </head>
 <body>
+<div class="badge-toast" id="badge-toast"></div>
 <div class="wrap">
 
   <header class="app-head">
@@ -351,6 +388,7 @@
       <div class="mini-stats-row">
         <div class="mini-stat"><b id="mini-total-learned">0</b><span id="lbl-mini-total-learned">cəmi öyrənilib</span></div>
         <div class="mini-stat"><b id="mini-today-count">0</b><span id="lbl-mini-today-count">bu gün öyrənilib</span></div>
+        <div class="mini-stat mini-badge-count" id="mini-badge-count-wrap">🏅 <b id="mini-badge-count">0</b><span id="lbl-mini-badge-count">nişan</span></div>
       </div>
       <div class="mini-heat-row" id="mini-heat-row"></div>
       <button class="btn" id="mini-stats-link-btn" style="width:100%; margin-top:12px;">Ətraflı statistika →</button>
@@ -442,6 +480,12 @@
 
   <section class="view" id="view-stats" role="tabpanel">
     <div class="stats-block">
+      <h3 id="lbl-badges-title">Nailiyyətlər</h3>
+      <p class="badge-summary" id="badge-summary">0 / 0 nişan qazanılıb</p>
+      <div class="badge-grid" id="badge-grid"></div>
+    </div>
+
+    <div class="stats-block">
       <h3 id="lbl-cal-title">Təqvim</h3>
       <div class="cal-nav">
         <button class="cal-nav-btn" id="cal-prev-btn">‹</button>
@@ -498,7 +542,19 @@ const LOCALIZATION = {
     dows: ["B.e","Ç.a","Ç","C.a","C","Ş","B"],
     weekdays_full: ["Bazar ertəsi","Çərşənbə axşamı","Çərşənbə","Cümə axşamı","Cümə","Şənbə","Bazar"],
     lbl_mini_total_learned: "cəmi öyrənilib", lbl_mini_today_count: "bu gün öyrənilib", lbl_mini_streak_count: "gün seriya",
-    mini_stats_link: "Ətraflı statistika →"
+    mini_stats_link: "Ətraflı statistika →",
+    lbl_mini_badge_count: "nişan", lbl_badges_title: "Nailiyyətlər", badge_summary: "{n} / {t} nişan qazanılıb",
+    lbl_related_words: "Əlaqəli sözlər",
+    badges: [
+      { id: "first_word", icon: "🌱", type: "total", threshold: 1, title: "İlk addım", desc: "İlk sözünü öyrəndin" },
+      { id: "words_10", icon: "📘", type: "total", threshold: 10, title: "Başlanğıc", desc: "10 söz öyrəndin" },
+      { id: "words_25", icon: "📗", type: "total", threshold: 25, title: "İrəliləyiş", desc: "25 söz öyrəndin" },
+      { id: "words_50", icon: "📙", type: "total", threshold: 50, title: "Yarı yol", desc: "50 söz öyrəndin" },
+      { id: "words_all", icon: "🏆", type: "total_all", threshold: 0, title: "Usta", desc: "Bütün bazanı bitirdin" },
+      { id: "streak_3", icon: "🔥", type: "streak", threshold: 3, title: "İsti başlanğıc", desc: "3 gün ardıcıl öyrəndin" },
+      { id: "streak_7", icon: "⚡", type: "streak", threshold: 7, title: "Həftəlik seriya", desc: "7 gün ardıcıl öyrəndin" },
+      { id: "streak_30", icon: "💎", type: "streak", threshold: 30, title: "Dəmir iradə", desc: "30 gün ardıcıl öyrəndin" }
+    ]
   },
   en: {
     tab_words: "Words of the Day", tab_mywords: "My Words", tab_game: "Games", tab_learned: "Learned",
@@ -517,13 +573,25 @@ const LOCALIZATION = {
     dows: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
     weekdays_full: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
     lbl_mini_total_learned: "total learned", lbl_mini_today_count: "learned today", lbl_mini_streak_count: "day streak",
-    mini_stats_link: "View full statistics →"
+    mini_stats_link: "View full statistics →",
+    lbl_mini_badge_count: "badges", lbl_badges_title: "Achievements", badge_summary: "{n} / {t} badges earned",
+    lbl_related_words: "Related words",
+    badges: [
+      { id: "first_word", icon: "🌱", type: "total", threshold: 1, title: "First Step", desc: "Learned your first word" },
+      { id: "words_10", icon: "📘", type: "total", threshold: 10, title: "Getting Started", desc: "Learned 10 words" },
+      { id: "words_25", icon: "📗", type: "total", threshold: 25, title: "Making Progress", desc: "Learned 25 words" },
+      { id: "words_50", icon: "📙", type: "total", threshold: 50, title: "Halfway There", desc: "Learned 50 words" },
+      { id: "words_all", icon: "🏆", type: "total_all", threshold: 0, title: "Master", desc: "Learned the entire database" },
+      { id: "streak_3", icon: "🔥", type: "streak", threshold: 3, title: "Warming Up", desc: "3-day streak" },
+      { id: "streak_7", icon: "⚡", type: "streak", threshold: 7, title: "Weekly Streak", desc: "7-day streak" },
+      { id: "streak_30", icon: "💎", type: "streak", threshold: 30, title: "Iron Will", desc: "30-day streak" }
+    ]
   }
 };
 
 let state = {
   dayCount: 1, streakCount: 1, currentBatchIndex: 0,
-  learnedWords: [], myWords: [], uiLang: 'az', learnedLog: {}
+  learnedWords: [], myWords: [], uiLang: 'az', learnedLog: {}, badges: []
 };
 
 let calViewYear = null, calViewMonth = null;
@@ -538,6 +606,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const saved = localStorage.getItem('tenaxicon_state');
   if (saved) { try { state = JSON.parse(saved); } catch(e){} }
   if (!state.learnedLog) state.learnedLog = {};
+  if (!state.badges) state.badges = [];
   
   setupTabs();
   setupGameSubtabs();
@@ -554,6 +623,10 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById('mini-stats-link-btn').addEventListener('click', () => {
+    document.getElementById('tab-stats').click();
+  });
+
+  document.getElementById('mini-badge-count-wrap').addEventListener('click', () => {
     document.getElementById('tab-stats').click();
   });
 
@@ -675,6 +748,8 @@ function updateUI() {
   document.getElementById('lbl-cal-less').innerText = dict.lbl_cal_less;
   document.getElementById('lbl-cal-more').innerText = dict.lbl_cal_more;
   document.getElementById('lbl-chart-title').innerText = dict.lbl_chart_title;
+  document.getElementById('lbl-badges-title').innerText = dict.lbl_badges_title;
+  document.getElementById('lbl-mini-badge-count').innerText = dict.lbl_mini_badge_count;
   document.getElementById('lbl-mini-total-learned').innerText = dict.lbl_mini_total_learned;
   document.getElementById('lbl-mini-today-count').innerText = dict.lbl_mini_today_count;
   document.getElementById('mini-stats-link-btn').innerText = dict.mini_stats_link;
@@ -724,6 +799,7 @@ function updateUI() {
   renderCalendar();
   renderProgressChart();
   renderMiniStats();
+  renderBadges();
 }
 
 function renderDailyWords() {
@@ -741,6 +817,20 @@ function renderDailyWords() {
     const card = document.createElement('div');
     card.className = `word-card ${isLearned ? 'word-card-learned' : ''}`;
     const detailsLabel = state.uiLang === 'az' ? 'Tərif və nümunə' : 'Definition & example';
+
+    const relatedWords = VOCAB.filter(v => v.category && v.category === item.category && v.word !== item.word).slice(0, 5);
+    const relLabel = LOCALIZATION[state.uiLang].lbl_related_words;
+    const relatedHTML = relatedWords.length ? `
+      <div class="related-wrap">
+        <div class="related-label">${relLabel} — ${item.category || ''}</div>
+        <div class="related-chips">
+          ${relatedWords.map(r => {
+            const c = categoryColor(r.category);
+            return `<button class="related-chip" data-word="${r.word}" style="background:${c.bg}; color:${c.fg};">${r.word}</button>`;
+          }).join('')}
+        </div>
+      </div>` : '';
+
     card.innerHTML = `
       <div class="entry-top">
         <div class="headword-row">
@@ -762,9 +852,13 @@ function renderDailyWords() {
           <hr class="entry-rule">
           <p class="def-en">${item.def || ''}</p>
           <div class="example">"${item.example || ''}"</div>
+          ${relatedHTML}
         </div>
       </details>
     `;
+    card.querySelectorAll('.related-chip').forEach(chip => {
+      chip.addEventListener('click', (e) => speakWord(e.currentTarget.dataset.word, e.currentTarget));
+    });
     card.querySelector('.speak-btn').addEventListener('click', (e) => {
       speakWord(item.word, e.currentTarget);
     });
@@ -852,6 +946,84 @@ function renderMiniStats() {
     if (count) cell.title = `${key}: ${count} ${dict.chart_unit}`;
     row.appendChild(cell);
   }
+}
+
+function computeRealStreak() {
+  if (!state.learnedLog) return 0;
+  let streak = 0;
+  let d = new Date();
+  // if nothing learned today yet, streak still counts from yesterday backwards
+  if (!state.learnedLog[todayStr(d)]) d.setDate(d.getDate() - 1);
+  while (state.learnedLog[todayStr(d)]) {
+    streak++;
+    d.setDate(d.getDate() - 1);
+  }
+  return streak;
+}
+
+function getBadgeStatus(badge) {
+  if (badge.type === 'total') return state.learnedWords.length >= badge.threshold;
+  if (badge.type === 'total_all') return VOCAB.length > 0 && state.learnedWords.length >= VOCAB.length;
+  if (badge.type === 'streak') return computeRealStreak() >= badge.threshold;
+  return false;
+}
+
+function renderBadges() {
+  const dict = LOCALIZATION[state.uiLang];
+  const grid = document.getElementById('badge-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  let earnedCount = 0;
+  const newlyEarned = [];
+
+  dict.badges.forEach(badge => {
+    const earned = getBadgeStatus(badge);
+    if (earned) {
+      earnedCount++;
+      if (!state.badges.includes(badge.id)) newlyEarned.push(badge);
+    }
+    const item = document.createElement('div');
+    item.className = `badge-item ${earned ? 'earned' : ''}`;
+    item.title = badge.desc;
+    item.innerHTML = `<div class="badge-icon-circle">${badge.icon}</div><div class="badge-title">${badge.title}</div>`;
+    grid.appendChild(item);
+  });
+
+  document.getElementById('badge-summary').innerText = dict.badge_summary
+    .replace('{n}', earnedCount).replace('{t}', dict.badges.length);
+  document.getElementById('mini-badge-count').innerText = earnedCount;
+
+  if (newlyEarned.length) {
+    state.badges = Array.from(new Set([...state.badges, ...newlyEarned.map(b => b.id)]));
+    localStorage.setItem('tenaxicon_state', JSON.stringify(state));
+    showBadgeToast(newlyEarned[0]);
+  }
+}
+
+let badgeToastTimeout = null;
+function showBadgeToast(badge) {
+  const toast = document.getElementById('badge-toast');
+  const prefix = state.uiLang === 'az' ? 'Yeni nişan qazandın' : 'New badge earned';
+  toast.innerText = `${badge.icon} ${prefix}: ${badge.title}`;
+  toast.classList.add('show');
+  if (badgeToastTimeout) clearTimeout(badgeToastTimeout);
+  badgeToastTimeout = setTimeout(() => toast.classList.remove('show'), 3200);
+}
+
+const CATEGORY_PALETTE = [
+  { bg: '#E4EEEC', fg: '#2E6F6E' },
+  { bg: '#F5E4DA', fg: '#C1633D' },
+  { bg: '#E5F3EA', fg: '#3E8E5C' },
+  { bg: '#F6ECD6', fg: '#B8862E' },
+  { bg: '#EAE4F5', fg: '#6B4FA0' },
+  { bg: '#F5E0E6', fg: '#B14A6B' },
+  { bg: '#DCEBF5', fg: '#2F6C99' },
+  { bg: '#F5EBD8', fg: '#9C7A2E' }
+];
+function categoryColor(category) {
+  let hash = 0;
+  for (let i = 0; i < (category || '').length; i++) hash = (hash * 31 + category.charCodeAt(i)) >>> 0;
+  return CATEGORY_PALETTE[hash % CATEGORY_PALETTE.length];
 }
 
 function todayStr(d) {
