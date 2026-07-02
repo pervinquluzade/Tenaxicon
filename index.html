@@ -1,116 +1,1223 @@
 <!DOCTYPE html>
-<html lang="az">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tenaxicon - Söz Ehtiyatı</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            padding: 20px;
-            background-color: #f9f9f9;
-            color: #333;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #2c3e50;
-            border-bottom: 2px solid #ecf0f1;
-            padding-bottom: 10px;
-        }
-        /* İşarələnə bilən sözlərin default stili */
-        .word {
-            cursor: pointer;
-            background-color: transparent;
-            transition: background-color 0.2s ease;
-            padding: 2px 4px;
-            border-radius: 4px;
-        }
-        .word:hover {
-            background-color: #f0f0f0;
-        }
-        /* Söz kliklənib işarələnəndə aktiv olan stil (Refresh-dən sonra da qalacaq) */
-        .word.marked {
-            background-color: #fff275; /* Sarı rəngdə highlight */
-            font-weight: 600;
-            color: #000;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .instruction {
-            font-style: italic;
-            color: #7f8c8d;
-            margin-bottom: 20px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tenaxicon — C1/C2 İngilis lüğəti, gündəlik</title>
+<style>
+  :root {
+    --ink: #1C2541;
+    --ink-soft: #4A5375;
+    --paper: #F2EEE3;
+    --paper-card: #FCFAF4;
+    --paper-line: #DDD6C4;
+    --teal: #2E6F6E;
+    --teal-soft: #E4EEEC;
+    --clay: #C1633D;
+    --clay-soft: #F5E4DA;
+    --serif: Georgia, 'Times New Roman', serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 28px 20px 60px;
+  }
+
+  header.app-head {
+    margin-bottom: 22px;
+    position: relative;
+  }
+
+  /* Interface Language Switcher */
+  .ui-lang-switch {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    gap: 4px;
+    background: var(--paper-line);
+    padding: 2px;
+    border-radius: 6px;
+  }
+  .ui-lang-btn {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border: none;
+    background: none;
+    color: var(--ink-soft);
+    cursor: pointer;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+  .ui-lang-btn.active {
+    background: var(--paper-card);
+    color: var(--teal);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-weight: 600;
+    margin: 0 0 6px;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: 30px;
+    font-weight: 400;
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+  }
+
+  .sub {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 0;
+    line-height: 1.5;
+  }
+  
+  .inspiration-box {
+    margin-top: 8px;
+    font-style: italic;
+    color: var(--clay);
+    font-size: 13.5px;
+    font-weight: 500;
+  }
+  .inspiration-box strong {
+    font-style: normal;
+    color: var(--teal);
+    font-weight: 700;
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin: 24px 0 20px;
+    border-bottom: 1px solid var(--paper-line);
+  }
+  .tab-btn {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    background: none;
+    border: none;
+    padding: 10px 4px;
+    margin-right: 22px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    position: relative;
+    top: 1px;
+  }
+  .tab-btn.active {
+    color: var(--ink);
+    border-bottom: 2px solid var(--teal);
+  }
+  .tab-btn:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* Stat strip */
+  .stat-strip {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .stat b { color: var(--ink); font-weight: 600; }
+
+  /* Word card (dictionary entry) */
+  .word-card {
+    background: var(--paper-card);
+    border: 1px solid var(--paper-line);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .entry-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .headword-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .headword {
+    font-family: var(--serif);
+    font-size: 22px;
+    margin: 0;
+  }
+  .speak-btn {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid var(--paper-line);
+    background: var(--paper-card);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 1;
+    padding: 0;
+    flex-shrink: 0;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  }
+  .speak-btn:hover {
+    background: var(--teal-soft);
+    border-color: var(--teal);
+  }
+  .speak-btn:active {
+    transform: scale(0.92);
+  }
+  .speak-btn:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .level-tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 5px;
+    background: var(--teal-soft);
+    color: var(--teal);
+    letter-spacing: 0.03em;
+  }
+  .pos {
+    font-size: 13px;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+
+  .learned-toggle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1.5px solid var(--paper-line);
+    background: var(--paper-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    color: transparent;
+    font-size: 14px;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .learned-toggle.on {
+    background: var(--teal);
+    border-color: var(--teal);
+    color: #fff;
+  }
+  .learned-toggle:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+  hr.entry-rule {
+    border: none;
+    border-top: 1px solid var(--paper-line);
+    margin: 12px 0 10px;
+  }
+
+  .def-en {
+    font-size: 15px;
+    margin: 0 0 8px;
+    line-height: 1.5;
+  }
+  .example {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    font-style: italic;
+    margin: 0 0 10px;
+  }
+
+  .az-block {
+    background: var(--clay-soft);
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .az-flag-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--clay);
+    text-transform: uppercase;
+  }
+  .az-word {
+    font-weight: 600;
+    font-size: 14.5px;
+    color: var(--clay);
+  }
+  .az-def {
+    font-size: 13.5px;
+    color: #8A4A2F;
+  }
+
+  /* Buttons */
+  .btn {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 16px;
+    border-radius: var(--radius);
+    border: 1px solid var(--paper-line);
+    background: var(--paper-card);
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .btn:hover { border-color: var(--ink-soft); }
+  .btn.primary {
+    background: var(--teal);
+    color: #fff;
+    border-color: var(--teal);
+  }
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+
+  /* Game */
+  .game-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .game-stats { display: flex; gap: 16px; flex-wrap: wrap; }
+  .game-stats .stat { font-size: 13.5px; }
+
+  .board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+  @media (max-width: 480px) {
+    .board { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .card-btn {
+    min-height: 86px;
+    border-radius: var(--radius);
+    border: 1px solid var(--paper-line);
+    background: var(--paper-card);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8px 6px;
+    font-family: var(--sans);
+    line-height: 1.3;
+    color: var(--ink);
+    transition: transform 0.12s;
+  }
+  .card-btn.word { font-family: var(--serif); font-size: 15px; }
+  .card-btn.def { font-size: 11.5px; color: var(--ink-soft); }
+  .card-btn.flipped { background: #fff; border-color: var(--teal); }
+  .card-btn.matched {
+    background: var(--teal-soft);
+    border-color: var(--teal);
+    color: var(--teal);
+    cursor: default;
+  }
+  .card-btn .hidden-icon { font-size: 20px; color: var(--paper-line); }
+
+  .win-banner {
+    margin-top: 16px;
+    padding: 14px 18px;
+    background: var(--teal-soft);
+    border-radius: var(--radius);
+    text-align: center;
+    color: var(--teal);
+    font-weight: 600;
+    font-size: 15px;
+    display: none;
+  }
+
+  .lang-select-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .lang-pill {
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--paper-line);
+    background: var(--paper-card);
+    cursor: pointer;
+    color: var(--ink-soft);
+  }
+  .lang-pill.active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  /* Recall score row */
+  .score-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .score-label {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-right: 2px;
+  }
+  .score-pip {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid var(--paper-line);
+    background: var(--paper-card);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .score-pip:hover { border-color: var(--ink-soft); }
+  .score-pip.active.s1, .score-pip.active.s2 { background: var(--teal); border-color: var(--teal); color: #fff; }
+  .score-pip.active.s3 { background: #C9A227; border-color: #C9A227; color: #fff; }
+  .score-pip.active.s4, .score-pip.active.s5 { background: var(--clay); border-color: var(--clay); color: #fff; }
+  .score-line-hint {
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin-left: 4px;
+  }
+
+  /* Sub-tabs for games */
+  .game-subtabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .subtab-pill {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--paper-line);
+    background: var(--paper-card);
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .subtab-pill.active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .game-subview { display: none; }
+  .game-subview.active { display: block; }
+
+  /* Flashcard */
+  .flash-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .flashcard {
+    width: 100%;
+    max-width: 480px;
+    min-height: 220px;
+    background: var(--paper-card);
+    border: 1px solid var(--paper-line);
+    border-radius: 14px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+  }
+  .flash-front .flash-word {
+    font-family: var(--serif);
+    font-size: 28px;
+    margin: 0 0 8px;
+  }
+  .flash-hint {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+  .flash-back .flash-def {
+    font-size: 16px;
+    margin: 0 0 10px;
+    line-height: 1.5;
+  }
+  .flash-back .az-block {
+    margin-top: 4px;
+  }
+  .flash-progress {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .flash-rate-row {
+    display: none;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .flash-rate-row.show { display: flex; }
+  .flash-nav-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  /* Quiz */
+  .quiz-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .quiz-progress {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .quiz-prompt {
+    font-family: var(--serif);
+    font-size: 24px;
+    margin: 0;
+  }
+  .quiz-options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .quiz-opt {
+    text-align: left;
+    font-size: 14.5px;
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    border: 1px solid var(--paper-line);
+    background: var(--paper-card);
+    cursor: pointer;
+    color: var(--ink);
+  }
+  .quiz-opt.correct { background: var(--teal-soft); border-color: var(--teal); color: var(--teal); }
+  .quiz-opt.wrong { background: var(--clay-soft); border-color: var(--clay); color: var(--clay); }
+  .quiz-score-line {
+    font-size: 14px;
+  }
+  .quiz-result {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    background: var(--teal-soft);
+    border-radius: var(--radius);
+    color: var(--teal);
+    font-weight: 600;
+  }
+  .quiz-result.show { display: block; }
+
+  /* Spelling */
+  .spell-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 480px;
+  }
+  .spell-clue {
+    background: var(--paper-card);
+    border: 1px solid var(--paper-line);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+  }
+  .spell-clue .def-en { margin-bottom: 8px; }
+  .spell-input-row {
+    display: flex;
+    gap: 8px;
+  }
+  .spell-input {
+    flex: 1;
+    font-size: 15px;
+    padding: 10px 14px;
+    border-radius: var(--radius);
+    border: 1px solid var(--paper-line);
+    background: #fff;
+    color: var(--ink);
+  }
+  .spell-input:focus { outline: 2px solid var(--teal); border-color: var(--teal); }
+  .spell-feedback {
+    font-size: 13.5px;
+    min-height: 18px;
+  }
+  .spell-feedback.correct { color: var(--teal); font-weight: 600; }
+  .spell-feedback.wrong { color: var(--clay); font-weight: 600; }
+  .spell-progress { font-size: 13px; color: var(--ink-soft); }
+
+  /* Learned list */
+  .learned-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: var(--paper-card);
+    border: 1px solid var(--paper-line);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-bottom: 8px;
+  }
+  .learned-row-main {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+  .learned-row .headword {
+    font-size: 17px;
+  }
+  .learned-row-az {
+    font-size: 13px;
+    color: var(--clay);
+  }
+  .learned-row-score {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .learned-score-badge {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    color: #fff;
+  }
+  .learned-score-badge.s1, .learned-score-badge.s2 { background: var(--teal); }
+  .learned-score-badge.s3 { background: #C9A227; }
+  .learned-score-badge.s4, .learned-score-badge.s5 { background: var(--clay); }
+  .learned-score-badge.none { background: var(--ink-soft); }
+
+  .game-empty {
+    padding: 28px 20px;
+    text-align: center;
+    background: var(--paper-card);
+    border: 1px solid var(--paper-line);
+    border-radius: var(--radius);
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .game-empty b { color: var(--ink); }
+
+  footer.app-foot {
+    margin-top: 32px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+
+  /* Learned badge on word card */
+  .learned-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 5px;
+    background: var(--teal);
+    color: #fff;
+    letter-spacing: 0.03em;
+  }
+  .hard-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 5px;
+    background: var(--clay-soft);
+    color: var(--clay);
+    letter-spacing: 0.03em;
+  }
+  .word-card-learned {
+    border-color: var(--teal);
+    background: #f4fbf9;
+    opacity: 0.88;
+  }
+  .word-card-learned .headword { color: var(--teal); }
+
+  /* My words tab */
+  .mywords-hint {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin: 0 0 16px;
+  }
+  .mywords-pin-btn {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 1.5px solid var(--paper-line);
+    background: var(--paper-card);
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-size: 15px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .mywords-pin-btn:hover { border-color: var(--teal); color: var(--teal); }
+  .mywords-pin-btn.pinned { background: var(--teal-soft); border-color: var(--teal); color: var(--teal); }
+  .myword-delete-btn {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid var(--paper-line);
+    background: var(--paper-card);
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-size: 12px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .myword-delete-btn:hover { border-color: var(--clay); color: var(--clay); }
+
+  /* Flash card easy/hard buttons */
+  .score-btn {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 7px 18px;
+    border-radius: var(--radius);
+    border: 1.5px solid var(--paper-line);
+    background: var(--paper-card);
+    cursor: pointer;
+    color: var(--ink);
+  }
+  .score-btn.easy { background: var(--teal-soft); border-color: var(--teal); color: var(--teal); }
+  .score-btn.hard { background: var(--clay-soft); border-color: var(--clay); color: var(--clay); }
+  .score-btn:hover { opacity: 0.85; }
+
+  /* Quiz AZ hint under word */
+  .quiz-prompt-word { font-family: var(--serif); font-size: 24px; }
+  .quiz-az-hint { font-size: 13px; color: var(--ink-soft); font-style: italic; }
+
+  /* Translation game */
+  .translate-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 560px;
+  }
+  .translate-status {
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+  .translate-passage {
+    background: var(--clay-soft);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink);
+    border-left: 4px solid var(--clay);
+  }
+  .translate-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+  .translate-input {
+    width: 100%;
+    font-family: var(--sans);
+    font-size: 15px;
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    border: 1px solid var(--paper-line);
+    background: #fff;
+    color: var(--ink);
+    resize: vertical;
+    line-height: 1.5;
+  }
+  .translate-input:focus { outline: 2px solid var(--teal); border-color: var(--teal); }
+  .translate-result {
+    display: none;
+    background: var(--teal-soft);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+  .translate-result.show { display: block; }
+
+  .sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+  }
+</style>
 </head>
 <body>
+<div class="wrap">
 
-    <div class="container">
-        <h1>Tenaxicon Söz Siyahısı</h1>
-        <p class="instruction">💡 Qeyd etmək istədiyiniz sözlərin üzərinə klikləyin. Səhifəni yeniləsəniz belə, işarələr silinməyəcək.</p>
+  <header class="app-head">
+    <div class="ui-lang-switch">
+      <button class="ui-lang-btn active" id="ui-lang-az">az</button>
+      <button class="ui-lang-btn" id="ui-lang-en">en</button>
+    </div>
+    <p class="eyebrow"><span id="lbl-day">Gün</span> <span id="day-count">1</span> · C1 / C2</p>
+    <h1>Tenaxicon</h1>
+    <div class="inspiration-box" id="inspiration-text"></div>
+  </header>
 
-        <hr>
+  <nav class="tabs" role="tablist">
+    <button class="tab-btn active" id="tab-words" role="tab" aria-selected="true">Günün sözləri</button>
+    <button class="tab-btn" id="tab-mywords" role="tab" aria-selected="false">Sözlərim</button>
+    <button class="tab-btn" id="tab-game" role="tab" aria-selected="false">Oyunlar</button>
+    <button class="tab-btn" id="tab-learned" role="tab" aria-selected="false">Öyrəndiklərim</button>
+  </nav>
 
-        <p>
-            1. Bu gün <span class="word">tenacity</span> nümayiş etdirərək layihəni tamamladıq. 
-            Buradakı əzmkarlıq mənası bizim üçün əsasdır.
-        </p>
+  <section class="view active" id="view-words" role="tabpanel">
+    <h2 class="sr-only">Azərbaycan və İngilis dilində günün beş lüğət sözü</h2>
 
-        <p>
-            2. İngilis dilində <span class="word">vocabulary</span> bazasını artırmaq professional mühitdə 
-            böyük bir <span class="word">advantage</span> təmin edir.
-        </p>
+    <div class="stat-strip">
+      <div class="stat"><b id="learned-count">0</b>/5 <span id="lbl-learned-stat">öyrənildi</span></div>
+      <div class="stat"><span id="lbl-streak-stat">Seria:</span> <b id="streak-count">1</b> <span id="lbl-streak-days">gün</span></div>
+    </div>
 
-        <p>
-            3. Hər bir laboratoriya <span class="word">standard</span> tələblərinə dəqiqliklə əməl etməlidir.
-        </p>
+    <div id="word-list"></div>
+
+    <div class="btn-row">
+      <button class="btn primary" id="next-batch-btn">Yeni 5 söz</button>
+      <button class="btn" id="goto-game-btn">Oyunda məşq et</button>
+    </div>
+  </section>
+
+  <section class="view" id="view-mywords" role="tabpanel">
+    <h2 class="sr-only">Sözlərim siyahısı</h2>
+    <div class="stat-strip">
+      <div class="stat"><span id="lbl-mywords-stat">Siyahında:</span> <b id="mywords-count">0</b> <span id="lbl-mywords-count-label">söz</span></div>
+    </div>
+    <p class="mywords-hint" id="lbl-mywords-hint">Günün sözlərindən ⊕ düyməsinə basaraq sözlərini bu siyahıya əlavə edə bilərsən. Çətin sözlər oyunlarda daha tez çıxır.</p>
+    <div id="mywords-list"></div>
+  </section>
+
+  <section class="view" id="view-game" role="tabpanel">
+    <h2 class="sr-only">Lüğət oyunları: uyğunlaşdır, flaş kart, quiz, imla, tərcümə</h2>
+
+    <div class="game-subtabs" role="tablist" aria-label="Oyun seç">
+      <button class="subtab-pill active" data-sub="match" id="subtab-match">Uyğunlaşdır</button>
+      <button class="subtab-pill" data-sub="flash" id="subtab-flash">Flaş kart</button>
+      <button class="subtab-pill" data-sub="quiz" id="subtab-quiz">Quiz</button>
+      <button class="subtab-pill" data-sub="spell" id="subtab-spell">İmla</button>
+      <button class="subtab-pill" data-sub="translate" id="subtab-translate">Tərcümə</button>
+    </div>
+
+    <div class="game-subview active" id="sub-match">
+      <div class="lang-select-row" role="group" aria-label="Oyun dili seç">
+        <button class="lang-pill active" data-lang="en" id="game-lang-en">İngiliscə uyğunlaşdır</button>
+        <button class="lang-pill" data-lang="az" id="game-lang-az">Azərbaycanca uyğunlaşdır</button>
+      </div>
+
+      <div class="game-meta">
+        <div class="game-stats">
+          <div class="stat"><span id="lbl-moves">Hərəkət:</span> <b id="moves">0</b></div>
+          <div class="stat"><span id="lbl-matches">Uyğun:</span> <b id="matches">0</b>/<span id="matches-total">8</span></div>
+          <div class="stat"><span id="lbl-timer">Vaxt:</span> <b id="timer">0:00</b></div>
         </div>
+        <button class="btn" id="restart-btn">Yeni oyun</button>
+      </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            // Səhifədəki bütün ".word" klası olan elementləri tapırıq
-            const words = document.querySelectorAll('.word');
-            
-            // 1. Səhifə yenilənəndə brauzer yaddaşına baxırıq
-            const savedMarkedIndices = JSON.parse(localStorage.getItem('tenaxicon_marked_words')) || [];
-            
-            // Əgər yaddaşda əvvəldən qalan sıra nömrələri (index) varsa, onları yenidən rəngləyirik
-            words.forEach((wordElement, index) => {
-                if (savedMarkedIndices.includes(index)) {
-                    wordElement.classList.add('marked');
-                }
+      <div class="board" id="board"></div>
 
-                // 2. Sözün üzərinə hər klik edildikdə işə düşən funksiya
-                wordElement.addEventListener('click', () => {
-                    wordElement.classList.toggle('marked'); // Varsa silir, yoxdursa əlavə edir
-                    
-                    // Hər klikdən sonra son vəziyyəti yaddaşa köçürürük
-                    saveCurrentState();
-                });
-            });
+      <div class="win-banner" id="win-banner"></div>
+    </div>
 
-            // Yaddaşı yeniləyən köməkçi funksiya
-            function saveCurrentState() {
-                const currentMarkedIndices = [];
-                
-                words.forEach((wordElement, index) => {
-                    if (wordElement.classList.contains('marked')) {
-                        currentMarkedIndices.push(index); // İşarəli olanların sıra nömrəsini massivə yığırıq
-                    }
-                });
-                
-                // Massivi yazı formatına çevirib brauzerə (localStorage) yazırıq
-                localStorage.setItem('tenaxicon_marked_words', JSON.stringify(currentMarkedIndices));
-            }
-        });
-    </script>
+    <div class="game-subview" id="sub-flash">
+      <div class="flash-wrap">
+        <div class="flash-progress" id="flash-progress">Kart 1 / 8</div>
+        <div class="flashcard" id="flashcard"></div>
+        <div class="flash-rate-row" id="flash-rate-row" role="group" aria-label="Bu sözü nə qədər asanlıqla xatırladın?">
+          <span class="score-label">Nə qədər asanlıqla xatırladın?</span>
+        </div>
+        <div class="flash-nav-row">
+          <button class="btn" id="flash-prev-btn">Geri</button>
+          <button class="btn primary" id="flash-next-btn">Növbəti</button>
+          <button class="btn" id="flash-shuffle-btn">Qarışdır</button>
+        </div>
+      </div>
+    </div>
 
+    <div class="game-subview" id="sub-quiz">
+      <div class="quiz-wrap">
+        <div class="quiz-progress" id="quiz-progress">Sual 1 / 8</div>
+        <p class="quiz-prompt" id="quiz-prompt"></p>
+        <div class="quiz-options" id="quiz-options"></div>
+        <div class="quiz-result" id="quiz-result"></div>
+        <div class="btn-row">
+          <button class="btn" id="quiz-restart-btn">Yeni quiz</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-subview" id="sub-spell">
+      <div class="spell-wrap">
+        <div class="spell-progress" id="spell-progress">Söz 1 / 8</div>
+        <div class="spell-clue" id="spell-clue"></div>
+        <form class="spell-input-row" id="spell-form">
+          <label class="sr-only" for="spell-input">İngilis sözünü yaz</label>
+          <input class="spell-input" id="spell-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="İngilis sözünü yaz" />
+          <button class="btn primary" type="submit" id="spell-check-submit-btn">Yoxla</button>
+        </form>
+        <div class="spell-feedback" id="spell-feedback"></div>
+        <div class="btn-row">
+          <button class="btn" id="spell-skip-btn">Keç</button>
+          <button class="btn" id="spell-restart-btn">Yeni dəst</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-subview" id="sub-translate">
+      <div class="translate-wrap">
+        <div class="translate-status" id="translate-status">Mətn yüklənir…</div>
+        <div class="translate-passage" id="translate-passage"></div>
+        <div class="translate-label" id="lbl-your-translation">İngilis dilinə tərcümən:</div>
+        <textarea class="translate-input" id="translate-input" placeholder="Azərbaycan mətni oxu, İngiliscəyə çevir…" rows="4"></textarea>
+        <div class="btn-row">
+          <button class="btn primary" id="translate-check-btn">Yoxla</button>
+          <button class="btn" id="translate-new-btn">Yeni mətn</button>
+        </div>
+        <div class="translate-result" id="translate-result"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-learned" role="tabpanel">
+    <h2 class="sr-only">Öyrəndiyiniz sözlərin siyahısı</h2>
+
+    <div class="stat-strip">
+      <div class="stat"><b id="learned-total-count">0</b> <span id="lbl-learned-total-label">söz öyrənilib</span></div>
+    </div>
+
+    <div id="learned-list"></div>
+    <p id="learned-empty" class="sub">Hələ heç bir söz öyrənilmiş kimi işarələnməyib. "Günün sözləri" bölməsindən sözləri işarələ.</p>
+  </section>
+
+  <footer class="app-foot" id="app-footer-text">
+    İrəliləyiş bu cihazda saxlanılır. Sabah yeni beş söz gözləyir.
+  </footer>
+
+</div>
+
+<script>
+/* ---------- Vocabulary bank ---------- */
+const VOCAB = [
+  { word: "ubiquitous", level: "C2", pos: "adj.", def: "present, appearing, or found everywhere", example: "Smartphones have become ubiquitous in modern life.", az_word: "hər yerdə olan", az_def: "hər yerdə mövcud olan, rast gəlinən" },
+  { word: "ephemeral", level: "C2", pos: "adj.", def: "lasting for a very short time", example: "Fame on social media can feel ephemeral.", az_word: "keçici", az_def: "qısa müddət davam edən, müvəqqəti" },
+  { word: "pragmatic", level: "C1", pos: "adj.", def: "dealing with things sensibly and realistically", example: "We need a pragmatic solution, not an idealistic one.", az_word: "praqmatik", az_def: "real vəziyyətə uyğun, ağılabatan yanaşan" },
+  { word: "ambiguous", level: "C1", pos: "adj.", def: "open to more than one interpretation; not clear", example: "His answer was ambiguous, so we asked him to clarify.", az_word: "qeyri-müəyyən", az_def: "bir neçə mənaya gələ bilən, aydın olmayan" },
+  { word: "meticulous", level: "C1", pos: "adj.", def: "showing great attention to detail; very careful", example: "She gave the contract a meticulous review before signing.", az_word: "diqqətli, ətraflı", az_def: "hər detala böyük diqqət yetirən" },
+  { word: "resilient", level: "C1", pos: "adj.", def: "able to recover quickly from difficulties", example: "Children are often remarkably resilient after hardship.", az_word: "davamlı, dözümlü", az_def: "çətinliklərdən tez bərpa olunan" },
+  { word: "candid", level: "C1", pos: "adj.", def: "truthful and straightforward; frank", example: "He gave a candid answer about why the project failed.", az_word: "açıq, səmimi", az_def: "düz danışan, riyasız" },
+  { word: "tenacious", level: "C1", pos: "adj.", def: "holding firmly to a course of action or belief", example: "Her tenacious negotiating style won the client over.", az_word: "inadcıl, mətanətli", az_def: "məqsədindən geri çəkilməyən" },
+  { word: "ostensible", level: "C2", pos: "adj.", def: "stated as the reason, but perhaps not the real one", example: "The ostensible purpose of the meeting was budgeting, but politics dominated.", az_word: "zahiri, görünüşdə olan", az_def: "əslində deyil, sadəcə görünüşdə belə olan" },
+  { word: "ambivalent", level: "C2", pos: "adj.", def: "having mixed or contradictory feelings about something", example: "I feel ambivalent about moving to a new city.", az_word: "ikili münasibətli", az_def: "bir məsələyə qarşı ziddiyyətli hisslər bəsləyən" },
+  { word: "discrepancy", level: "C2", pos: "n.", def: "a lack of agreement or consistency between facts", example: "There was a discrepancy between the two witness accounts.", az_word: "uyğunsuzluq", az_def: "faktlar arasında uyuşmazlıq" },
+  { word: "vindicate", level: "C2", pos: "v.", def: "to clear someone of blame after they were doubted", example: "New evidence finally vindicated the accused man.", az_word: "təmizə çıxarmaq", az_def: "günahsızlığını sübut etmək" },
+  { word: "scrupulous", level: "C2", pos: "adj.", def: "diligent and careful to do things correctly and ethically", example: "The auditor was scrupulous in checking every figure.", az_word: "vicdanlı, dəqiq", az_def: "düzgünlüyə ciddi əməl edən" },
+  { word: "intricate", level: "C1", pos: "adj.", def: "very complicated or detailed", example: "The watch had an intricate mechanism inside.", az_word: "mürəkkəb, incə", az_def: "çoxlu detaldan ibarət, mürəkkəb" },
+  { word: "deferential", level: "C2", pos: "adj.", def: "showing respect for someone's authority or wishes", example: "He was deferential toward his senior colleagues.", az_word: "hörmətkar, tabe olan", az_def: "başqasının nüfuzuna hörmət göstərən" },
+  { word: "conundrum", level: "C2", pos: "n.", def: "a confusing and difficult problem or question", example: "Choosing between the two job offers was a real conundrum.", az_word: "tapmaca, mürəkkəb məsələ", az_def: "həll edilməsi çətin olan problem" },
+  { word: "astute", level: "C2", pos: "adj.", def: "having a sharp mind; good at judging situations", example: "She made an astute observation about the market.", az_word: "iti zəkalı, sayıq", az_def: "vəziyyəti tez və düzgün qiymətləndirən" },
+  { word: "lucid", level: "C1", pos: "adj.", def: "clear and easy to understand; mentally clear", example: "He gave a lucid explanation of a complex topic.", az_word: "aydın", az_def: "asan başa düşülən, açıq-aydın" },
+  { word: "fortuitous", level: "C2", pos: "adj.", def: "happening by a lucky chance", example: "Their meeting at the airport was entirely fortuitous.", az_word: "təsadüfi, bəxtəvər", az_def: "xoşbəxt təsadüf nəticəsində baş verən" },
+  { word: "succinct", level: "C1", pos: "adj.", def: "expressed clearly and in few words", example: "Her report was succinct but covered everything important.", az_word: "qısa və dəqiq", az_def: "az sözlə dəqiq ifadə olunan" },
+  { word: "eloquent", level: "C1", pos: "adj.", def: "fluent or persuasive in speaking or writing", example: "She gave an eloquent speech that moved the entire audience.", az_word: "natiqlik qabiliyyəti olan", az_def: "təsirli və axıcı danışan, ifadəli" },
+  { word: "relentless", level: "C1", pos: "adj.", def: "harsh or persistent without weakening", example: "He trained with relentless determination every single day.", az_word: "amansız, dayanmadan davam edən", az_def: "zəifləmədən davam edən, inadla israr edən" },
+  { word: "profound", level: "C1", pos: "adj.", def: "having or showing great depth of understanding", example: "The book had a profound impact on how I see the world.", az_word: "dərin, əhəmiyyətli", az_def: "böyük dərinliyə malik, ciddi təsir göstərən" },
+  { word: "plausible", level: "C1", pos: "adj.", def: "seeming reasonable or probable", example: "His explanation sounded plausible, but I still had doubts.", az_word: "inandırıcı, məntiqəuyğun", az_def: "ağlabatan görünən, doğru ola biləcək" },
+  { word: "notorious", level: "C1", pos: "adj.", def: "famous for something bad", example: "The area is notorious for its heavy traffic.", az_word: "bədnam, məşhur (mənfi mənada)", az_def: "mənfi cəhətdən tanınan, ad çıxarmış" },
+  { word: "versatile", level: "C1", pos: "adj.", def: "able to adapt to many different functions", example: "A versatile employee can handle several roles at once.", az_word: "çoxcəhətli, uyğunlaşan", az_def: "müxtəlif vəzifələrə uyğunlaşa bilən" },
+  { word: "inevitable", level: "C1", pos: "adj.", def: "certain to happen; unavoidable", example: "Change in the industry was inevitable given the new technology.", az_word: "qaçılmaz", az_def: "baş verməsi mütləq olan, qarşısıalınmaz" }
+];
+
+const INSPIRATIONS = [
+  "Əzmkarlıq uğurun açarıdır. <strong>Tenacity</strong> is everything.",
+  "Hər gün bir addım irəli. Kiçik detallara <strong>meticulous</strong> yanaşma.",
+  "Düşüncədə <strong>lucid</strong>, hərəkətdə <strong>pragmatic</strong> ol."
+];
+
+/* ---------- Application State Management (Yaddaş Mexanizmi) ---------- */
+let state = {
+  dayCount: 1,
+  streakCount: 1,
+  currentBatchIndex: 0, // Günün 5 sözünün başladığı yer
+  learnedWords: [],     // Öyrənilmiş sözlərin array-i (word stringləri)
+  myWords: [],          // "Sözlərim" siyahısı (word stringləri)
+  uiLang: 'az'
+};
+
+// Səhifə yüklənəndə brauzer yaddaşını yoxlayırıq
+function loadState() {
+  const savedState = localStorage.getItem('tenaxicon_state');
+  if (savedState) {
+    try {
+      state = JSON.parse(savedState);
+    } catch(e) {
+      console.error("Yaddaş oxunarkən xəta yarandı, default state istifadə olunur.");
+    }
+  }
+}
+
+// Hər hansı dəyişiklik olanda yaddaşı yeniləyirik
+function saveState() {
+  localStorage.setItem('tenaxicon_state', JSON.stringify(state));
+  updateUI();
+}
+
+/* ---------- UI Rendering & Core Logic ---------- */
+function init() {
+  loadState();
+  setupTabs();
+  setupLanguageSwitcher();
+  
+  // İlk açılışda ilhamverici mətni seçək
+  document.getElementById('inspiration-text').innerHTML = INSPIRATIONS[state.currentBatchIndex % INSPIRATIONS.length];
+
+  // "Yeni 5 söz" kliklənəndə
+  document.getElementById('next-batch-btn').addEventListener('click', () => {
+    state.currentBatchIndex = (state.currentBatchIndex + 5) % VOCAB.length;
+    state.dayCount += 1;
+    state.streakCount += 1;
+    saveState();
+  });
+
+  updateUI();
+}
+
+function setupTabs() {
+  const tabs = document.querySelectorAll('.tab-btn');
+  const views = document.querySelectorAll('.view');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+      views.forEach(v => v.classList.remove('active'));
+
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      
+      const targetViewId = tab.id.replace('tab', 'view');
+      document.getElementById(targetViewId).classList.add('active');
+    });
+  });
+
+  document.getElementById('goto-game-btn').addEventListener('click', () => {
+    document.getElementById('tab-game').click();
+  });
+}
+
+function setupLanguageSwitcher() {
+  const azBtn = document.getElementById('ui-lang-az');
+  const enBtn = document.getElementById('ui-lang-en');
+
+  azBtn.addEventListener('click', () => { state.uiLang = 'az'; saveState(); });
+  enBtn.addEventListener('click', () => { state.uiLang = 'en'; saveState(); });
+}
+
+function updateUI() {
+  // Başlıq məlumatları
+  document.getElementById('day-count').innerText = state.dayCount;
+  document.getElementById('streak-count').innerText = state.streakCount;
+  
+  // Dil düymələri
+  if (state.uiLang === 'az') {
+    document.getElementById('ui-lang-az').classList.add('active');
+    document.getElementById('ui-lang-en').classList.remove('active');
+    document.getElementById('lbl-day').innerText = "Gün";
+    document.getElementById('lbl-learned-stat').innerText = "öyrənildi";
+    document.getElementById('next-batch-btn').innerText = "Yeni 5 söz";
+    document.getElementById('goto-game-btn').innerText = "Oyunda məşq et";
+  } else {
+    document.getElementById('ui-lang-az').classList.remove('active');
+    document.getElementById('ui-lang-en').classList.add('active');
+    document.getElementById('lbl-day').innerText = "Day";
+    document.getElementById('lbl-learned-stat').innerText = "learned";
+    document.getElementById('next-batch-btn').innerText = "Next 5 words";
+    document.getElementById('goto-game-btn').innerText = "Practice in Games";
+  }
+
+  // Günün 5 sözünü render edirik
+  renderDailyWords();
+  renderMyWords();
+  renderLearnedWords();
+}
+
+function renderDailyWords() {
+  const container = document.getElementById('word-list');
+  container.innerHTML = '';
+
+  // 5 sözlük cari paketi götürürük
+  let batch = [];
+  for (let i = 0; i < 5; i++) {
+    let index = (state.currentBatchIndex + i) % VOCAB.length;
+    batch.push(VOCAB[index]);
+  }
+
+  let currentBatchLearned = 0;
+
+  batch.forEach(item => {
+    const isLearned = state.learnedWords.includes(item.word);
+    const isPinned = state.myWords.includes(item.word);
+    if (isLearned) currentBatchLearned++;
+
+    const card = document.createElement('div');
+    card.className = `word-card ${isLearned ? 'word-card-learned' : ''}`;
+
+    card.innerHTML = `
+      <div class="entry-top">
+        <div class="headword-row">
+          <h3 class="headword">${item.word}</h3>
+          <span class="level-tag">${item.level}</span>
+          <span class="pos">${item.pos}</span>
+          ${isLearned ? `<span class="learned-badge">${state.uiLang === 'az' ? 'Öyrənilib' : 'Learned'}</span>` : ''}
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="mywords-pin-btn ${isPinned ? 'pinned' : ''}" title="Siyahıya əlavə et">
+            ${isPinned ? '✓' : '＋'}
+          </button>
+          <button class="learned-toggle ${isLearned ? 'on' : ''}">✓</button>
+        </div>
+      </div>
+      <hr class="entry-rule">
+      <p class="def-en">${item.def}</p>
+      <p class="example">“${item.example}”</p>
+      <div class="az-block">
+        <span class="az-flag-label">AZ</span>
+        <span class="az-word">${item.az_word}</span>
+        <span class="az-def">— ${item.az_def}</span>
+      </div>
+    `;
+
+    // Siyahıya əlavə et/çıxart düyməsi
+    card.querySelector('.mywords-pin-btn').addEventListener('click', () => {
+      if (state.myWords.includes(item.word)) {
+        state.myWords = state.myWords.filter(w => w !== item.word);
+      } else {
+        state.myWords.push(item.word);
+      }
+      saveState();
+    });
+
+    // Öyrənildi düyməsi
+    card.querySelector('.learned-toggle').addEventListener('click', () => {
+      if (state.learnedWords.includes(item.word)) {
+        state.learnedWords = state.learnedWords.filter(w => w !== item.word);
+      } else {
+        state.learnedWords.push(item.word);
+      }
+      saveState();
+    });
+
+    container.appendChild(card);
+  });
+
+  document.getElementById('learned-count').innerText = currentBatchLearned;
+}
+
+function renderMyWords() {
+  const container = document.getElementById('mywords-list');
+  container.innerHTML = '';
+  document.getElementById('mywords-count').innerText = state.myWords.length;
+
+  if (state.myWords.length === 0) {
+    container.innerHTML = `<p class="sub">${state.uiLang === 'az' ? 'Siyahınız boşdur.' : 'Your list is empty.'}</p>`;
+    return;
+  }
+
+  state.myWords.forEach(wordStr => {
+    const item = VOCAB.find(v => v.word === wordStr);
+    if (!item) return;
+
+    const row = document.createElement('div');
+    row.className = 'learned-row';
+    row.innerHTML = `
+      <div class="learned-row-main">
+        <span class="headword">${item.word}</span>
+        <span class="pos">${item.pos}</span>
+        <span class="learned-row-az">${item.az_word}</span>
+      </div>
+      <button class="myword-delete-btn">✕</button>
+    `;
+
+    row.querySelector('.myword-delete-btn').addEventListener('click', () => {
+      state.myWords = state.myWords.filter(w => w !== wordStr);
+      saveState();
+    });
+
+    container.appendChild(row);
+  });
+}
+
+function renderLearnedWords() {
+  const container = document.getElementById('learned-list');
+  const emptyHint = document.getElementById('learned-empty');
+  container.innerHTML = '';
+  
+  document.getElementById('learned-total-count').innerText = state.learnedWords.length;
+
+  if (state.learnedWords.length === 0) {
+    emptyHint.style.display = 'block';
+    return;
+  }
+  emptyHint.style.display = 'none';
+
+  state.learnedWords.forEach(wordStr => {
+    const item = VOCAB.find(v => v.word === wordStr);
+    if (!item) return;
+
+    const row = document.createElement('div');
+    row.className = 'learned-row';
+    row.innerHTML = `
+      <div class="learned-row-main">
+        <span class="headword">${item.word}</span>
+        <span class="level-tag">${item.level}</span>
+        <span class="learned-row-az">${item.az_word}</span>
+      </div>
+    `;
+    container.appendChild(row);
+  });
+}
+
+// Proqramı başladırıq
+window.addEventListener('DOMContentLoaded', init);
+</script>
 </body>
 </html>
