@@ -392,48 +392,6 @@
     "category": "Abstract Concepts & Truth"
   },
   {
-    "word": "Manifest",
-    "part_of_speech": "adjective/verb",
-    "definition": "Aşkar, bəlli / Özünü büruzə vermək.",
-    "example": "Their dissatisfaction began to manifest itself in protests.",
-    "category": "Abstract Concepts & Truth"
-  },
-  {
-    "word": "Ostensible",
-    "part_of_speech": "adjective",
-    "definition": "Zahiri, görünən (amma arxasında başqa məqsəd ola bilən).",
-    "example": "The ostensible reason for his visit was business, but he just wanted to see her.",
-    "category": "Abstract Concepts & Truth"
-  },
-  {
-    "word": "Plausible",
-    "part_of_speech": "adjective",
-    "definition": "Ağlabatan, ağlı kəsən, inandırıcı.",
-    "example": "She provided a perfectly plausible explanation for her absence.",
-    "category": "Abstract Concepts & Truth"
-  },
-  {
-    "word": "Pragmatic",
-    "part_of_speech": "adjective",
-    "definition": "Praqmatik, nəzəriyyəyə deyil, real nəticəyə və faydaya əsaslanan.",
-    "example": "We need to take a pragmatic approach to solving this technical breakdown.",
-    "category": "Abstract Concepts & Truth"
-  },
-  {
-    "word": "Egalitarian",
-    "part_of_speech": "adjective",
-    "definition": "Bərabərlik tərəfdarı, hamının bərabər hüquqlu olduğunu müdafiə edən.",
-    "example": "They dream of creating a fair and egalitarian society.",
-    "category": "Society, Law & Politics"
-  },
-  {
-    "word": "Hegemony",
-    "part_of_speech": "noun",
-    "definition": "Hegemonluq, liderlik, üstünlük (xüsusən dövlətlər arası).",
-    "example": "The superpower sought to maintain its economic hegemony.",
-    "category": "Society, Law & Politics"
-  },
-  {
     "word": "Nepotism",
     "part_of_speech": "noun",
     "definition": "Yerlibazlıq, qohumbazlıq (işə götürərkən).",
@@ -501,20 +459,6 @@
     "part_of_speech": "adjective",
     "definition": "Natiq, bəlağətli, təsirli və gözəl danışan.",
     "example": "His eloquent speech moved many in the audience to tears.",
-    "category": "Style, Expression & Speech"
-  },
-  {
-    "word": "Euphemism",
-    "part_of_speech": "noun",
-    "definition": "Evfemizm, kobud sözü daha yumşaq və mədəni ifadə ilə əvəzləmə.",
-    "example": "'Passing away' is a common euphemism for 'dying'.",
-    "category": "Style, Expression & Speech"
-  },
-  {
-    "word": "Garrulous",
-    "part_of_speech": "adjective",
-    "definition": "Çoxdanışan, laqqı, boşboğaz.",
-    "example": "The garrulous driver talked non-stop during the entire trip.",
     "category": "Style, Expression & Speech"
   },
   {
