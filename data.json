@@ -6,6 +6,8 @@
     "az_word": "Fərasət, zehni itilik, uzaqgörənlik.",
     "def": "Ability to make good judgments and quick decisions.",
     "example": "Her business acumen helped the company double its profits.",
+    "en_text": "Her business acumen helped the company double its profits. An astute observer would notice the subtle changes in the market.",
+    "az_text": "Onun biznes fərasəti şirkətin mənfəətini ikiqat artırmağa kömək etdi. Ayıq-sayıq müşahidəçi bazardakı incə dəyişiklikləri dərhal hiss edərdi.",
     "category": "Intellect & Behavior"
   },
   {
@@ -15,6 +17,8 @@
     "az_word": "Ayıq-sayıq, zəki, hiyləgər dərəcədə ağıllı.",
     "def": "Having or showing an ability to accurately assess situations or people and turn this to one's advantage.",
     "example": "An astute observer would notice the subtle changes in the market.",
+    "en_text": "An astute investor makes decisions based on data. Such an astute strategy minimizes potential risks effectively.",
+    "az_text": "Ayıq-sayıq investor qərarlarını məlumatlara əsasən verir. Belə ayıq-sayıq strategiya potensial riskləri effektiv şəkildə minimuma endirir.",
     "category": "Intellect & Behavior"
   },
   {
@@ -24,6 +28,8 @@
     "az_word": "Xəbərdar, agah.",
     "def": "Having knowledge or being aware of.",
     "example": "We are fully cognizant of the potential risks involved.",
+    "en_text": "We are fully cognizant of the potential risks involved. The team remains cognizant of the deadline requirements.",
+    "az_text": "Biz baş verə biləcək risklərdən tamamilə xəbərdarıq. Komanda son tarix tələblərinə qarşı agah qalır.",
     "category": "Intellect & Behavior"
   },
   {
@@ -33,6 +39,8 @@
     "az_word": "Savadlı, elmli, geniş dünyagörüşlü.",
     "def": "Having or showing great knowledge or learning.",
     "example": "The professor gave an erudite lecture on medieval history.",
+    "en_text": "The professor gave an erudite lecture on medieval history. Only an erudite scholar could explain such complex theories.",
+    "az_text": "Professor orta əsrlər tarixi haqqında savadlı bir mühazirə oxudu. Yalnız savadlı bir alim belə mürəkkəb nəzəriyyələri izah edə bilərdi.",
     "category": "Intellect & Behavior"
   },
   {
@@ -42,6 +50,8 @@
     "az_word": "Özünəməxsusluq, xarakterik qəribəlik.",
     "def": "A mode of behavior or way of thought peculiar to an individual.",
     "example": "One of his idiosyncrasies is that he only writes with green ink.",
+    "en_text": "Every artist has a unique idiosyncrasy. These personal habits add charm to their creative process.",
+    "az_text": "Hər bir sənətkarın özünəməxsus bir qəribəliyi var. Bu şəxsi vərdişlər onların yaradıcılıq prosesinə cazibədarlıq qatır.",
     "category": "Intellect & Behavior"
   },
   {
@@ -51,6 +61,8 @@
     "az_word": "Hövsələsiz, impulsiv, nəticəsini düşünməyən.",
     "def": "Acting or done quickly and without thought or care.",
     "example": "An impetuous decision can lead to long-term regrets.",
+    "en_text": "Avoid making an impetuous decision during a crisis. Impetuous behavior often leads to unnecessary errors.",
+    "az_text": "Böhran zamanı hövsələsiz qərar verməkdən qaçın. Hövsələsiz davranış tez-tez lazımsız səhvlərə yol açır.",
     "category": "Intellect & Behavior"
   },
   {
@@ -60,6 +72,8 @@
     "az_word": "Alicənab, rəhmdil, comərd.",
     "def": "Very generous or forgiving, especially toward a rival or someone less powerful.",
     "example": "He was magnanimous in defeat, praising his opponent's skills.",
+    "en_text": "A leader should be magnanimous in victory. Showing a magnanimous attitude strengthens team unity.",
+    "az_text": "Lider qələbə anında alicənab olmalıdır. Alicənab mövqe nümayiş etdirmək komanda birliyini gücləndirir.",
     "category": "Intellect & Behavior"
   },
   {
@@ -69,6 +83,8 @@
     "az_word": "Həddən artıq diqqətli, vasvası.",
     "def": "Showing great attention to detail; very careful and precise.",
     "example": "The laboratory analysis requires meticulous attention to detail.",
+    "en_text": "The laboratory analysis requires meticulous attention to detail. Her meticulous approach ensures high-quality results.",
+    "az_text": "Laboratoriya təhlili detallara qarşı həddən artıq diqqət tələb edir. Onun vasvası yanaşması yüksək keyfiyyətli nəticələr təmin edir.",
     "category": "Intellect & Behavior"
   },
   {
@@ -78,6 +94,8 @@
     "az_word": "Müdriklik, uzaqgörənlik.",
     "def": "The quality of being sagacious; keen mental discernment and good judgment.",
     "example": "The leader's sagacity guided the nation through the crisis.",
+    "en_text": "The leader's sagacity guided the nation through the crisis. We admire his sagacity in business matters.",
+    "az_text": "Liderin müdrikliyi milləti böhrandan çıxardı. Biz onun biznes məsələlərindəki uzaqgörənliyinə heyranıq.",
     "category": "Intellect & Behavior"
   },
   {
@@ -87,6 +105,8 @@
     "az_word": "Tərəddüd etmək, qərarsız qalmaq.",
     "def": "Alternate or waver between different opinions or actions; be indecisive.",
     "example": "She vacillated between accepting the new job offer or staying.",
+    "en_text": "Do not vacillate when making critical choices. He continued to vacillate between two different options.",
+    "az_text": "Kritik seçimlər edərkən tərəddüd etməyin. O, iki fərqli seçim arasında tərəddüd etməyə davam etdi.",
     "category": "Intellect & Behavior"
   },
   {
@@ -96,6 +116,8 @@
     "az_word": "Zaman xətası, dövrünə uyğun olmayan.",
     "def": "A thing belonging or appropriate to a period other than that in which it exists.",
     "example": "Using a typewriter in a modern digital office is an anachronism.",
+    "en_text": "Using a typewriter in a modern digital office is an anachronism. Such tools are considered anachronisms in today's world.",
+    "az_text": "Müasir rəqəmsal ofisdə yazı maşınından istifadə etmək zaman xətasıdır. Belə alətlər bugünkü dünyada dövrünə uyğun olmayan əşyalar sayılır.",
     "category": "Change, Evolution & Time"
   },
   {
@@ -105,6 +127,8 @@
     "az_word": "Katalizator, təkanverici qüvvə.",
     "def": "A person or thing that precipitates an event.",
     "example": "The new policy acted as a catalyst for economic growth.",
+    "en_text": "The new policy acted as a catalyst for economic growth. Innovation often serves as a catalyst for future changes.",
+    "az_text": "Yeni siyasət iqtisadi artım üçün bir təkanverici qüvvə rolunu oynadı. İnnovasiya tez-tez gələcək dəyişikliklər üçün katalizator rolunu oynayır.",
     "category": "Change, Evolution & Time"
   },
   {
@@ -114,6 +138,8 @@
     "az_word": "Keçici, müvəqqəti, ömrü qısa olan.",
     "def": "Lasting for a very short time.",
     "example": "Fame in the internet age is often ephemeral.",
+    "en_text": "Fame in the internet age is often ephemeral. Joy is sometimes ephemeral, but the memories last forever.",
+    "az_text": "İnternet dövründə şöhrət tez-tez keçici olur. Sevinc bəzən müvəqqətidir, lakin xatirələr əbədi qalır.",
     "category": "Change, Evolution & Time"
   },
   {
@@ -123,6 +149,8 @@
     "az_word": "Dəyişməzlik, sabitlik.",
     "def": "The quality of being unchangeable.",
     "example": "The immutability of physical laws governs the universe.",
+    "en_text": "We respect the immutability of natural laws. This principle is defined by its absolute immutability.",
+    "az_text": "Biz təbiət qanunlarının dəyişməzliyinə hörmət edirik. Bu prinsip öz mütləq sabitliyi ilə müəyyən edilir.",
     "category": "Change, Evolution & Time"
   },
   {
@@ -132,6 +160,8 @@
     "az_word": "Başlanğıc mərhələsində olan, yeni başlayan.",
     "def": "In an initial stage; beginning to happen or develop.",
     "example": "The doctor detected incipient signs of the illness.",
+    "en_text": "The doctor detected incipient signs of the illness. It is important to treat incipient issues before they grow.",
+    "az_text": "Həkim xəstəliyin yeni başlayan əlamətlərini aşkar etdi. Başlanğıc mərhələsində olan problemləri böyüməmişdən əvvəl müalicə etmək vacibdir.",
     "category": "Change, Evolution & Time"
   },
   {
@@ -141,6 +171,8 @@
     "az_word": "Metamorfoz, tam çevrilmə.",
     "def": "A change of the form or nature of a thing or person.",
     "example": "The small startup underwent a complete metamorphosis into a global tech giant.",
+    "en_text": "The small startup underwent a complete metamorphosis into a global tech giant. Life requires constant metamorphosis to adapt.",
+    "az_text": "Kiçik startap qlobal texnologiya nəhənginə çevrilərək tam metamorfoz keçirdi. Həyat uyğunlaşmaq üçün daimi çevrilmə tələb edir.",
     "category": "Change, Evolution & Time"
   },
   {
@@ -150,6 +182,8 @@
     "az_word": "Daimi, uzunmüddətli, hər il təkrarlanan.",
     "def": "Lasting or existing for a long or apparently infinite time.",
     "example": "Lack of resources is a perennial problem for the department.",
+    "en_text": "Lack of resources is a perennial problem for the department. This has been a perennial concern for many years.",
+    "az_text": "Resurs çatışmazlığı şöbə üçün daimi bir problemdir. Bu, uzun illərdir ki, daimi bir qayğı mövzusudur.",
     "category": "Change, Evolution & Time"
   },
   {
@@ -159,6 +193,8 @@
     "az_word": "Müvəqqəti, gəldi-gedər.",
     "def": "Lasting only for a short time; impermanent.",
     "example": "The storm caused only transient damage to the power grid.",
+    "en_text": "The storm caused only transient damage to the power grid. Happiness can sometimes be transient.",
+    "az_text": "Fırtına elektrik şəbəkəsinə yalnız müvəqqəti ziyan vurdu. Xoşbəxtlik bəzən gəldi-gedər ola bilər.",
     "category": "Change, Evolution & Time"
   },
   {
@@ -168,6 +204,8 @@
     "az_word": "Taleyin dəyişkənliyi, eniş-yoxuş.",
     "def": "A change of circumstances or fortune, typically one that is unwelcome or unpleasant.",
     "example": "She managed to survive the vicissitudes of a long and turbulent career.",
+    "en_text": "She managed to survive the vicissitudes of a long and turbulent career. Everyone must face the vicissitudes of life.",
+    "az_text": "O, uzun və çətin karyerasının eniş-yoxuşlarına dözməyi bacardı. Hər kəs taleyin dəyişkənliyi ilə üzləşməlidir.",
     "category": "Change, Evolution & Time"
   },
   {
@@ -177,6 +215,8 @@
     "az_word": "Acıqlı, nifrət dolu, sərt.",
     "def": "Angry and bitter (typically of speech or a debate).",
     "example": "Their divorce legal battles became increasingly acrimonious.",
+    "en_text": "Their divorce legal battles became increasingly acrimonious. Avoid using an acrimonious tone in discussions.",
+    "az_text": "Onların boşanma ilə bağlı məhkəmə çəkişmələri getdikcə daha acıqlı hala gəldi. Müzakirələrdə sərt tondan istifadə etməyin.",
     "category": "Conflict, Criticism & Consensus"
   },
   {
@@ -186,6 +226,8 @@
     "az_word": "Düşmənçilik, ədavət, nifrət.",
     "def": "Strong hostility.",
     "example": "There is no lingering animosity between the two former business partners.",
+    "en_text": "There is no lingering animosity between the two former business partners. Animosity only destroys professional relationships.",
+    "az_text": "İki keçmiş biznes tərəfdaşı arasında qalan heç bir düşmənçilik yoxdur. Ədavət yalnız peşəkar münasibətləri məhv edir.",
     "category": "Conflict, Criticism & Consensus"
   },
   {
@@ -195,6 +237,8 @@
     "az_word": "Təslim olmaq, şərtləri qəbul etmək.",
     "def": "Cease to resist an opponent or an unwelcome demand; surrender.",
     "example": "The management finally capitulated to the demands of the labor union.",
+    "en_text": "The management finally capitulated to the demands of the labor union. They refused to capitulate despite the pressure.",
+    "az_text": "Rəhbərlik nəhayət həmkarlar ittifaqının tələbləri ilə razılaşdı. Onlar təzyiqə baxmayaraq təslim olmaqdan imtina etdilər.",
     "category": "Conflict, Criticism & Consensus"
   },
   {
@@ -204,6 +248,8 @@
     "az_word": "Güzəştə getmək, etiraf etmək.",
     "def": "Admit that something is true or valid after first denying or resisting it.",
     "example": "He was forced to concede that his initial estimates were wrong.",
+    "en_text": "He was forced to concede that his initial estimates were wrong. Sometimes it is wise to concede early.",
+    "az_text": "O, ilkin hesablamalarının səhv olduğunu etiraf etməyə məcbur oldu. Bəzən tez güzəştə getmək müdriklikdir.",
     "category": "Conflict, Criticism & Consensus"
   },
   {
@@ -213,6 +259,8 @@
     "az_word": "Mübahisəli, fikir ayrılığına səbəb olan.",
     "def": "Causing or likely to cause an argument; controversial.",
     "example": "Genetically modified food remains a highly contentious issue.",
+    "en_text": "Genetically modified food remains a highly contentious issue. This is a very contentious topic among experts.",
+    "az_text": "Genetik modifikasiya olunmuş qidalar olduqca mübahisəli bir məsələ olaraq qalır. Bu, ekspertlər arasında çox mübahisəli bir mövzudur.",
     "category": "Conflict, Criticism & Consensus"
   },
   {
@@ -222,6 +270,8 @@
     "az_word": "Aşağılamaq, kiçiltmək, dəyərsiz görmək.",
     "def": "Regard or represent as being of little worth.",
     "example": "You shouldn't disparage his achievements just because you dislike him.",
+    "en_text": "You shouldn't disparage his achievements just because you dislike him. It is wrong to disparage the hard work of others.",
+    "az_text": "Sırf ondan xoşun gəlmədiyi üçün onun nailiyyətlərini aşağılamamalısan. Başqalarının zəhmətini kiçiltmək səhvdir.",
     "category": "Conflict, Criticism & Consensus"
   },
   {
@@ -231,6 +281,8 @@
     "az_word": "Vəziyyəti daha da pisləşdirmək, gərginləşdirmək.",
     "def": "Make a problem, bad situation, or negative feeling worse.",
     "example": "Scratching an insect bite will only exacerbate the itch.",
+    "en_text": "The manager was surrounded by obsequious assistants. They agreed with everything, which only served to exacerbate the existing problems.",
+    "az_text": "Menecer yaltaq köməkçilərlə əhatə olunmuşdu. Onlar hər şeylə razılaşırdılar ki, bu da mövcud problemləri daha da gərginləşdirməkdən başqa bir işə yaramırdı.",
     "category": "Conflict, Criticism & Consensus"
   },
   {
@@ -240,6 +292,8 @@
     "az_word": "Bəraət qazandırmaq, təqsirsiz olduğunu sübut etmək.",
     "def": "(of an official body) absolve (someone) from blame for a fault or wrongdoing.",
     "example": "The newly discovered DNA evidence will exonerate the defendant.",
+    "en_text": "The newly discovered DNA evidence will exonerate the defendant. The investigation served to exonerate her completely.",
+    "az_text": "Yeni kəşf edilmiş DNT sübutları təqsirləndirilən şəxsə bəraət qazandıracaq. İstintaq onun tamamilə təqsirsiz olduğunu sübut etdi.",
     "category": "Conflict, Criticism & Consensus"
   },
   {
@@ -249,6 +303,8 @@
     "az_word": "Söyüş, təhqir, ağır tənqid.",
     "def": "Insulting, abusive, or highly critical language.",
     "example": "The text was full of harsh personal invective against the critic.",
+    "en_text": "The text was full of harsh personal invective against the critic. Do not resort to invective during a debate.",
+    "az_text": "Mətn tənqidçiyə qarşı sərt şəxsi təhqirlərlə dolu idi. Debat zamanı ağır tənqidlərə və söyüşə əl atmayın.",
     "category": "Conflict, Criticism & Consensus"
   },
   {
@@ -258,6 +314,8 @@
     "az_word": "Sakitləşdirmək, yumşaltmaq, qəzəbi yatırmaq.",
     "def": "Appease the anger or anxiety of (someone).",
     "example": "The company offered a full refund to mollify the angry customer.",
+    "en_text": "The company offered a full refund to mollify the angry customer. His gentle words helped to mollify her anxiety.",
+    "az_text": "Şirkət hirslənmiş müştərini sakitləşdirmək üçün tam geri ödəniş təklif etdi. Onun mehriban sözləri qızın narahatlığını yumşaltmağa kömək etdi.",
     "category": "Conflict, Criticism & Consensus"
   },
   {
@@ -267,6 +325,8 @@
     "az_word": "Yaltaq, nökərsayaq mütilik.",
     "def": "Obedient or attentive to an excessive or servile degree.",
     "example": "The manager was surrounded by obsequious assistants who agreed with everything.",
+    "en_text": "The manager was surrounded by obsequious assistants. Obsequious behavior is never a sign of true leadership.",
+    "az_text": "Menecer yaltaq köməkçilərlə əhatə olunmuşdu. Yaltaq davranış heç vaxt əsl liderliyin göstəricisi deyil.",
     "category": "Conflict, Criticism & Consensus"
   },
   {
@@ -276,6 +336,8 @@
     "az_word": "Dalaşqan, dava-dalaş axtaran.",
     "def": "Eager or quick to argue, quarrel, or fight.",
     "example": "The politician's pugnacious attitude alienated many moderate voters.",
+    "en_text": "The politician's pugnacious attitude alienated many moderate voters. His pugnacious nature caused constant arguments.",
+    "az_text": "Siyasətçinin dalaşqan münasibəti bir çox mülayim seçicini ondan uzaqlaşdırdı. Onun dava-dalaş axtaran xasiyyəti daimi mübahisələrə səbəb olurdu.",
     "category": "Conflict, Criticism & Consensus"
   },
   {
@@ -285,6 +347,8 @@
     "az_word": "Kin, ədavət, acıq.",
     "def": "Bitterness or resentfulness, especially when long-standing.",
     "example": "They parted ways without any bitterness or rancor.",
+    "en_text": "They parted ways without any bitterness or rancor. Long-standing rancor can poison any friendship.",
+    "az_text": "Onlar heç bir acılıq və ya kin olmadan yollarını ayırdılar. Uzunmüddətli ədavət hər hansı bir dostluğu zəhərləyə bilər.",
     "category": "Conflict, Criticism & Consensus"
   },
   {
@@ -294,6 +358,8 @@
     "az_word": "Barışdırmaq, ziddiyyətləri aradan qaldırmaq.",
     "def": "Restore friendly relations between.",
     "example": "It is difficult to reconcile economic growth with environmental protection.",
+    "en_text": "It is difficult to reconcile economic growth with environmental protection. We must find a way to reconcile these differences.",
+    "az_text": "İqtisadi artımı ətraf mühitin mühafizəsi ilə uzlaşdırmaq çətindir. Biz bu fikir ayrılıqlarını barışdırmağın yolunu tapmalıyıq.",
     "category": "Conflict, Criticism & Consensus"
   },
   {
@@ -303,6 +369,8 @@
     "az_word": "İmtina etmək, rədd etmək, tanımamaq.",
     "def": "Refuse to accept or be associated with.",
     "example": "The government chose to repudiate the old treaty.",
+    "en_text": "The government chose to repudiate the old treaty. She felt forced to repudiate the false allegations against her.",
+    "az_text": "Hökumət köhnə müqavilədən imtina etməyi seçdi. O, özünə qarşı irəli sürülən yalan ittihamları rədd etməyə məcbur olduğunu hiss etdi.",
     "category": "Conflict, Criticism & Consensus"
   },
   {
@@ -312,6 +380,8 @@
     "az_word": "Sərt, amansız, məhvredici.",
     "def": "Witheringly scornful; severely critical.",
     "example": "The journalist wrote a scathing review of the new movie.",
+    "en_text": "The journalist wrote a scathing review of the new movie. His scathing remarks deeply hurt the team's morale.",
+    "az_text": "Jurnalist yeni film haqqında amansız bir tənqidi icmal yazdı. Onun sərt şərhləri komandanın ruhuna ciddi ziyan vurdu.",
     "category": "Conflict, Criticism & Consensus"
   },
   {
@@ -321,6 +391,8 @@
     "az_word": "Bəraət qazandırmaq, haqlı çıxarmaq.",
     "def": "Clear (someone) of blame or suspicion.",
     "example": "The success of the product vindicated the design team's risky strategy.",
+    "en_text": "The success of the product vindicated the design team's risky strategy. New evidence will surely vindicate his position.",
+    "az_text": "Məhsulun uğuru dizayn komandasının riskli strategiyasını haqlı çıxardı. Yeni sübutlar onun mövqeyinin doğruluğunu mütləq təsdiqləyəcək.",
     "category": "Conflict, Criticism & Consensus"
   },
   {
@@ -330,6 +402,8 @@
     "az_word": "Bol, çoxlu miqdarda.",
     "def": "Abundant in supply or quantity.",
     "example": "She took copious notes during the three-hour lecture.",
+    "en_text": "She took copious notes during the three-hour lecture. The rain fell in copious amounts throughout the night.",
+    "az_text": "O, üç saatlıq mühazirə zamanı çoxlu qeydlər apardı. Yağış gecə boyu bol miqdarda yağırdı.",
     "category": "Abundance, Scarcity & Quantity"
   },
   {
@@ -339,6 +413,8 @@
     "az_word": "Qıtlıq, çatışmazlıq.",
     "def": "A scarcity or lack of something.",
     "example": "There is a dearth of reliable data regarding this rare polymer.",
+    "en_text": "There is a dearth of reliable data regarding this rare polymer. A dearth of talent is slowing down the project.",
+    "az_text": "Bu nadir polimerlə bağlı etibarlı məlumat qıtlığı var. İstedad çatışmazlığı layihəni ləngidir.",
     "category": "Abundance, Scarcity & Quantity"
   },
   {
@@ -348,6 +424,8 @@
     "az_word": "Artıqlıq, bazarda təklif bolluğu.",
     "def": "An excessively abundant supply of something.",
     "example": "The current glut of oil has caused prices to drop significantly.",
+    "en_text": "The current glut of oil has caused prices to drop significantly. A glut of information can make decision-making harder.",
+    "az_text": "Hazırkı neft bolluğu qiymətlərin əhəmiyyətli dərəcədə düşməsinə səbəb olub. İnformasiya bolluğu qərar verməyi çətinləşdirə bilər.",
     "category": "Abundance, Scarcity & Quantity"
   },
   {
@@ -357,6 +435,8 @@
     "az_word": "Həddindən artıq, normadan çox.",
     "def": "Unusually or disproportionately large; excessive.",
     "example": "They spent an inordinate amount of time discussing minor details.",
+    "en_text": "They spent an inordinate amount of time discussing minor details. It caused an inordinate delay in the schedule.",
+    "az_text": "Onlar kiçik detalları müzakirə etməyə normadan çox vaxt sərf etdilər. Bu, qrafikdə həddindən artıq gecikməyə səbəb oldu.",
     "category": "Abundance, Scarcity & Quantity"
   },
   {
@@ -366,6 +446,8 @@
     "az_word": "Çoxşaxəli, çoxcəhətli.",
     "def": "Having many facets or aspects.",
     "example": "Managing a major international project is a multifaceted task.",
+    "en_text": "Managing a major international project is a multifaceted task. Her personality is quite multifaceted and interesting.",
+    "az_text": "Böyük bir beynəlxalq layihəni idarə etmək çoxşaxəli bir vəzifədir. Onun şəxsiyyəti olduqca çoxcəhətli və maraqlıdır.",
     "category": "Abundance, Scarcity & Quantity"
   },
   {
@@ -375,6 +457,8 @@
     "az_word": "Azlıq, qıtlıq, yetərsiz miqdar.",
     "def": "The presence of something only in small or insufficient quantities or amounts.",
     "example": "A paucity of evidence prevented the police from making an arrest.",
+    "en_text": "A paucity of evidence prevented the police from making an arrest. Due to the paucity of resources, we cannot start yet.",
+    "az_text": "Sübutların azlığı polisin həbs qərarı verməsinə mane oldu. Resurs qıtlığı səbəbindən hələ başlaya bilmərik.",
     "category": "Abundance, Scarcity & Quantity"
   },
   {
@@ -384,6 +468,8 @@
     "az_word": "Həddindən artıq bolluq.",
     "def": "A large or excessive amount of (something).",
     "example": "The internet provides a plethora of information on any given topic.",
+    "en_text": "The internet provides a plethora of information on any given topic. We have a plethora of options to choose from.",
+    "az_text": "İnternet istənilən mövzuda həddindən artıq çoxlu məlumat təqdim edir. Seçmək üçün bizdə həddindən artıq çox variant var.",
     "category": "Abundance, Scarcity & Quantity"
   },
   {
@@ -393,6 +479,8 @@
     "az_word": "Heyranedici dərəcədə böyük, nəhəng.",
     "def": "Remarkably or impressively great in extent, size, or degree.",
     "example": "The young pianist demonstrated a prodigious talent.",
+    "en_text": "The young pianist demonstrated a prodigious talent. This project required a prodigious amount of effort.",
+    "az_text": "Gənc pianoçu heyranedici dərəcədə böyük bir istedad nümayiş etdirdi. Bu layihə nəhəng miqdarda səy tələb edirdi.",
     "category": "Abundance, Scarcity & Quantity"
   },
   {
@@ -402,6 +490,8 @@
     "az_word": "Bol, hədsiz, fəvvarə vuran.",
     "def": "(especially of something offered or discharged) exuberantly plentiful; abundant.",
     "example": "He offered profuse apologies for making us wait so long.",
+    "en_text": "He offered profuse apologies for making us wait so long. She received profuse thanks from the community.",
+    "az_text": "Bizi bu qədər gözlətdiyi üçün o, hədsiz dərəcədə üzr istədi. O, cəmiyyətdən bol minnətdarlıq aldı.",
     "category": "Abundance, Scarcity & Quantity"
   },
   {
@@ -411,6 +501,8 @@
     "az_word": "Artıq, lüzumsuz, lazımsız.",
     "def": "Unnecessary, especially through being more than enough.",
     "example": "Delete any superfluous words to make your sentences clearer.",
+    "en_text": "Delete any superfluous words to make your sentences clearer. Extra features in the software were completely superfluous.",
+    "az_text": "Cümlələrinizi daha aydın etmək üçün hər hansı artıq sözləri silin. Proqramdakı əlavə funksiyalar tamamilə lazımsız idi.",
     "category": "Abundance, Scarcity & Quantity"
   },
   {
@@ -420,6 +512,8 @@
     "az_word": "Qeyri-müəyyənlik, ikimənalılıq.",
     "def": "The quality of being open to more than one interpretation.",
     "example": "To avoid legal disputes, we must eliminate any ambiguity in the contract.",
+    "en_text": "To avoid legal disputes, we must eliminate any ambiguity in the contract. His speech was filled with ambiguity.",
+    "az_text": "Hüquqi mübahisələrdən qaçmaq üçün müqavilədəki hər hansı qeyri-müəyyənliyi aradan qaldırmalıyıq. Onun nitqi ikimənalılıqla dolu idi.",
     "category": "Abstract Concepts & Truth"
   },
   {
@@ -429,6 +523,8 @@
     "az_word": "Aşkar, sübuta ehtiyacı olmayan.",
     "def": "Self-evident or unquestionable.",
     "example": "It is axiomatic that good communication is vital for teamwork.",
+    "en_text": "It is axiomatic that good communication is vital for teamwork. These facts are practically axiomatic.",
+    "az_text": "Yaxşı ünsiyyətin komanda işi üçün vacib olması aşkardır. Bu faktlar demək olar ki, sübuta ehtiyacı olmayan həqiqətlərdir.",
     "category": "Abstract Concepts & Truth"
   },
   {
@@ -438,6 +534,8 @@
     "az_word": "Xəyali, reallaşması qeyri-mümkün.",
     "def": "Realized as impossible; wildly fanciful.",
     "example": "His schemes for getting rich quickly were completely chimerical.",
+    "en_text": "His schemes for getting rich quickly were completely chimerical. Do not base your plans on chimerical ideas.",
+    "az_text": "Onun tez varlanmaq planları tamamilə xəyali idi. Planlarınızı xəyali fikirlər üzərində qurmayın.",
     "category": "Abstract Concepts & Truth"
   },
   {
@@ -447,6 +545,8 @@
     "az_word": "Tapmaca, çətin problem.",
     "def": "A confusing and difficult problem or question.",
     "example": "How to reduce inflation without rising unemployment is a major economic conundrum.",
+    "en_text": "How to reduce inflation without rising unemployment is a major economic conundrum. We face a difficult conundrum today.",
+    "az_text": "İşsizliyi artırmadan inflyasiyanı necə azaltmaq olar, bu əsas iqtisadi müəmmadır. Biz bu gün çətin bir problemlə üz-üzəyik.",
     "category": "Abstract Concepts & Truth"
   },
   {
@@ -456,6 +556,8 @@
     "az_word": "İki zidd hissəyə bölünmə.",
     "def": "A division or contrast between two things that are or are represented as being opposed or entirely different.",
     "example": "There is a strict dichotomy between the theory and actual practice.",
+    "en_text": "There is a strict dichotomy between the theory and actual practice. The study highlights the dichotomy in current political views.",
+    "az_text": "Nəzəriyyə ilə faktiki təcrübə arasında ciddi bir ziddiyyət var. Tədqiqat cari siyasi baxışlardakı iki tərəfliliyi vurğulayır.",
     "category": "Abstract Concepts & Truth"
   },
   {
@@ -465,6 +567,8 @@
     "az_word": "İkiüzlülük, riyakarlıq, aldatma.",
     "def": "Deceitfulness; double-dealing.",
     "example": "The spy's duplicity was finally uncovered by intelligence officers.",
+    "en_text": "The spy's duplicity was finally uncovered by intelligence officers. He was eventually punished for his duplicity.",
+    "az_text": "Casusun ikiüzlülüyü nəhayət kəşfiyyat zabitləri tərəfindən aşkar edildi. O, sonda riyakarlığına görə cəzalandırıldı.",
     "category": "Abstract Concepts & Truth"
   },
   {
@@ -474,6 +578,8 @@
     "az_word": "Təcrübəyə və müşahidəyə əsaslanan.",
     "def": "Based on, concerned with, or verifiable by observation or experience rather than theory or pure logic.",
     "example": "Our conclusions are backed by solid empirical evidence.",
+    "en_text": "Our conclusions are backed by solid empirical evidence. We need empirical data to support our new theory.",
+    "az_text": "Nəticələrimiz möhkəm empirik sübutlarla dəstəklənir. Yeni nəzəriyyəmizi dəstəkləmək üçün təcrübi məlumatlara ehtiyacımız var.",
     "category": "Abstract Concepts & Truth"
   },
   {
@@ -483,6 +589,8 @@
     "az_word": "İkimənalı, şübhəli, qeyri-dəqiq.",
     "def": "Open to more than one interpretation; ambiguous.",
     "example": "The results of the initial laboratory test were equivocal.",
+    "en_text": "The results of the initial laboratory test were equivocal. His answer was far too equivocal to be useful.",
+    "az_text": "İlkin laboratoriya testinin nəticələri ikimənalı idi. Onun cavabı faydalı olmaq üçün çox şübhəli idi.",
     "category": "Abstract Concepts & Truth"
   },
   {
@@ -492,6 +600,8 @@
     "az_word": "Səhv, yanlış fikrə əsaslanan, aldadıcı.",
     "def": "Based on a mistaken belief.",
     "example": "The argument rests on a fallacious assumption.",
+    "en_text": "The argument rests on a fallacious assumption. Such fallacious reasoning leads to incorrect conclusions.",
+    "az_text": "Arqument səhv bir fərziyyəyə əsaslanır. Belə yanlış mühakimə qeyri-dəqiq nəticələrə gətirib çıxarır.",
     "category": "Abstract Concepts & Truth"
   },
   {
@@ -501,6 +611,8 @@
     "az_word": "Gözlə görünməyən, toxunulmaz.",
     "def": "Unable to be touched or grasped; not having physical presence.",
     "example": "Brand loyalty is an intangible but highly valuable asset.",
+    "en_text": "Brand loyalty is an intangible but highly valuable asset. Trust is an intangible quality that builds over time.",
+    "az_text": "Brendə sadiqlik maddi olmayan, lakin çox dəyərli bir aktivdir. Etibar zamanla inşa edilən gözlə görünməyən bir keyfiyyətdir.",
     "category": "Abstract Concepts & Truth"
   },
   {
@@ -510,6 +622,8 @@
     "az_word": "Qohumbazlıq, yerlibazlıq.",
     "def": "The practice among those with power or influence of favoring relatives or friends, especially by giving them jobs.",
     "example": "The appointment was criticized as a clear case of nepotism.",
+    "en_text": "The appointment was criticized as a clear case of nepotism. Nepotism destroys meritocracy in any organization.",
+    "az_text": "Təyinat açıq-aşkar qohumbazlıq halı kimi tənqid olundu. Qohumbazlıq hər hansı bir təşkilatda ləyaqətə əsaslanan idarəetməni məhv edir.",
     "category": "Society, Law & Politics"
   },
   {
@@ -519,6 +633,8 @@
     "az_word": "Cəmiyyətdən qovmaq, boykot etmək.",
     "def": "Exclude (someone) from a society or group.",
     "example": "He was ostracized by his colleagues after blowing the whistle.",
+    "en_text": "He was ostracized by his colleagues after blowing the whistle. They threatened to ostracize anyone who disagreed.",
+    "az_text": "O, gizli məlumatları açıqladıqdan sonra həmkarları tərəfindən boykot edildi. Onlar razılaşmayan hər kəsi cəmiyyətdən qovmaqla hədələdilər.",
     "category": "Society, Law & Politics"
   },
   {
@@ -528,6 +644,8 @@
     "az_word": "Sanksiya, rəsmi icazə və ya cəza.",
     "def": "A threatened penalty for disobeying a law or rule; or official permission.",
     "example": "The UN voted to impose economic sanctions on the country.",
+    "en_text": "The UN voted to impose economic sanctions on the country. We need official sanction to proceed with the experiment.",
+    "az_text": "BMT ölkəyə qarşı iqtisadi sanksiyalar tətbiq etməyə səs verdi. Eksperimentə davam etmək üçün rəsmi icazə almalıyıq.",
     "category": "Society, Law & Politics"
   },
   {
@@ -537,6 +655,8 @@
     "az_word": "Suverenlik, ali hakimiyyət.",
     "def": "Supreme power or authority.",
     "example": "The nation defended its territorial sovereignty during the conflict.",
+    "en_text": "The nation defended its territorial sovereignty during the conflict. Sovereignty is the right of a nation to rule itself.",
+    "az_text": "Millət münaqişə zamanı ərazi suverenliyini müdafiə etdi. Suverenlik bir millətin özünü idarə etmək hüququdur.",
     "category": "Society, Law & Politics"
   },
   {
@@ -546,6 +666,8 @@
     "az_word": "Sistemi sarsıtmağa yönəlmiş.",
     "def": "Seeking or intended to subvert an established system or institution.",
     "example": "The underground group published subversive articles against the regime.",
+    "en_text": "The underground group published subversive articles against the regime. Subversive actions can lead to radical social changes.",
+    "az_text": "Gizli qrup rejimə qarşı sistemi sarsıdıcı məqalələr dərc etdi. Üsyankar hərəkətlər köklü sosial dəyişikliklərə yol aça bilər.",
     "category": "Society, Law & Politics"
   },
   {
@@ -555,6 +677,8 @@
     "az_word": "Fikrini aydın ifadə edən.",
     "def": "(of a person) having the ability to speak fluently and coherently.",
     "example": "She is an articulate speaker who clearly delivers her points.",
+    "en_text": "She is an articulate speaker who clearly delivers her points. It is important to articulate your vision to the team.",
+    "az_text": "O, fikirlərini aydın şəkildə çatdıran səlis bir natiqdir. Vizyonunuzu komandaya aydın şəkildə ifadə etmək vacibdir.",
     "category": "Style, Expression & Speech"
   },
   {
@@ -564,6 +688,8 @@
     "az_word": "Gurultulu amma içi boş danışıq.",
     "def": "High-sounding but with little meaning; inflated.",
     "example": "I grew tired of his bombastic speeches and empty promises.",
+    "en_text": "I grew tired of his bombastic speeches and empty promises. Avoid using bombastic language in formal writing.",
+    "az_text": "Mən onun təmtəraqlı çıxışlarından və boş vədlərindən yoruldum. Rəsmi yazılarda gurultulu dildən istifadə etməyin.",
     "category": "Style, Expression & Speech"
   },
   {
@@ -573,6 +699,8 @@
     "az_word": "Sözü fırlatma, bəhanəli uzatma.",
     "def": "The use of many words where fewer would do, especially in a deliberate attempt to be vague or evasive.",
     "example": "Politicians are masters of circumlocution when answering direct questions.",
+    "en_text": "Politicians are masters of circumlocution when answering direct questions. His circumlocution made the explanation very confusing.",
+    "az_text": "Siyasətçilər birbaşa sualları cavablandırarkən sözü fırlatmaqda ustadırlar. Onun bəhanəli uzatmaları izahı çox çaşdırıcı etdi.",
     "category": "Style, Expression & Speech"
   },
   {
@@ -582,6 +710,8 @@
     "az_word": "İnandırıcı, tutarlı, güclü.",
     "def": "(of an argument or case) clear, logical, and convincing.",
     "example": "The lawyer presented a cogent argument that convinced the jury.",
+    "en_text": "The lawyer presented a cogent argument that convinced the jury. You need cogent reasons to change the policy.",
+    "az_text": "Vəkil münsiflər heyətini inandıran tutarlı bir arqument təqdim etdi. Siyasəti dəyişmək üçün inandırıcı səbəbləriniz olmalıdır.",
     "category": "Style, Expression & Speech"
   },
   {
@@ -591,6 +721,8 @@
     "az_word": "Təsirli və gözəl danışan.",
     "def": "Fluent or persuasive in speaking or writing.",
     "example": "His eloquent speech moved many in the audience to tears.",
+    "en_text": "His eloquent speech moved many in the audience to tears. An eloquent writer can touch hearts easily.",
+    "az_text": "Onun təsirli çıxışı auditoriyadakı bir çox insanı kövrəltdi. Bəlağətli yazıçı ürəklərə asanlıqla toxuna bilər.",
     "category": "Style, Expression & Speech"
   },
   {
@@ -600,6 +732,8 @@
     "az_word": "Az sözlə çox məna ifadə edən.",
     "def": "(of a person, speech, or style of writing) using very few words.",
     "example": "His laconic reply left no room for further questioning.",
+    "en_text": "His laconic reply left no room for further questioning. A laconic style can sometimes be very effective.",
+    "az_text": "Onun lakonik cavabı əlavə suallar üçün yer qoymadı. Lakonik üslub bəzən çox təsirli ola bilər.",
     "category": "Style, Expression & Speech"
   },
   {
@@ -609,6 +743,8 @@
     "az_word": "Çox danışmağı sevən.",
     "def": "Tending to talk a great deal; talkative.",
     "example": "She became quite loquacious after a cup of coffee.",
+    "en_text": "She became quite loquacious after a cup of coffee. He is a loquacious person who enjoys sharing stories.",
+    "az_text": "O, bir fincan qəhvədən sonra kifayət qədər danışqan oldu. O, hekayələr paylaşmağı sevən danışqan bir insandır.",
     "category": "Style, Expression & Speech"
   },
   {
@@ -618,6 +754,8 @@
     "az_word": "Yığcam və tutarlı.",
     "def": "(of language or style) concise and forcefully expressive.",
     "example": "The book is full of pithy sayings and practical wisdom.",
+    "en_text": "The book is full of pithy sayings and practical wisdom. Her pithy comments always hit the mark.",
+    "az_text": "Kitab qısa və mənalı deyimlərlə və praktik müdrikliklə doludur. Onun yığcam şərhləri həmişə yerinə düşür.",
     "category": "Style, Expression & Speech"
   },
   {
@@ -627,6 +765,8 @@
     "az_word": "Təsirli danışıq sənəti.",
     "def": "The art of effective or persuasive speaking or writing.",
     "example": "We need to look past the rhetoric and examine the actual facts.",
+    "en_text": "We need to look past the rhetoric and examine the actual facts. Great rhetoric can inspire change.",
+    "az_text": "Biz təsirli danışıq sənətinin arxasına baxmalı və faktları araşdırmalıyıq. Möhtəşəm ritorika dəyişikliyə ilham verə bilər.",
     "category": "Style, Expression & Speech"
   },
   {
@@ -636,6 +776,8 @@
     "az_word": "Qısa və aydın.",
     "def": "(especially of something written or spoken) briefly and clearly expressed.",
     "example": "Please provide a succinct summary of the laboratory findings.",
+    "en_text": "Please provide a succinct summary of the laboratory findings. A succinct explanation is better than a long one.",
+    "az_text": "Zəhmət olmasa laboratoriya nəticələrinin yığcam xülasəsini təqdim edin. Qısa izah uzun izahdan daha yaxşıdır.",
     "category": "Style, Expression & Speech"
   },
   {
@@ -645,6 +787,8 @@
     "az_word": "Qapalı, sakit xasiyyətli.",
     "def": "(of a person) reserved or uncommunicative in speech; saying little.",
     "example": "He was a taciturn man who rarely spoke about his past.",
+    "en_text": "He was a taciturn man who rarely spoke about his past. Some people prefer to be taciturn in social settings.",
+    "az_text": "O, keçmişi haqqında nadir hallarda danışan azdanışan bir adam idi. Bəzi insanlar ictimai mühitlərdə qapalı olmağa üstünlük verirlər.",
     "category": "Style, Expression & Speech"
   },
   {
@@ -654,6 +798,8 @@
     "az_word": "Sərt dərəcədə yığcam.",
     "def": "Sparing in the use of words; abrupt.",
     "example": "She gave a terse one-word answer that signaled the discussion was over.",
+    "en_text": "She gave a terse one-word answer that signaled the discussion was over. His terse style can seem rude.",
+    "az_text": "O, müzakirənin bitdiyinə işarə edən qısa, bir kəlməlik cavab verdi. Onun sərt dərəcədə yığcam üslubu kobud görünə bilər.",
     "category": "Style, Expression & Speech"
   },
   {
@@ -663,6 +809,8 @@
     "az_word": "Lüzumsuz dərəcədə uzun.",
     "def": "Using or expressed in more words than are needed.",
     "example": "His report was too verbose and desperately needed heavy editing.",
+    "en_text": "His report was too verbose and desperately needed heavy editing. Avoid being verbose in your emails.",
+    "az_text": "Onun hesabatı çoxsözlü idi və ciddi redaktəyə ehtiyacı vardı. E-poçtlarınızda lüzumsuz dərəcədə uzun yazmaqdan çəkinin.",
     "category": "Style, Expression & Speech"
   },
   {
@@ -672,6 +820,8 @@
     "az_word": "Gözlənilmədən dəyişən, etibarsız.",
     "def": "Given to sudden and unaccountable changes of mood or behavior.",
     "example": "The administration's capricious decisions made planning impossible.",
+    "en_text": "The administration's capricious decisions made planning impossible. We cannot rely on his capricious mood.",
+    "az_text": "İdarəçiliyin şıltaq qərarları planlaşdırmanı qeyri-mümkün etdi. Onun qeyri-sabit əhval-ruhiyyəsinə güvənə bilmərik.",
     "category": "Advanced Descriptive Adjectives"
   },
   {
@@ -681,6 +831,8 @@
     "az_word": "Diqqətçəkən, aşkar.",
     "def": "Standing out so as to be clearly visible.",
     "example": "The green building was conspicuously visible from miles away.",
+    "en_text": "The green building was conspicuously visible from miles away. His absence was conspicuous during the event.",
+    "az_text": "Yaşıl bina millərlə uzaqdan nəzərə çarpırdı. Onun yoxluğu tədbir zamanı aşkar idi.",
     "category": "Advanced Descriptive Adjectives"
   },
   {
@@ -690,6 +842,8 @@
     "az_word": "Ziyanverici, zərərli.",
     "def": "Causing harm or damage.",
     "example": "Smoking has a proven deleterious effect on lung capacity.",
+    "en_text": "Smoking has a proven deleterious effect on lung capacity. These chemicals have a deleterious impact on the environment.",
+    "az_text": "Siqaretin ağciyər tutumuna sübut olunmuş zərərli təsiri var. Bu kimyəvi maddələr ətraf mühitə ziyanverici təsir göstərir.",
     "category": "Advanced Descriptive Adjectives"
   },
   {
@@ -699,6 +853,8 @@
     "az_word": "Sübutlarla bərkitmək, təsdiqləmək.",
     "def": "Confirm or give support to (a statement, theory, or finding).",
     "example": "The laboratory results corroborate our initial theory.",
+    "en_text": "The laboratory results corroborate our initial theory. We need more witnesses to corroborate his story.",
+    "az_text": "Laboratoriya nəticələri ilkin nəzəriyyəmizi təsdiqləyir. Onun hekayəsini sübut etmək üçün daha çox şahidə ehtiyacımız var.",
     "category": "High-Level Verbs"
   },
   {
@@ -708,6 +864,8 @@
     "az_word": "Məhdudlaşdırmaq, azaltmaq.",
     "def": "Reduce in extent or quantity; impose a restriction on.",
     "example": "We had to curtail our budget due to unexpected operational costs.",
+    "en_text": "We had to curtail our budget due to unexpected operational costs. New regulations will curtail the company's activities.",
+    "az_text": "Gözlənilməz əməliyyat xərclərinə görə büdcəmizi azaltmalı olduq. Yeni qaydalar şirkətin fəaliyyətini məhdudlaşdıracaq.",
     "category": "High-Level Verbs"
   },
   {
@@ -717,6 +875,8 @@
     "az_word": "Sərhədlərini çəkmək, təsvir etmək.",
     "def": "Describe or portray (something) precisely.",
     "example": "The contract clearly delineates the responsibilities of each party.",
+    "en_text": "The contract clearly delineates the responsibilities of each party. The map delineates the boundaries of the park.",
+    "az_text": "Müqavilə hər tərəfin vəzifələrini aydın şəkildə dəqiq təsvir edir. Xəritə parkın sərhədlərini göstərir.",
     "category": "High-Level Verbs"
   },
   {
@@ -726,6 +886,8 @@
     "az_word": "Geniş kütləyə çatdırmaq (məlumat).",
     "def": "Spread (something, especially information) widely.",
     "example": "The internet allows us to disseminate information globally within seconds.",
+    "en_text": "The internet allows us to disseminate information globally within seconds. They plan to disseminate the report to all departments.",
+    "az_text": "İnternet məlumatı saniyələr ərzində qlobal şəkildə yaymağımıza imkan verir. Onlar hesabatı bütün şöbələrə çatdırmağı planlaşdırırlar.",
     "category": "High-Level Verbs"
   },
   {
@@ -735,6 +897,8 @@
     "az_word": "Reaksiya və ya məlumat qoparmaq.",
     "def": "Evoke or draw out (a response, answer, or fact) from someone.",
     "example": "The questionnaire was designed to elicit feedback from users.",
+    "en_text": "The questionnaire was designed to elicit feedback from users. His jokes always elicit a positive response.",
+    "az_text": "Anket istifadəçilərdən rəy almaq üçün hazırlanıb. Onun zarafatları həmişə müsbət reaksiya doğurur.",
     "category": "High-Level Verbs"
   },
   {
@@ -744,6 +908,8 @@
     "az_word": "Bənzəməyə çalışmaq (uğurlu birini).",
     "def": "Match or surpass (a person or achievement), typically by imitation.",
     "example": "Many young athletes try to emulate their favorite sports stars.",
+    "en_text": "Many young athletes try to emulate their favorite sports stars. It is better to create than to emulate.",
+    "az_text": "Bir çox gənc idmançı sevimli idman ulduzlarına bənzəməyə çalışır. Yaratmaq təqlid etməkdən daha yaxşıdır.",
     "category": "High-Level Verbs"
   }
 ]
