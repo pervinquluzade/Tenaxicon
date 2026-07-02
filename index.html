@@ -122,7 +122,57 @@
   .view { display: none; }
   .view.active { display: block; }
 
-  /* Stat strip */
+  /* Day progress */
+  .day-progress-card {
+    background: linear-gradient(135deg, var(--ink) 0%, #2a3560 100%);
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    color: var(--paper);
+  }
+  .day-progress-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+  .day-progress-title { font-family: var(--serif); font-size: 15px; }
+  .day-progress-frac { font-size: 13px; opacity: 0.85; }
+  .day-progress-track { height: 7px; background: rgba(255,255,255,0.18); border-radius: 999px; overflow: hidden; }
+  .day-progress-fill { height: 100%; background: linear-gradient(90deg, var(--teal) 0%, #4fb3ab 100%); border-radius: 999px; transition: width 0.35s ease; }
+  .day-badge-row { display: flex; gap: 14px; margin-top: 12px; flex-wrap: wrap; }
+  .day-badge { font-size: 12px; opacity: 0.9; display: flex; align-items: center; gap: 5px; }
+  .day-badge b { font-weight: 700; }
+
+  /* Word card - compact accordion style */
+  .word-card {
+    background: var(--paper-card);
+    border: 1px solid var(--paper-line);
+    border-left: 4px solid var(--teal);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-bottom: 10px;
+  }
+  .word-card-learned { border-left-color: var(--clay); }
+  .entry-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .headword-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; min-width: 0; }
+  .word-index { flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; background: var(--teal-soft); color: var(--teal); font-size: 10.5px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .headword { font-family: var(--serif); font-size: 19px; margin: 0; }
+  .level-tag { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 5px; background: var(--teal-soft); color: var(--teal); }
+  .pos { font-size: 12px; font-style: italic; color: var(--ink-soft); }
+  .card-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+  .az-line { margin-top: 6px; font-size: 14px; color: var(--clay); font-weight: 600; }
+
+  .word-details { margin-top: 4px; }
+  .word-details summary {
+    list-style: none; cursor: pointer; font-size: 11.5px; font-weight: 600; color: var(--ink-soft);
+    padding-top: 6px; user-select: none; display: flex; align-items: center; gap: 4px;
+  }
+  .word-details summary::-webkit-details-marker { display: none; }
+  .word-details summary::before { content: '▸'; font-size: 10px; transition: transform 0.15s; }
+  .word-details[open] summary::before { transform: rotate(90deg); }
+  .word-details-body { padding-top: 8px; }
+  hr.entry-rule { border: none; border-top: 1px solid var(--paper-line); margin: 8px 0 8px; }
+  .def-en { font-size: 14px; margin: 0 0 6px; line-height: 1.5; }
+  .example { font-size: 13px; color: var(--ink-soft); font-style: italic; margin: 0; }
+
+  /* Stat strip (legacy, still used on other tabs) */
   .stat-strip {
     display: flex;
     gap: 18px;
@@ -132,24 +182,10 @@
   .stat { font-size: 13px; color: var(--ink-soft); }
   .stat b { color: var(--ink); font-weight: 600; }
 
-  /* Word card */
-  .word-card {
-    background: var(--paper-card);
-    border: 1px solid var(--paper-line);
-    border-radius: var(--radius);
-    padding: 18px 20px;
-    margin-bottom: 14px;
-  }
-  .entry-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-  .headword-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
-  .headword { font-family: var(--serif); font-size: 22px; margin: 0; }
-  .level-tag { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 5px; background: var(--teal-soft); color: var(--teal); }
-  .pos { font-size: 13px; font-style: italic; color: var(--ink-soft); }
-
   .learned-toggle {
-    width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--paper-line);
+    width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--paper-line);
     background: var(--paper-card); display: flex; align-items: center; justify-content: center;
-    cursor: pointer; color: transparent; font-size: 14px;
+    cursor: pointer; color: transparent; font-size: 13px;
   }
   .learned-toggle.on { background: var(--teal); border-color: var(--teal); color: #fff; }
 
@@ -162,13 +198,6 @@
   .speak-btn:active { transform: scale(0.92); }
   .speak-btn svg { width: 14px; height: 14px; }
   .speak-btn.speaking { background: var(--teal); color: #fff; }
-
-  hr.entry-rule { border: none; border-top: 1px solid var(--paper-line); margin: 12px 0 10px; }
-  .def-en { font-size: 15px; margin: 0 0 8px; line-height: 1.5; }
-  .example { font-size: 13.5px; color: var(--ink-soft); font-style: italic; margin: 0 0 10px; }
-
-  .az-block { background: var(--clay-soft); border-radius: 8px; padding: 8px 12px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
-  .az-word { font-weight: 600; font-size: 14.5px; color: var(--clay); }
 
   /* Buttons */
   .btn { font-family: var(--sans); font-size: 13px; font-weight: 600; padding: 9px 16px; border-radius: var(--radius); border: 1px solid var(--paper-line); background: var(--paper-card); color: var(--ink); cursor: pointer; }
@@ -228,7 +257,7 @@
   .learned-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--paper-card); border: 1px solid var(--paper-line); border-radius: var(--radius); padding: 12px 16px; margin-bottom: 8px; }
   .mywords-pin-btn { width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--paper-line); background: var(--paper-card); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--ink); }
   .mywords-pin-btn.pinned { background: var(--teal-soft); border-color: var(--teal); color: var(--teal); }
-  .word-card-learned { border-color: var(--teal); background: #f4fbf9; }
+  .word-card-learned { background: #f4fbf9; }
 
   footer.app-foot { margin-top: 32px; font-size: 12px; color: var(--ink-soft); text-align: center; }
 
@@ -298,10 +327,16 @@
   </nav>
 
   <section class="view active" id="view-words" role="tabpanel">
-    <div class="stat-strip">
-      <div class="stat"><b id="learned-count">0</b>/5 <span id="lbl-learned-stat">öyrənildi</span></div>
-      <div class="stat"><span id="lbl-streak-stat">Seriya:</span> <b id="streak-count">1</b> <span id="lbl-streak-days">gün</span></div>
-      <div class="stat"><span id="lbl-total-stat">Ümumi Baza:</span> <b id="total-vocab-count">0</b> <span id="lbl-total-words">söz</span></div>
+    <div class="day-progress-card">
+      <div class="day-progress-top">
+        <span class="day-progress-title" id="lbl-day-progress-title">Bugünkü irəliləyiş</span>
+        <span class="day-progress-frac"><b id="learned-count">0</b>/5 <span id="lbl-learned-stat">öyrənildi</span></span>
+      </div>
+      <div class="day-progress-track"><div class="day-progress-fill" id="day-progress-fill" style="width:0%;"></div></div>
+      <div class="day-badge-row">
+        <span class="day-badge">🔥 <b id="streak-count">1</b> <span id="lbl-streak-days">gün seriya</span></span>
+        <span class="day-badge">📚 <b id="total-vocab-count">0</b> <span id="lbl-total-words">söz bazada</span></span>
+      </div>
     </div>
     <div id="word-list">Sözlər yüklənir, zəhmət olmasa gözləyin...</div>
     <div class="btn-row">
@@ -313,7 +348,6 @@
       <div class="mini-stats-row">
         <div class="mini-stat"><b id="mini-total-learned">0</b><span id="lbl-mini-total-learned">cəmi öyrənilib</span></div>
         <div class="mini-stat"><b id="mini-today-count">0</b><span id="lbl-mini-today-count">bu gün öyrənilib</span></div>
-        <div class="mini-stat"><b id="mini-streak-count">1</b><span id="lbl-mini-streak-count">gün seriya</span></div>
       </div>
       <div class="mini-heat-row" id="mini-heat-row"></div>
       <button class="btn" id="mini-stats-link-btn" style="width:100%; margin-top:12px;">Ətraflı statistika →</button>
@@ -446,8 +480,8 @@ let VOCAB = [];
 const LOCALIZATION = {
   az: {
     tab_words: "Günün sözləri", tab_mywords: "Sözlərim", tab_game: "Oyunlar", tab_learned: "Öyrəndiklərim",
-    lbl_day: "Gün", lbl_learned_stat: "öyrənildi", lbl_streak_stat: "Seriya:", lbl_streak_days: "gün",
-    lbl_total_stat: "Ümumi Baza:", lbl_total_words: "söz", btn_next_batch: "Yeni 5 söz", btn_goto_game: "Oyunda məşq et",
+    lbl_day: "Gün", lbl_learned_stat: "öyrənildi", lbl_streak_stat: "Seriya:", lbl_streak_days: "gün seriya",
+    lbl_total_stat: "Ümumi Baza:", lbl_total_words: "söz bazada", lbl_day_progress_title: "Bugünkü irəliləyiş", btn_next_batch: "Yeni 5 söz", btn_goto_game: "Oyunda məşq et",
     lbl_mywords_stat: "Siyahında:", lbl_mywords_count_label: "söz", lbl_match_moves: "Hərəkət:", lbl_match_matches: "Uyğun:",
     btn_restart: "Yeni oyun", win_match: "Təbriklər! Hamısını tapdınız.", btn_flash_prev: "Geri", btn_flash_next: "Növbəti",
     flash_hint: "Kliklə və tərcüməsinə bax", quiz_win: "Təbriklər! Bütün sualları bitirdiniz.", spell_placeholder: "İngiliscə sözü yazın və Enter basın",
@@ -465,8 +499,8 @@ const LOCALIZATION = {
   },
   en: {
     tab_words: "Words of the Day", tab_mywords: "My Words", tab_game: "Games", tab_learned: "Learned",
-    lbl_day: "Day", lbl_learned_stat: "learned", lbl_streak_stat: "Streak:", lbl_streak_days: "days",
-    lbl_total_stat: "Total Database:", lbl_total_words: "words", btn_next_batch: "New 5 Words", btn_goto_game: "Practice in Games",
+    lbl_day: "Day", lbl_learned_stat: "learned", lbl_streak_stat: "Streak:", lbl_streak_days: "day streak",
+    lbl_total_stat: "Total Database:", lbl_total_words: "words in base", lbl_day_progress_title: "Today's Progress", btn_next_batch: "New 5 Words", btn_goto_game: "Practice in Games",
     lbl_mywords_stat: "In your list:", lbl_mywords_count_label: "words", lbl_match_moves: "Moves:", lbl_match_matches: "Matches:",
     btn_restart: "New Game", win_match: "Congratulations! You matched all.", btn_flash_prev: "Back", btn_flash_next: "Next",
     flash_hint: "Click to flip and see definition", quiz_win: "Congratulations! You completed the quiz.", spell_placeholder: "Type the English word and press Enter",
@@ -640,15 +674,13 @@ function updateUI() {
   document.getElementById('lbl-chart-title').innerText = dict.lbl_chart_title;
   document.getElementById('lbl-mini-total-learned').innerText = dict.lbl_mini_total_learned;
   document.getElementById('lbl-mini-today-count').innerText = dict.lbl_mini_today_count;
-  document.getElementById('lbl-mini-streak-count').innerText = dict.lbl_mini_streak_count;
   document.getElementById('mini-stats-link-btn').innerText = dict.mini_stats_link;
   document.getElementById('today-date-label').innerText = formatTodayLong();
 
   document.getElementById('lbl-day').innerText = dict.lbl_day;
+  document.getElementById('lbl-day-progress-title').innerText = dict.lbl_day_progress_title;
   document.getElementById('lbl-learned-stat').innerText = dict.lbl_learned_stat;
-  document.getElementById('lbl-streak-stat').innerText = dict.lbl_streak_stat;
   document.getElementById('lbl-streak-days').innerText = dict.lbl_streak_days;
-  document.getElementById('lbl-total-stat').innerText = dict.lbl_total_stat;
   document.getElementById('lbl-total-words').innerText = dict.lbl_total_words;
   document.getElementById('next-batch-btn').innerText = dict.btn_next_batch;
   document.getElementById('goto-game-btn').innerText = dict.btn_goto_game;
@@ -705,23 +737,30 @@ function renderDailyWords() {
 
     const card = document.createElement('div');
     card.className = `word-card ${isLearned ? 'word-card-learned' : ''}`;
+    const detailsLabel = state.uiLang === 'az' ? 'Tərif və nümunə' : 'Definition & example';
     card.innerHTML = `
       <div class="entry-top">
         <div class="headword-row">
+          <span class="word-index">${i + 1}</span>
           <h3 class="headword">${item.word}</h3>
           <button class="speak-btn" title="${state.uiLang === 'az' ? 'Tələffüzü dinlə' : 'Listen to pronunciation'}">${SPEAK_ICON_SVG}</button>
           <span class="level-tag">${item.level || 'C1'}</span>
           <span class="pos">${item.pos || ''}</span>
         </div>
-        <div style="display:flex; gap:8px;">
+        <div class="card-actions">
           <button class="mywords-pin-btn ${isPinned ? 'pinned' : ''}">＋</button>
           <button class="learned-toggle ${isLearned ? 'on' : ''}">✓</button>
         </div>
       </div>
-      <hr class="entry-rule">
-      <p class="def-en">${item.def || ''}</p>
-      <div class="example">"${item.example || ''}"</div>
-      <div class="az-block"><span class="az-word">${item.az_word || ''}</span></div>
+      <div class="az-line">${item.az_word || ''}</div>
+      <details class="word-details">
+        <summary>${detailsLabel}</summary>
+        <div class="word-details-body">
+          <hr class="entry-rule">
+          <p class="def-en">${item.def || ''}</p>
+          <div class="example">"${item.example || ''}"</div>
+        </div>
+      </details>
     `;
     card.querySelector('.speak-btn').addEventListener('click', (e) => {
       speakWord(item.word, e.currentTarget);
@@ -748,6 +787,7 @@ function renderDailyWords() {
     container.appendChild(card);
   }
   document.getElementById('learned-count').innerText = currentBatchLearned;
+  document.getElementById('day-progress-fill').style.width = (currentBatchLearned / 5 * 100) + '%';
 }
 
 function renderMyWords() {
@@ -793,7 +833,6 @@ function renderMiniStats() {
   const todayKey = todayStr();
   document.getElementById('mini-total-learned').innerText = state.learnedWords.length;
   document.getElementById('mini-today-count').innerText = (state.learnedLog && state.learnedLog[todayKey]) || 0;
-  document.getElementById('mini-streak-count').innerText = state.streakCount;
 
   const row = document.getElementById('mini-heat-row');
   row.innerHTML = '';
