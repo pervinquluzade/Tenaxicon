@@ -409,10 +409,14 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('translate-check-btn').addEventListener('click', doTranslationCheck);
   document.getElementById('translate-next-btn').addEventListener('click', () => { translateIndex = (translateIndex + 1) % 5; showTranslationPassage(); });
 
-fetch('data.json?v=' + Date.now()) // ?v= timestamp əlavə edərək brauzerin həmişə ən son JSON-u yükləməsini təmin edir
+// index.html daxilindəki mövcud fetch hissəsini tamamilə bununla əvəzləyin:
+
+const gitHubJsonUrl = "https://raw.githubusercontent.com/GITHUB_ISTIFADECI_ADINIZ/REPOZITORIYA_ADINIZ/main/data.json";
+
+fetch(gitHubJsonUrl + '?v=' + Date.now())
   .then(response => {
     if (!response.ok) {
-      throw new Error('Şəbəkə xətası: ' + response.status);
+      throw new Error('JSON tapılmadı: ' + response.status);
     }
     return response.json();
   })
@@ -422,11 +426,11 @@ fetch('data.json?v=' + Date.now()) // ?v= timestamp əlavə edərək brauzerin h
     initGames();
   })
   .catch(error => {
-    console.error('JSON faylı yüklənərkən xəta yarandı:', error);
+    console.error('Xəta:', error);
     document.getElementById('word-list').innerHTML = `
-      <div style="color: var(--clay); background: var(--clay-soft); padding: 20px; border-radius: var(--radius); border: 1px solid var(--paper-line);">
-        <strong>Məlumat bazası yüklənə bilmədi.</strong><br>
-        Zəhmət olmasa 'data.json' faylının GitHub-da eyni qovluqda və adının tamamilə kiçik hərflərlə olduğundan əmin olun.
+      <div style="color: var(--clay); background: var(--clay-soft); padding: 20px; border-radius: var(--radius); text-align:center;">
+        <strong>Sözlər yüklənə bilmədi!</strong><br>
+        Konsoldakı xəta: ${error.message}
       </div>
     `;
   });
