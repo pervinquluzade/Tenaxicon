@@ -153,6 +153,16 @@
   }
   .learned-toggle.on { background: var(--teal); border-color: var(--teal); color: #fff; }
 
+  .speak-btn {
+    width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--paper-line);
+    background: var(--paper-card); display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer; padding: 0; flex-shrink: 0; color: var(--teal); transition: background 0.15s, transform 0.1s;
+  }
+  .speak-btn:hover { background: var(--teal-soft); }
+  .speak-btn:active { transform: scale(0.92); }
+  .speak-btn svg { width: 14px; height: 14px; }
+  .speak-btn.speaking { background: var(--teal); color: #fff; }
+
   hr.entry-rule { border: none; border-top: 1px solid var(--paper-line); margin: 12px 0 10px; }
   .def-en { font-size: 15px; margin: 0 0 8px; line-height: 1.5; }
   .example { font-size: 13.5px; color: var(--ink-soft); font-style: italic; margin: 0 0 10px; }
@@ -560,6 +570,7 @@ function renderDailyWords() {
       <div class="entry-top">
         <div class="headword-row">
           <h3 class="headword">${item.word}</h3>
+          <button class="speak-btn" title="${state.uiLang === 'az' ? 'Tələffüzü dinlə' : 'Listen to pronunciation'}">${SPEAK_ICON_SVG}</button>
           <span class="level-tag">${item.level || 'C1'}</span>
           <span class="pos">${item.pos || ''}</span>
         </div>
@@ -573,6 +584,9 @@ function renderDailyWords() {
       <div class="example">"${item.example || ''}"</div>
       <div class="az-block"><span class="az-word">${item.az_word || ''}</span></div>
     `;
+    card.querySelector('.speak-btn').addEventListener('click', (e) => {
+      speakWord(item.word, e.currentTarget);
+    });
     card.querySelector('.mywords-pin-btn').addEventListener('click', () => {
       if (state.myWords.includes(item.word)) state.myWords = state.myWords.filter(w => w !== item.word);
       else state.myWords.push(item.word);
@@ -597,7 +611,8 @@ function renderMyWords() {
     if(!item) return;
     let div = document.createElement('div');
     div.className = 'learned-row';
-    div.innerHTML = `<div><b>${item.word}</b> - ${item.az_word}</div>`;
+    div.innerHTML = `<div style="display:flex; align-items:center; gap:8px;"><button class="speak-btn" title="${state.uiLang === 'az' ? 'Tələffüzü dinlə' : 'Listen to pronunciation'}">${SPEAK_ICON_SVG}</button><span><b>${item.word}</b> - ${item.az_word}</span></div>`;
+    div.querySelector('.speak-btn').addEventListener('click', (e) => speakWord(item.word, e.currentTarget));
     container.appendChild(div);
   });
 }
@@ -612,7 +627,8 @@ function renderLearnedWords() {
     if(!item) return;
     let div = document.createElement('div');
     div.className = 'learned-row';
-    div.innerHTML = `<div><b>${item.word}</b></div>`;
+    div.innerHTML = `<div style="display:flex; align-items:center; gap:8px;"><button class="speak-btn" title="${state.uiLang === 'az' ? 'Tələffüzü dinlə' : 'Listen to pronunciation'}">${SPEAK_ICON_SVG}</button><span><b>${item.word}</b></span></div>`;
+    div.querySelector('.speak-btn').addEventListener('click', (e) => speakWord(item.word, e.currentTarget));
     container.appendChild(div);
   });
 }
@@ -636,6 +652,27 @@ function initGames() {
   initSpellingGame();
   initTranslationGame();
 }
+
+function speakWord(text, btn) {
+  if (!('speechSynthesis' in window)) {
+    alert(state.uiLang === 'az'
+      ? 'Bu brauzer səsləndirməni dəstəkləmir.'
+      : 'This browser does not support speech synthesis.');
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'en-US';
+  utter.rate = 0.9;
+  if (btn) {
+    btn.classList.add('speaking');
+    utter.onend = () => btn.classList.remove('speaking');
+    utter.onerror = () => btn.classList.remove('speaking');
+  }
+  window.speechSynthesis.speak(utter);
+}
+
+const SPEAK_ICON_SVG = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 9v6h4l5 5V4L8 9H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M19 6a9 9 0 0 1 0 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/></svg>';
 
 let firstCard = null, secondCard = null, lockBoard = false, matchCount = 0, moveCount = 0;
 function initMatchGame() {
@@ -696,15 +733,23 @@ function showFlashcard() {
   const progressText = state.uiLang === 'az' ? `Kart ${flashIndex + 1} / ${activeBatch.length}` : `Card ${flashIndex + 1} / ${activeBatch.length}`;
   document.getElementById('flash-progress').innerText = progressText;
   const card = document.getElementById('flashcard');
-  card.innerHTML = `<div class="flash-word">${item.word}</div><div class="flash-hint">${LOCALIZATION[state.uiLang].flash_hint}</div>`;
+  const frontHTML = `<div class="flash-word" style="display:flex; align-items:center; gap:10px; justify-content:center;">${item.word}<button class="speak-btn" title="${state.uiLang === 'az' ? 'Tələffüzü dinlə' : 'Listen to pronunciation'}">${SPEAK_ICON_SVG}</button></div><div class="flash-hint">${LOCALIZATION[state.uiLang].flash_hint}</div>`;
+  const backHTML = `<div class="flash-word" style="color:var(--clay);">${item.az_word}</div><div class="flash-hint">${item.def}</div>`;
+  card.innerHTML = frontHTML;
   let side = 'front';
+  function bindSpeakBtn() {
+    const btn = card.querySelector('.speak-btn');
+    if (btn) btn.addEventListener('click', (e) => { e.stopPropagation(); speakWord(item.word, e.currentTarget); });
+  }
+  bindSpeakBtn();
   card.onclick = () => {
     if(side === 'front') {
-      card.innerHTML = `<div class="flash-word" style="color:var(--clay);">${item.az_word}</div><div class="flash-hint">${item.def}</div>`;
+      card.innerHTML = backHTML;
       side = 'back';
     } else {
-      card.innerHTML = `<div class="flash-word">${item.word}</div><div class="flash-hint">${LOCALIZATION[state.uiLang].flash_hint}</div>`;
+      card.innerHTML = frontHTML;
       side = 'front';
+      bindSpeakBtn();
     }
   };
 }
