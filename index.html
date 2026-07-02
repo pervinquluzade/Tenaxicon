@@ -245,8 +245,8 @@
   <section class="view active" id="view-words" role="tabpanel">
     <div class="stat-strip">
       <div class="stat"><b id="learned-count">0</b>/5 <span id="lbl-learned-stat">öyrənildi</span></div>
-      <div class="stat"><span id="lbl-streak-stat">Seria:</span> <b id="streak-count">1</b> <span id="lbl-streak-days">gün</span></div>
-      <div class="stat">Ümumi Baza: <b id="total-vocab-count">0</b> söz</div>
+      <div class="stat"><span id="lbl-streak-stat">Seriya:</span> <b id="streak-count">1</b> <span id="lbl-streak-days">gün</span></div>
+      <div class="stat"><span id="lbl-total-stat">Ümumi Baza:</span> <b id="total-vocab-count">0</b> <span id="lbl-total-words">söz</span></div>
     </div>
     <div id="word-list"></div>
     <div class="btn-row">
@@ -274,8 +274,8 @@
     <div class="game-subview active" id="sub-match">
       <div class="game-meta">
         <div class="game-stats">
-          <div class="stat">Hərəkət: <b id="moves">0</b></div>
-          <div class="stat">Uyğun: <b id="matches">0</b>/<span id="matches-total">5</span></div>
+          <div class="stat"><span id="lbl-match-moves">Hərəkət:</span> <b id="moves">0</b></div>
+          <div class="stat"><span id="lbl-match-matches">Uyğun:</span> <b id="matches">0</b>/<span id="matches-total">5</span></div>
         </div>
         <button class="btn" id="restart-btn">Yeni oyun</button>
       </div>
@@ -332,102 +332,48 @@
 
   <section class="view" id="view-learned" role="tabpanel">
     <div class="stat-strip">
-      <div class="stat"><b id="learned-total-count">0</b> söz öyrənilib</div>
+      <div class="stat"><b id="learned-total-count">0</b> <span id="lbl-learned-total-label">söz öyrənilib</span></div>
     </div>
     <div id="learned-list"></div>
     <p id="learned-empty" class="sub">Hələ heç bir söz öyrənilmiş kimi işarələnməyib.</p>
   </section>
 
-  <footer class="app-foot">
+  <footer class="app-foot" id="app-footer">
     İrəliləyiş brauzer yaddaşında saxlanılır. Tenaxicon C1/C2.
   </footer>
 
 </div>
 
 <script>
-// GENİŞLƏNDİRİLMİŞ VƏ 2-3 CÜMLƏLİK AZ/EN MƏTNLƏR ƏLAVƏ EDİLMİŞ BAZA
-const VOCAB = [
-  { 
-    word: "ubiquitous", level: "C2", pos: "adj.", 
-    def: "present, appearing, or found everywhere", 
-    az_word: "hər yerdə olan / geniş yayılmış",
-    az_text: "Müasir dünyada texnologiya artıq hər yerdə mövcuddur. Smartfonlar həyatımızın ayrılmaz hissəsinə çevrilib. Bu səbəbdən internetə çıxışı olmayan bir yer tapmaq demək olar ki, qeyri-mümkündür.",
-    en_text: "In the modern world, technology has become ubiquitous. Smartphones have become an integral part of our lives. For this reason, it is almost impossible to find a place without internet access.",
-    example: "Smartphones have become ubiquitous in modern life."
+// Xarici JSON yüklənənə qədər boş massiv yaradılır
+let VOCAB = [];
+
+const LOCALIZATION = {
+  az: {
+    tab_words: "Günün sözləri", tab_mywords: "Sözlərim", tab_game: "Oyunlar", tab_learned: "Öyrəndiklərim",
+    lbl_day: "Gün", lbl_learned_stat: "öyrənildi", lbl_streak_stat: "Seriya:", lbl_streak_days: "gün",
+    lbl_total_stat: "Ümumi Baza:", lbl_total_words: "söz", btn_next_batch: "Yeni 5 söz", btn_goto_game: "Oyunda məşq et",
+    lbl_mywords_stat: "Siyahında:", lbl_mywords_count_label: "söz", lbl_match_moves: "Hərəkət:", lbl_match_matches: "Uyğun:",
+    btn_restart: "Yeni oyun", win_match: "Təbriklər! Hamısını tapdınız.", btn_flash_prev: "Geri", btn_flash_next: "Növbəti",
+    flash_hint: "Kliklə və tərcüməsinə bax", quiz_win: "Təbriklər! Bütün sualları bitirdiniz.", spell_placeholder: "İngiliscə sözü yazın və Enter basın",
+    spell_btn: "Yoxla", spell_correct: "Mükəmməl! Doğrudur.", spell_wrong: "Səhvdir, yenidən yoxlayın.", translate_placeholder: "Yuxarıdakı mətni İngilis dilinə çevirməyə çalışın...",
+    translate_btn: "Nümunə Cavaba Bax", translate_next: "Növbəti mətn", translate_title: "Nümunə Cavab:", lbl_learned_total_label: "söz öyrənilib",
+    learned_empty: "Hələ heç bir söz öyrənilmiş kimi işarələnməyib.", footer_text: "İrəliləyiş brauzer yaddaşında saxlanılır. Tenaxicon C1/C2.",
+    tab_match: "Uyğunlaşdır", tab_flash: "Flaş kart", tab_quiz: "Quiz", tab_spell: "İmla", tab_translate: "Tərcümə"
   },
-  { 
-    word: "ephemeral", level: "C2", pos: "adj.", 
-    def: "lasting for a very short time", 
-    az_word: "keçici / müvəqqəti",
-    az_text: "Sosial mediada qazanılan şöhrət çox vaxt keçicidir. İnsanlar bu gün sizi müzakirə edə bilər, lakin sabah tamamilə unudacaqlar. Daimi dəyərlər yaratmaq daha önəmlidir.",
-    en_text: "Fame achieved on social media is often ephemeral. People might discuss you today, but tomorrow they will completely forget. It is more important to create lasting values.",
-    example: "Fame on social media can feel ephemeral." 
-  },
-  { 
-    word: "pragmatic", level: "C1", pos: "adj.", 
-    def: "dealing with things sensibly and realistically", 
-    az_word: "praqmatik / realistik",
-    az_text: "Biz xəyali ideyalar arxasınca qaçmamalıyıq, bizə praqmatik bir həll lazımdır. Laboratoriyanın büdcəsini idarə edərkən real imkanları nəzərə almalıyıq. Ancaq bu şəkildə dəqiq nəticələr əldə edə bilərik.",
-    en_text: "We should not chase idealistic ideas; we need a pragmatic solution. When managing the laboratory budget, we must consider realistic possibilities. Only in this way can we achieve precise results.",
-    example: "We need a pragmatic solution, not an idealistic one." 
-  },
-  { 
-    word: "ambiguous", level: "C1", pos: "adj.", 
-    def: "open to more than one interpretation; not clear", 
-    az_word: "qeyri-müəyyən / ikiandlamlı",
-    az_text: "Təqdim olunan hesabatdakı bəzi bəndlər olduqca qeyri-müəyyən idi. Menecer bu ifadələrin aydınlaşdırılmasını tələb etdi. Sənədləşmədə ikiandlamlı sözlərdən qaçmaq lazımdır.",
-    en_text: "Some points in the presented report were quite ambiguous. The manager requested clarification of these statements. It is necessary to avoid ambiguous words in documentation.",
-    example: "His answer was ambiguous, so we asked him to clarify." 
-  },
-  { 
-    word: "meticulous", level: "C1", pos: "adj.", 
-    def: "showing great attention to detail; very careful", 
-    az_word: "həddindən bərk diqqətli / titiz",
-    az_text: "O, cihazın kalibrləmə prosesini həddindən bərk diqqətlə yerinə yetirdi. Heç bir kiçik detal belə gözündən qaçmadı. Bu cür iş mütləq yüksək keyfiyyət təmin edir.",
-    en_text: "She performed the device calibration process with meticulous attention. Not even a single small detail escaped her notice. This kind of work definitely ensures high quality.",
-    example: "She gave the contract a meticulous review before signing." 
-  },
-  { 
-    word: "resilient", level: "C1", pos: "adj.", 
-    def: "able to recover quickly from difficulties", 
-    az_word: "dözümlü / elastik",
-    az_text: "Yeni polimer boru materialı yüksək təzyiqə qarşı dözümlü nümayiş etdirdi. Sınaqlar zamanı heç bir struktur sınığı baş vermədi. Komandamız gələcək layihələr üçün bu materiala güvənir.",
-    en_text: "The new polymer pipe material proved to be resilient against high pressure. No structural failure occurred during the testing. Our team relies on this material for future projects.",
-    example: "Children are often remarkably resilient after hardship." 
-  },
-  { 
-    word: "candid", level: "C1", pos: "adj.", 
-    def: "truthful and straightforward; frank", 
-    az_word: "səmimi / açıq sözlü",
-    az_text: "İclas zamanı direktor uğursuzluğun səbəbləri barədə səmimi bir çıxış etdi. Problemləri gizlətmək yerinə onları açıq şəkildə etiraf etdi. Bu dürüstlük komandada inamı bərpa etdi.",
-    en_text: "During the meeting, the director gave a candid speech about the reasons for the failure. Instead of hiding the problems, he admitted them openly. This honesty restored trust in the team.",
-    example: "He gave a candid answer about why the project failed." 
-  },
-  { 
-    word: "tenacious", level: "C1", pos: "adj.", 
-    def: "holding firmly to a course of action or belief", 
-    az_word: "inadcıl / əzmli",
-    az_text: "Onun məqsədinə qarşı olan inadcıl yanaşması nəhayət öz bəhrəsini verdi. Şirkət çətin dövrlərdən keçsə də, o, taslim olmadı. Bu əzmkarlıq layihəni xilas etdi.",
-    en_text: "Her tenacious approach toward her goal finally paid off. Although the company went through hard times, she did not give up. This tenacity saved the project.",
-    example: "Her tenacious negotiating style won the client over." 
-  },
-  { 
-    word: "ostensible", level: "C2", pos: "adj.", 
-    def: "stated as the reason, but perhaps not the real one", 
-    az_word: "zahiri / görünüşdəki",
-    az_text: "Görüşün zahiri məqsədi yeni standartların müzakirəsi idi. Lakin hamı bilirdi ki, əsas məsələ daxili rəqabətdir. Həqiqi niyyətlər sonda bəlli oldu.",
-    en_text: "The ostensible purpose of the meeting was discussing the new standards. However, everyone knew that the main issue was internal politics. The real intentions became clear in the end.",
-    example: "The ostensible purpose of the meeting was budgeting." 
-  },
-  { 
-    word: "ambivalent", level: "C2", pos: "adj.", 
-    def: "having mixed or contradictory feelings about something", 
-    az_word: "ikili münasibətli / tərəddüdlü",
-    az_text: "Vəzifə dəyişikliyi təklifinə qarşı ikili münasibətdəyəm. Bir tərəfdən yeni maaş cəlbedicidir, digər tərəfdən isə iş yükü çoxdur. Qərar vermək üçün hələ vaxta ehtiyacım var.",
-    en_text: "I feel ambivalent about the job transition offer. On one hand, the new salary is attractive; on the other hand, the workload is high. I still need time to make a decision.",
-    example: "I feel ambivalent about moving to a new city." 
+  en: {
+    tab_words: "Words of the Day", tab_mywords: "My Words", tab_game: "Games", tab_learned: "Learned",
+    lbl_day: "Day", lbl_learned_stat: "learned", lbl_streak_stat: "Streak:", lbl_streak_days: "days",
+    lbl_total_stat: "Total Database:", lbl_total_words: "words", btn_next_batch: "New 5 Words", btn_goto_game: "Practice in Games",
+    lbl_mywords_stat: "In your list:", lbl_mywords_count_label: "words", lbl_match_moves: "Moves:", lbl_match_matches: "Matches:",
+    btn_restart: "New Game", win_match: "Congratulations! You matched all.", btn_flash_prev: "Back", btn_flash_next: "Next",
+    flash_hint: "Click to flip and see definition", quiz_win: "Congratulations! You completed the quiz.", spell_placeholder: "Type the English word and press Enter",
+    spell_btn: "Check", spell_correct: "Excellent! Correct.", spell_wrong: "Incorrect, try again.", translate_placeholder: "Try translating the text above into English...",
+    translate_btn: "Show Sample Answer", translate_next: "Next Text", translate_title: "Sample Answer:", lbl_learned_total_label: "words learned",
+    learned_empty: "No words have been marked as learned yet.", footer_text: "Progress is saved in browser storage. Tenaxicon C1/C2.",
+    tab_match: "Match", tab_flash: "Flashcards", tab_quiz: "Quiz", tab_spell: "Spelling", tab_translate: "Translation"
   }
-];
+};
 
 let state = {
   dayCount: 1, streakCount: 1, currentBatchIndex: 0,
@@ -442,6 +388,7 @@ window.addEventListener('DOMContentLoaded', () => {
   setupGameSubtabs();
   
   document.getElementById('next-batch-btn').addEventListener('click', () => {
+    if(!VOCAB.length) return;
     state.currentBatchIndex = (state.currentBatchIndex + 5) % VOCAB.length;
     state.dayCount++; state.streakCount++;
     saveState();
@@ -454,14 +401,26 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('ui-lang-az').addEventListener('click', () => { state.uiLang = 'az'; saveState(); });
   document.getElementById('ui-lang-en').addEventListener('click', () => { state.uiLang = 'en'; saveState(); });
 
-  // İmla inputunda Enter basanda yoxlama funksiyası
   document.getElementById('spell-input').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') { doSpellingCheck(); }
   });
   document.getElementById('spell-submit-btn').addEventListener('click', doSpellingCheck);
 
-  saveState();
-  initGames();
+  document.getElementById('translate-check-btn').addEventListener('click', doTranslationCheck);
+  document.getElementById('translate-next-btn').addEventListener('click', () => { translateIndex = (translateIndex + 1) % 5; showTranslationPassage(); });
+
+  // Dinamik JSON Sorğusu
+  fetch('data.json')
+    .then(response => response.json())
+    .then(data => {
+      VOCAB = data;
+      saveState();
+      initGames();
+    })
+    .catch(error => {
+      console.error('JSON faylı yüklənərkən xəta yarandı:', error);
+      document.getElementById('word-list').innerHTML = '<p style="color:red; padding:20px;">Məlumat bazası (data.json) yüklənə bilmədi. Lokal serverin aktiv olduğundan əmin olun.</p>';
+    });
 });
 
 function saveState() {
@@ -499,9 +458,64 @@ function setupGameSubtabs() {
 }
 
 function updateUI() {
+  if(!VOCAB.length) return;
+  const lang = state.uiLang;
+  const dict = LOCALIZATION[lang];
+
+  document.getElementById('ui-lang-az').classList.toggle('active', lang === 'az');
+  document.getElementById('ui-lang-en').classList.toggle('active', lang === 'en');
+
+  // Nav Tabs
+  document.getElementById('tab-words').innerText = dict.tab_words;
+  document.getElementById('tab-mywords').innerText = dict.tab_mywords;
+  document.getElementById('tab-game').innerText = dict.tab_game;
+  document.getElementById('tab-learned').innerText = dict.tab_learned;
+
+  // Static labels
+  document.getElementById('lbl-day').innerText = dict.lbl_day;
+  document.getElementById('lbl-learned-stat').innerText = dict.lbl_learned_stat;
+  document.getElementById('lbl-streak-stat').innerText = dict.lbl_streak_stat;
+  document.getElementById('lbl-streak-days').innerText = dict.lbl_streak_days;
+  document.getElementById('lbl-total-stat').innerText = dict.lbl_total_stat;
+  document.getElementById('lbl-total-words').innerText = dict.lbl_total_words;
+  document.getElementById('next-batch-btn').innerText = dict.btn_next_batch;
+  document.getElementById('goto-game-btn').innerText = dict.btn_goto_game;
+  document.getElementById('lbl-mywords-stat').innerText = dict.lbl_mywords_stat;
+  document.getElementById('lbl-mywords-count-label').innerText = dict.lbl_mywords_count_label;
+  document.getElementById('lbl-learned-total-label').innerText = dict.lbl_learned_total_label;
+  document.getElementById('learned-empty').innerText = dict.learned_empty;
+  document.getElementById('app-footer').innerText = dict.footer_text;
+
+  // Game Subtabs Labels
+  document.getElementById('subtab-match').innerText = dict.tab_match;
+  document.getElementById('subtab-flash').innerText = dict.tab_flash;
+  document.getElementById('subtab-quiz').innerText = dict.tab_quiz;
+  document.getElementById('subtab-spell').innerText = dict.tab_spell;
+  document.getElementById('subtab-translate').innerText = dict.tab_translate;
+
+  // Match game UI
+  document.getElementById('lbl-match-moves').innerText = dict.lbl_match_moves;
+  document.getElementById('lbl-match-matches').innerText = dict.lbl_match_matches;
+  document.getElementById('restart-btn').innerText = dict.btn_restart;
+  document.getElementById('win-banner').innerText = dict.win_match;
+
+  // Flashcards UI
+  document.getElementById('flash-prev-btn').innerText = dict.btn_flash_prev;
+  document.getElementById('flash-next-btn').innerText = dict.btn_flash_next;
+
+  // Spelling UI
+  document.getElementById('spell-input').placeholder = dict.spell_placeholder;
+  document.getElementById('spell-submit-btn').innerText = dict.spell_btn;
+
+  // Translation UI
+  document.getElementById('translate-input').placeholder = dict.translate_placeholder;
+  document.getElementById('translate-check-btn').innerText = dict.translate_btn;
+  document.getElementById('translate-next-btn').innerText = dict.translate_next;
+
   document.getElementById('day-count').innerText = state.dayCount;
   document.getElementById('streak-count').innerText = state.streakCount;
-  document.getElementById('total-vocab-count').innerText = VOCAB.length; // Ümumi baza sayı
+  document.getElementById('total-vocab-count').innerText = VOCAB.length;
+
   renderDailyWords();
   renderMyWords();
   renderLearnedWords();
@@ -534,6 +548,7 @@ function renderDailyWords() {
       </div>
       <hr class="entry-rule">
       <p class="def-en">${item.def}</p>
+      <div class="example">"${item.example}"</div>
       <div class="az-block"><span class="az-word">${item.az_word}</span></div>
     `;
     card.querySelector('.mywords-pin-btn').addEventListener('click', () => {
@@ -584,6 +599,7 @@ function renderLearnedWords() {
 let activeBatch = [];
 function getActiveBatch() {
   let b = [];
+  if(!VOCAB.length) return b;
   for (let i = 0; i < 5; i++) {
     let index = (state.currentBatchIndex + i) % VOCAB.length;
     b.push(VOCAB[index]);
@@ -592,8 +608,8 @@ function getActiveBatch() {
 }
 
 function initGames() {
+  if(!VOCAB.length) return;
   activeBatch = getActiveBatch();
-  
   initMatchGame();
   initFlashcardGame();
   initQuizGame();
@@ -608,6 +624,7 @@ function initMatchGame() {
   const winBanner = document.getElementById('win-banner');
   board.innerHTML = '';
   winBanner.style.display = 'none';
+  firstCard = null; secondCard = null; lockBoard = false;
   matchCount = 0; moveCount = 0;
   document.getElementById('moves').innerText = '0';
   document.getElementById('matches').innerText = '0';
@@ -626,7 +643,7 @@ function initMatchGame() {
     btn.dataset.id = data.id;
     btn.dataset.type = data.type;
     btn.addEventListener('click', () => {
-      if (lockBoard || btn.classList.contains('flipped')) return;
+      if (lockBoard || btn.classList.contains('flipped') || btn.classList.contains('matched')) return;
       btn.classList.add('flipped');
       if (!firstCard) { firstCard = btn; return; }
       secondCard = btn;
@@ -659,16 +676,17 @@ function initFlashcardGame() {
 function showFlashcard() {
   if(!activeBatch.length) return;
   let item = activeBatch[flashIndex];
-  document.getElementById('flash-progress').innerText = `Kart ${flashIndex + 1} / 5`;
+  const progressText = state.uiLang === 'az' ? `Kart ${flashIndex + 1} / 5` : `Card ${flashIndex + 1} / 5`;
+  document.getElementById('flash-progress').innerText = progressText;
   const card = document.getElementById('flashcard');
-  card.innerHTML = `<div class="flash-word">${item.word}</div><div class="flash-hint">Kliklə və tərcüməsinə bax</div>`;
+  card.innerHTML = `<div class="flash-word">${item.word}</div><div class="flash-hint">${LOCALIZATION[state.uiLang].flash_hint}</div>`;
   let side = 'front';
   card.onclick = () => {
     if(side === 'front') {
       card.innerHTML = `<div class="flash-word" style="color:var(--clay);">${item.az_word}</div><div class="flash-hint">${item.def}</div>`;
       side = 'back';
     } else {
-      card.innerHTML = `<div class="flash-word">${item.word}</div><div class="flash-hint">Kliklə və tərcüməsinə bax</div>`;
+      card.innerHTML = `<div class="flash-word">${item.word}</div><div class="flash-hint">${LOCALIZATION[state.uiLang].flash_hint}</div>`;
       side = 'front';
     }
   };
@@ -683,9 +701,15 @@ function initQuizGame() {
   showQuizQuestion();
 }
 function showQuizQuestion() {
-  document.getElementById('quiz-progress').innerText = `Sual ${quizIndex + 1} / 5`;
+  if(!activeBatch.length) return;
+  const progressText = state.uiLang === 'az' ? `Sual ${quizIndex + 1} / 5` : `Question ${quizIndex + 1} / 5`;
+  document.getElementById('quiz-progress').innerText = progressText;
   let item = activeBatch[quizIndex];
-  document.getElementById('quiz-prompt').innerText = `"${item.def}" tərifi hansı sözə aiddir?`;
+  
+  document.getElementById('quiz-prompt').innerText = state.uiLang === 'az' 
+    ? `"${item.def}" tərifi hansı sözə aiddir?` 
+    : `Which word matches the definition "${item.def}"?`;
+    
   let optsDiv = document.getElementById('quiz-options');
   optsDiv.innerHTML = '';
   
@@ -706,7 +730,7 @@ function showQuizQuestion() {
         setTimeout(() => {
           quizIndex++;
           if(quizIndex < 5) showQuizQuestion();
-          else document.getElementById('quiz-prompt').innerText = "Təbriklər! Bütün sualları bitirdiniz.";
+          else document.getElementById('quiz-prompt').innerText = LOCALIZATION[state.uiLang].quiz_win;
         }, 800);
       } else {
         btn.classList.add('wrong');
@@ -716,16 +740,22 @@ function showQuizQuestion() {
   });
 }
 
-// 4. İmla (Spelling) Mexanizmi (Tam təmir olundu)
+// 4. İmla (Spelling) Mexanizmi
 let spellIndex = 0;
 function initSpellingGame() {
   spellIndex = 0;
   showSpellingWord();
 }
 function showSpellingWord() {
-  document.getElementById('spell-progress').innerText = `Söz ${spellIndex + 1} / 5`;
+  if(!activeBatch.length) return;
+  const progressText = state.uiLang === 'az' ? `Söz ${spellIndex + 1} / 5` : `Word ${spellIndex + 1} / 5`;
+  document.getElementById('spell-progress').innerText = progressText;
   let item = activeBatch[spellIndex];
-  document.getElementById('spell-clue').innerHTML = `<strong>Tərif:</strong> ${item.def}<br><strong>Az dilində:</strong> ${item.az_word}`;
+  
+  const labelDef = state.uiLang === 'az' ? 'Tərif:' : 'Definition:';
+  const labelLang = state.uiLang === 'az' ? 'Az dilində:' : 'In Azerbaijani:';
+  
+  document.getElementById('spell-clue').innerHTML = `<strong>${labelDef}</strong> ${item.def}<br><strong>${labelLang}</strong> ${item.az_word}`;
   document.getElementById('spell-input').value = '';
   document.getElementById('spell-feedback').innerText = '';
   document.getElementById('spell-input').focus();
@@ -735,47 +765,41 @@ function doSpellingCheck() {
   let ans = document.getElementById('spell-input').value.trim().toLowerCase();
   let feedback = document.getElementById('spell-feedback');
   
-  if(!ans) return;
-
-  if(ans === item.word.toLowerCase()) {
-    feedback.innerText = "Doğrudur! ✓"; 
+  if (ans === item.word.toLowerCase()) {
     feedback.className = "spell-feedback correct";
+    feedback.innerText = LOCALIZATION[state.uiLang].spell_correct;
     setTimeout(() => {
       spellIndex++;
-      if(spellIndex < 5) {
-        showSpellingWord();
-      } else {
-        feedback.innerText = "Əla! Bütün dəsti düzgün tamamladınız.";
-      }
+      if(spellIndex < 5) showSpellingWord();
+      else feedback.innerText = LOCALIZATION[state.uiLang].quiz_win;
     }, 1000);
   } else {
-    feedback.innerText = "Yanlışdır, yenidən cəhd edin."; 
     feedback.className = "spell-feedback wrong";
+    feedback.innerText = LOCALIZATION[state.uiLang].spell_wrong;
   }
 }
 
-// 5. Tərcümə (Bütöv mətnli versiya)
-let transIndex = 0;
+// 5. Tərcümə (Translation) Mexanizmi
+let translateIndex = 0;
 function initTranslationGame() {
-  transIndex = 0;
-  showTranslationText();
+  translateIndex = 0;
+  showTranslationPassage();
 }
-function showTranslationText() {
-  let item = activeBatch[transIndex];
-  document.getElementById('translate-passage').innerHTML = `<strong>Aşağıdakı mətni ingilis dilinə çevirin:</strong><br><br>${item.az_text || "Bu söz üçün mətn əlavə edilməyib."}`;
+function showTranslationPassage() {
+  if(!activeBatch.length) return;
+  let item = activeBatch[translateIndex];
+  document.getElementById('translate-passage').innerText = state.uiLang === 'az' ? item.az_text : item.en_text;
   document.getElementById('translate-input').value = '';
   document.getElementById('translate-result').style.display = 'none';
 }
-document.getElementById('translate-check-btn').addEventListener('click', () => {
-  let item = activeBatch[transIndex];
-  let res = document.getElementById('translate-result');
-  res.innerHTML = `<strong>Nümunə İngilis dili Tərcüməsi:</strong><br>${item.en_text}<br><br><strong>Hədəf Söz:</strong> <u>${item.word}</u> (${item.level}) - ${item.def}`;
-  res.style.display = 'block';
-});
-document.getElementById('translate-next-btn').addEventListener('click', () => {
-  transIndex = (transIndex + 1) % 5;
-  showTranslationText();
-});
+function doTranslationCheck() {
+  let item = activeBatch[translateIndex];
+  let resultDiv = document.getElementById('translate-result');
+  let targetText = state.uiLang === 'az' ? item.en_text : item.az_text;
+  
+  resultDiv.innerHTML = `<strong>${LOCALIZATION[state.uiLang].translate_title}</strong><br>${targetText}`;
+  resultDiv.style.display = 'block';
+}
 </script>
 </body>
 </html>
