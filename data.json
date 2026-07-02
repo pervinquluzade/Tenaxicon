@@ -1,18 +1,47 @@
 [
   {
     "word": "Acumen",
-    "level": "C1",
-    "pos": "noun",
+    "part_of_speech": "noun",
+    "definition": "Fərasət, zehni itilik, uzaqgörənlik.",
+    "az_word": "Fərasət, zehni itilik, uzaqgörənlik.",
     "def": "Ability to make good judgments and quick decisions.",
     "example": "Her business acumen helped the company double its profits.",
-    "az_word": "Fərasət, zehni itilik"
+    "category": "Intellect & Behavior"
   },
   {
     "word": "Astute",
-    "level": "C2",
-    "pos": "adjective",
+    "part_of_speech": "adjective",
+    "definition": "Ayıq-sayıq, zəki, hiyləgər dərəcədə ağıllı.",
+    "az_word": "Ayıq-sayıq, zəki, hiyləgər dərəcədə ağıllı.",
     "def": "Having or showing an ability to accurately assess situations.",
     "example": "An astute observer would notice the subtle changes in the market.",
-    "az_word": "Ayıq-sayıq, zəki"
+    "category": "Intellect & Behavior"
+  },
+  {
+    "word": "Cognizant",
+    "part_of_speech": "adjective",
+    "definition": "Xəbərdar olmaq, dərk etmək (adətən 'of' ilə işlənir).",
+    "az_word": "Xəbərdar olmaq, dərk etmək.",
+    "def": "Having knowledge or being aware of.",
+    "example": "We are fully cognizant of the potential risks involved.",
+    "category": "Intellect & Behavior"
+  },
+  {
+    "word": "Erudite",
+    "part_of_speech": "adjective",
+    "definition": "Savadlı, elmli, geniş dünyagörüşlü.",
+    "az_word": "Savadlı, elmli, geniş dünyagörüşlü.",
+    "def": "Having or showing great knowledge or learning.",
+    "example": "The professor gave an erudite lecture on medieval history.",
+    "category": "Intellect & Behavior"
+  },
+  {
+    "word": "Meticulous",
+    "part_of_speech": "adjective",
+    "definition": "Həddən artıq diqqətli, vasvası, hər xırdalığa fikir verən.",
+    "az_word": "Həddən artıq diqqətli, vasvası.",
+    "def": "Showing great attention to detail; very careful and precise.",
+    "example": "The laboratory analysis requires meticulous attention to detail.",
+    "category": "Intellect & Behavior"
   }
 ]
