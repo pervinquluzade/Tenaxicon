@@ -160,6 +160,16 @@
   .headword { font-family: var(--serif); font-size: 19px; margin: 0; }
   .level-tag { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 5px; background: var(--teal-soft); color: var(--teal); }
   .pos { font-size: 12px; font-style: italic; color: var(--ink-soft); }
+  .pos-badge {
+    font-family: var(--sans); font-style: normal; font-size: 10px; font-weight: 700;
+    padding: 2px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .pos-noun { background: var(--teal-soft); color: var(--teal); }
+  .pos-verb { background: var(--clay-soft); color: var(--clay); }
+  .pos-adjective { background: var(--gold-soft); color: var(--gold); }
+  .pos-adverb { background: var(--leaf-soft); color: var(--leaf); }
+  .pos-other { background: var(--paper-line); color: var(--ink-soft); }
   .card-actions { display: flex; gap: 6px; flex-shrink: 0; }
 
   .az-line { margin-top: 6px; font-size: 14px; color: var(--clay); font-weight: 600; }
@@ -591,8 +601,60 @@ const LOCALIZATION = {
 
 let state = {
   dayCount: 1, streakCount: 1, currentBatchIndex: 0,
-  learnedWords: [], myWords: [], uiLang: 'az', learnedLog: {}, badges: []
+  learnedWords: [], myWords: [], uiLang: 'az', learnedLog: {}, badges: [], wordOrder: null
 };
+
+// --- Söz növü (part of speech) etiketləri ---
+const POS_LABELS = {
+  noun: { az: 'isim', en: 'noun' },
+  verb: { az: 'feil', en: 'verb' },
+  adjective: { az: 'sifət', en: 'adjective' },
+  adverb: { az: 'zərf', en: 'adverb' },
+  preposition: { az: 'sözönü', en: 'preposition' }
+};
+function posClass(pos) {
+  if (!pos) return 'pos-other';
+  const first = pos.split('/')[0].trim().toLowerCase();
+  return POS_LABELS[first] ? `pos-${first}` : 'pos-other';
+}
+function posLabel(pos) {
+  if (!pos) return '';
+  return pos.split('/').map(p => {
+    const key = p.trim().toLowerCase();
+    const entry = POS_LABELS[key];
+    if (!entry) return p.trim();
+    return state.uiLang === 'az' ? entry.az : entry.en;
+  }).join(' / ');
+}
+
+// --- Söz sırasını qarışdırmaq: eyni kateqoriyadan sözlər dalbadal gəlməsin ---
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+function buildInterleavedOrder(data) {
+  const groups = {};
+  data.forEach(item => {
+    const cat = item.category || 'other';
+    (groups[cat] = groups[cat] || []).push(item.word);
+  });
+  Object.values(groups).forEach(shuffleArray);
+  const order = [];
+  let lastCat = null;
+  const total = data.length;
+  while (order.length < total) {
+    const candidates = Object.keys(groups).filter(c => groups[c].length > 0);
+    if (!candidates.length) break;
+    candidates.sort((a, b) => groups[b].length - groups[a].length);
+    const chosen = candidates.find(c => c !== lastCat) || candidates[0];
+    order.push(groups[chosen].shift());
+    lastCat = chosen;
+  }
+  return order;
+}
 
 let calViewYear = null, calViewMonth = null;
 
@@ -680,7 +742,19 @@ window.addEventListener('DOMContentLoaded', () => {
       return response.json();
     })
     .then(data => {
-      VOCAB = data;
+      const byWord = {};
+      data.forEach(d => { byWord[d.word] = d; });
+
+      let order = state.wordOrder;
+      const orderValid = Array.isArray(order) && order.length === data.length &&
+        order.every(w => byWord[w]);
+
+      if (!orderValid) {
+        order = buildInterleavedOrder(data);
+        state.wordOrder = order;
+      }
+
+      VOCAB = order.map(w => byWord[w]).filter(Boolean);
       saveState();
       initGames();
     })
@@ -838,7 +912,7 @@ function renderDailyWords() {
           <h3 class="headword">${item.word}</h3>
           <button class="speak-btn" title="${state.uiLang === 'az' ? 'Tələffüzü dinlə' : 'Listen to pronunciation'}">${SPEAK_ICON_SVG}</button>
           <span class="level-tag">${item.level || 'C1'}</span>
-          <span class="pos">${item.pos || ''}</span>
+          <span class="pos-badge ${posClass(item.part_of_speech)}">${posLabel(item.part_of_speech)}</span>
         </div>
         <div class="card-actions">
           <button class="mywords-pin-btn ${isPinned ? 'pinned' : ''}">＋</button>
@@ -1231,7 +1305,7 @@ function showFlashcard() {
   const progressText = state.uiLang === 'az' ? `Kart ${flashIndex + 1} / ${activeBatch.length}` : `Card ${flashIndex + 1} / ${activeBatch.length}`;
   document.getElementById('flash-progress').innerText = progressText;
   const card = document.getElementById('flashcard');
-  const frontHTML = `<div class="flash-word" style="display:flex; align-items:center; gap:10px; justify-content:center;">${item.word}<button class="speak-btn" title="${state.uiLang === 'az' ? 'Tələffüzü dinlə' : 'Listen to pronunciation'}">${SPEAK_ICON_SVG}</button></div><div class="flash-hint">${LOCALIZATION[state.uiLang].flash_hint}</div>`;
+  const frontHTML = `<div class="flash-word" style="display:flex; align-items:center; gap:10px; justify-content:center;">${item.word}<button class="speak-btn" title="${state.uiLang === 'az' ? 'Tələffüzü dinlə' : 'Listen to pronunciation'}">${SPEAK_ICON_SVG}</button></div><div style="display:flex; justify-content:center; margin-top:6px;"><span class="pos-badge ${posClass(item.part_of_speech)}">${posLabel(item.part_of_speech)}</span></div><div class="flash-hint">${LOCALIZATION[state.uiLang].flash_hint}</div>`;
   const backHTML = `<div class="flash-word" style="color:var(--clay);">${item.az_word}</div><div class="flash-hint">${item.def}</div>`;
   card.innerHTML = frontHTML;
   let side = 'front';
@@ -1376,7 +1450,7 @@ function doTranslationCheck() {
   let resultDiv = document.getElementById('translate-result');
   let targetText = state.uiLang === 'az' ? (item.en_text || `"${item.example}"`) : (item.az_text || item.az_word);
   
-  resultDiv.innerHTML = `<strong>${LOCALIZATION[state.uiLang].translate_title}</strong><br>${targetText}<br><small style="display:block; margin-top: 6px; color: var(--teal);">Target Word: <b>${item.word}</b> (${item.pos || ''})</small>`;
+  resultDiv.innerHTML = `<strong>${LOCALIZATION[state.uiLang].translate_title}</strong><br>${targetText}<br><small style="display:block; margin-top: 6px; color: var(--teal);">Target Word: <b>${item.word}</b> <span class="pos-badge ${posClass(item.part_of_speech)}">${posLabel(item.part_of_speech)}</span></small>`;
   resultDiv.style.display = 'block';
 }
 </script>
