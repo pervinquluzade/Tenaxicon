@@ -315,6 +315,14 @@
     border: none; font-family: var(--sans); transition: transform 0.1s;
   }
   .related-chip:hover { transform: translateY(-1px); }
+  .related-def {
+    margin-top: 8px; padding: 8px 10px; border-radius: 8px; background: var(--paper);
+    border: 1px solid var(--paper-line); font-size: 13px; line-height: 1.5; display: none;
+  }
+  .related-def.open { display: block; }
+  .related-def .rd-word { font-family: var(--serif); font-weight: 700; margin-right: 6px; }
+  .related-def .rd-az { color: var(--clay); font-weight: 600; }
+  .related-def .rd-def { color: var(--ink-soft); margin-top: 4px; }
 
   /* Badges */
   .badge-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 12px; }
@@ -903,6 +911,7 @@ function renderDailyWords() {
             return `<button class="related-chip" data-word="${r.word}" style="background:${c.bg}; color:${c.fg};">${r.word}</button>`;
           }).join('')}
         </div>
+        <div class="related-def"></div>
       </div>` : '';
 
     card.innerHTML = `
@@ -931,7 +940,26 @@ function renderDailyWords() {
       </details>
     `;
     card.querySelectorAll('.related-chip').forEach(chip => {
-      chip.addEventListener('click', (e) => speakWord(e.currentTarget.dataset.word, e.currentTarget));
+      chip.addEventListener('click', (e) => {
+        const w = e.currentTarget.dataset.word;
+        const relItem = VOCAB.find(v => v.word === w);
+        if (!relItem) return;
+        const defBox = card.querySelector('.related-def');
+        const alreadyOpenForThisWord = defBox.classList.contains('open') && defBox.dataset.word === w;
+        if (alreadyOpenForThisWord) {
+          defBox.classList.remove('open');
+          defBox.dataset.word = '';
+          return;
+        }
+        defBox.dataset.word = w;
+        defBox.innerHTML = `
+          <span class="rd-word">${relItem.word}</span>
+          <span class="pos-badge ${posClass(relItem.part_of_speech)}">${posLabel(relItem.part_of_speech)}</span>
+          <div class="rd-az">${relItem.az_word || ''}</div>
+          <div class="rd-def">${relItem.def || ''}</div>
+        `;
+        defBox.classList.add('open');
+      });
     });
     card.querySelector('.speak-btn').addEventListener('click', (e) => {
       speakWord(item.word, e.currentTarget);
