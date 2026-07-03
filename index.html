@@ -324,6 +324,32 @@
   .related-def .rd-az { color: var(--clay); font-weight: 600; }
   .related-def .rd-def { color: var(--ink-soft); margin-top: 4px; }
 
+  /* Fill-in-the-blank game */
+  .blank-sentence {
+    font-family: var(--serif); font-size: 18px; line-height: 1.6; color: var(--ink);
+    background: var(--paper-card); border: 1px solid var(--paper-line); border-radius: var(--radius);
+    padding: 20px; margin-bottom: 16px;
+  }
+  .blank-gap {
+    display: inline-block; min-width: 90px; border-bottom: 2px solid var(--teal); color: var(--teal);
+    font-weight: 700; text-align: center;
+  }
+
+  /* Spaced-repetition review game */
+  .review-wrap { max-width: 480px; margin: 0 auto; }
+  .review-header { display: flex; justify-content: space-between; font-size: 13px; color: var(--ink-soft); margin-bottom: 6px; font-weight: 600; }
+  .review-track { height: 7px; background: var(--paper-line); border-radius: 999px; overflow: hidden; margin-bottom: 18px; }
+  .review-fill { height: 100%; background: linear-gradient(90deg, var(--teal) 0%, #4fb3ab 100%); border-radius: 999px; transition: width 0.3s ease; width: 0%; }
+  .review-actions { display: flex; gap: 10px; margin-top: 16px; }
+  .review-actions .btn { flex: 1; font-size: 14px; padding: 12px; }
+  .review-btn-yes { background: var(--leaf); color: #fff; border-color: var(--leaf); }
+  .review-btn-no { background: var(--rose); color: #fff; border-color: var(--rose); }
+  .review-empty-msg { text-align: center; padding: 30px 16px; color: var(--ink-soft); font-size: 15px; line-height: 1.6; }
+  .review-stage-tag {
+    display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+    padding: 2px 8px; border-radius: 20px; background: var(--gold-soft); color: var(--gold); margin-top: 8px;
+  }
+
   /* Badges */
   .badge-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 12px; }
   .badge-item { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; padding: 10px 6px; border-radius: 12px; background: var(--paper); }
@@ -427,6 +453,8 @@
       <button class="subtab-pill" data-sub="quiz" id="subtab-quiz">Quiz</button>
       <button class="subtab-pill" data-sub="spell" id="subtab-spell">İmla</button>
       <button class="subtab-pill" data-sub="translate" id="subtab-translate">Tərcümə</button>
+      <button class="subtab-pill" data-sub="blank" id="subtab-blank">Boşluq</button>
+      <button class="subtab-pill" data-sub="review" id="subtab-review">Təkrar</button>
     </div>
 
     <div class="game-subview active" id="sub-match">
@@ -484,6 +512,33 @@
           <button class="btn" id="translate-next-btn">Növbəti mətn</button>
         </div>
         <div class="win-banner" id="translate-result" style="text-align: left; background: var(--teal-soft);"></div>
+      </div>
+    </div>
+
+    <div class="game-subview" id="sub-blank">
+      <div class="spell-wrap">
+        <div class="spell-progress" id="blank-progress">Cümlə 1 / 5</div>
+        <div class="blank-sentence" id="blank-sentence"></div>
+        <div class="spell-input-row">
+          <input class="spell-input" id="blank-input" type="text" placeholder="Boşluğa uyğun sözü yazın və Enter basın" autocomplete="off"/>
+          <button class="btn primary" id="blank-submit-btn">Yoxla</button>
+        </div>
+        <div class="spell-feedback" id="blank-feedback"></div>
+      </div>
+    </div>
+
+    <div class="game-subview" id="sub-review">
+      <div class="review-wrap">
+        <div class="review-header">
+          <span id="review-progress-label">Bugünkü təkrar</span>
+          <span id="review-progress-count">0/0</span>
+        </div>
+        <div class="review-track"><div class="review-fill" id="review-fill"></div></div>
+        <div class="flashcard" id="review-card"></div>
+        <div class="review-actions" id="review-actions" style="display:none;">
+          <button class="btn review-btn-no" id="review-dontknow-btn">Bilmirəm</button>
+          <button class="btn review-btn-yes" id="review-know-btn">Bilirəm</button>
+        </div>
       </div>
     </div>
   </section>
@@ -563,6 +618,13 @@ const LOCALIZATION = {
     mini_stats_link: "Ətraflı statistika →",
     lbl_mini_badge_count: "nişan", lbl_badges_title: "Nailiyyətlər", badge_summary: "{n} / {t} nişan qazanılıb",
     lbl_related_words: "Əlaqəli sözlər",
+    tab_blank: "Boşluq", tab_review: "Təkrar",
+    blank_placeholder: "Boşluğa uyğun sözü yazın və Enter basın", blank_btn: "Yoxla",
+    blank_correct: "Doğrudur!", blank_wrong: "Səhvdir, yenidən cəhd edin.",
+    review_flip_hint: "Kliklə və tərcüməsinə bax", review_know_btn: "Bilirəm", review_dontknow_btn: "Bilmirəm",
+    review_empty: "Bugün üçün təkrarlanacaq söz yoxdur! 🎉 Yeni sözlər öyrənib bura qaytıdırsınız.",
+    review_progress: "Bugünkü təkrar", review_done: "Bugünkü bütün təkrarları bitirdiniz! Sabah görüşərik.",
+    review_next_due: "Növbəti təkrar tarixi:",
     badges: [
       { id: "first_word", icon: "🌱", type: "total", threshold: 1, title: "İlk addım", desc: "İlk sözünü öyrəndin" },
       { id: "words_10", icon: "📘", type: "total", threshold: 10, title: "Başlanğıc", desc: "10 söz öyrəndin" },
@@ -594,6 +656,13 @@ const LOCALIZATION = {
     mini_stats_link: "View full statistics →",
     lbl_mini_badge_count: "badges", lbl_badges_title: "Achievements", badge_summary: "{n} / {t} badges earned",
     lbl_related_words: "Related words",
+    tab_blank: "Fill-in", tab_review: "Review",
+    blank_placeholder: "Type the missing word and press Enter", blank_btn: "Check",
+    blank_correct: "Correct!", blank_wrong: "Incorrect, try again.",
+    review_flip_hint: "Click to flip and see the translation", review_know_btn: "I know it", review_dontknow_btn: "I don't know it",
+    review_empty: "No words are due for review today! 🎉 Learn new words and come back later.",
+    review_progress: "Today's review", review_done: "You finished today's reviews! See you tomorrow.",
+    review_next_due: "Next review date:",
     badges: [
       { id: "first_word", icon: "🌱", type: "total", threshold: 1, title: "First Step", desc: "Learned your first word" },
       { id: "words_10", icon: "📘", type: "total", threshold: 10, title: "Getting Started", desc: "Learned 10 words" },
@@ -609,7 +678,7 @@ const LOCALIZATION = {
 
 let state = {
   dayCount: 1, streakCount: 1, currentBatchIndex: 0,
-  learnedWords: [], myWords: [], uiLang: 'az', learnedLog: {}, badges: [], wordOrder: null
+  learnedWords: [], myWords: [], uiLang: 'az', learnedLog: {}, badges: [], wordOrder: null, srs: {}
 };
 
 // --- Söz növü (part of speech) etiketləri ---
@@ -664,6 +733,27 @@ function buildInterleavedOrder(data) {
   return order;
 }
 
+// --- Aralıqlı təkrar (spaced repetition) sistemi ---
+const SRS_INTERVALS = [1, 3, 7, 14, 30, 60]; // gün
+function addDaysStr(dateStr, days) {
+  const d = new Date(dateStr + 'T00:00:00');
+  d.setDate(d.getDate() + days);
+  return todayStr(d);
+}
+function ensureSrsEntry(word) {
+  if (!state.srs[word]) {
+    state.srs[word] = { stage: 0, nextReview: todayStr() };
+  }
+  return state.srs[word];
+}
+function getDueReviewWords() {
+  const today = todayStr();
+  return state.learnedWords.filter(w => {
+    const entry = ensureSrsEntry(w);
+    return entry.nextReview <= today;
+  });
+}
+
 let calViewYear = null, calViewMonth = null;
 
 let activeBatch = [];
@@ -677,6 +767,7 @@ window.addEventListener('DOMContentLoaded', () => {
   if (saved) { try { state = JSON.parse(saved); } catch(e){} }
   if (!state.learnedLog) state.learnedLog = {};
   if (!state.badges) state.badges = [];
+  if (!state.srs) state.srs = {};
   
   setupTabs();
   setupGameSubtabs();
@@ -707,6 +798,14 @@ window.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Enter') { doSpellingCheck(); }
   });
   document.getElementById('spell-submit-btn').addEventListener('click', doSpellingCheck);
+
+  document.getElementById('blank-input').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') { doBlankCheck(); }
+  });
+  document.getElementById('blank-submit-btn').addEventListener('click', doBlankCheck);
+
+  document.getElementById('review-know-btn').addEventListener('click', () => gradeReview(true));
+  document.getElementById('review-dontknow-btn').addEventListener('click', () => gradeReview(false));
 
   document.getElementById('translate-check-btn').addEventListener('click', doTranslationCheck);
   document.getElementById('translate-next-btn').addEventListener('click', () => { 
@@ -855,6 +954,11 @@ function updateUI() {
   document.getElementById('subtab-quiz').innerText = dict.tab_quiz;
   document.getElementById('subtab-spell').innerText = dict.tab_spell;
   document.getElementById('subtab-translate').innerText = dict.tab_translate;
+  document.getElementById('subtab-blank').innerText = dict.tab_blank;
+  document.getElementById('subtab-review').innerText = dict.tab_review;
+  document.getElementById('blank-input').placeholder = dict.blank_placeholder;
+  document.getElementById('blank-submit-btn').innerText = dict.blank_btn;
+  document.getElementById('review-progress-label').innerText = dict.review_progress;
 
   document.getElementById('lbl-match-moves').innerText = dict.lbl_match_moves;
   document.getElementById('lbl-match-matches').innerText = dict.lbl_match_matches;
@@ -977,9 +1081,11 @@ function renderDailyWords() {
           state.learnedLog[key] = Math.max(0, state.learnedLog[key] - 1);
           if (state.learnedLog[key] === 0) delete state.learnedLog[key];
         }
+        delete state.srs[item.word];
       } else {
         state.learnedWords.push(item.word);
         state.learnedLog[key] = (state.learnedLog[key] || 0) + 1;
+        ensureSrsEntry(item.word);
       }
       saveState();
     });
@@ -1251,6 +1357,8 @@ function initGames() {
   initQuizGame();
   initSpellingGame();
   initTranslationGame();
+  initBlankGame();
+  initReviewGame();
 }
 
 function speakWord(text, btn) {
@@ -1481,6 +1589,173 @@ function doTranslationCheck() {
   resultDiv.innerHTML = `<strong>${LOCALIZATION[state.uiLang].translate_title}</strong><br>${targetText}<br><small style="display:block; margin-top: 6px; color: var(--teal);">Target Word: <b>${item.word}</b> <span class="pos-badge ${posClass(item.part_of_speech)}">${posLabel(item.part_of_speech)}</span></small>`;
   resultDiv.style.display = 'block';
 }
+
+/* ---------------- Fill-in-the-blank (Boşluq) oyunu ---------------- */
+let blankIndex = 0;
+let blankCurrentAnswer = '';
+let blankCurrentMatched = '';
+
+function escapeRegex(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+function findWordSpan(text, word) {
+  let re = new RegExp('\\b' + escapeRegex(word) + '\\w*', 'i');
+  let m = text.match(re);
+  if (m) return m;
+  for (let cut = 1; cut <= 3 && word.length - cut >= 4; cut++) {
+    const stem = word.slice(0, word.length - cut);
+    re = new RegExp('\\b' + escapeRegex(stem) + '\\w*', 'i');
+    m = text.match(re);
+    if (m) return m;
+  }
+  return null;
+}
+function buildBlankSentence(item) {
+  const text = item.example || item.def || '';
+  const m = findWordSpan(text, item.word);
+  if (!m) return { html: text, matched: item.word };
+  const idx = m.index, matchedText = m[0];
+  const before = text.slice(0, idx);
+  const after = text.slice(idx + matchedText.length);
+  const gapWidth = Math.max(70, matchedText.length * 11);
+  const html = `${before}<span class="blank-gap" style="min-width:${gapWidth}px;">&nbsp;</span>${after}`;
+  return { html, matched: matchedText };
+}
+function initBlankGame() {
+  blankIndex = 0;
+  showBlankSentence();
+}
+function showBlankSentence() {
+  if (!activeBatch.length) return;
+  const item = activeBatch[blankIndex];
+  const progressText = state.uiLang === 'az' ? `Cümlə ${blankIndex + 1} / ${activeBatch.length}` : `Sentence ${blankIndex + 1} / ${activeBatch.length}`;
+  document.getElementById('blank-progress').innerText = progressText;
+
+  const built = buildBlankSentence(item);
+  blankCurrentAnswer = item.word;
+  blankCurrentMatched = built.matched;
+  document.getElementById('blank-sentence').innerHTML = built.html;
+
+  const input = document.getElementById('blank-input');
+  input.value = '';
+  input.disabled = false;
+  const feedback = document.getElementById('blank-feedback');
+  feedback.innerText = '';
+  feedback.className = 'spell-feedback';
+  input.focus();
+}
+function doBlankCheck() {
+  if (!activeBatch.length) return;
+  const input = document.getElementById('blank-input');
+  const ans = input.value.trim().toLowerCase();
+  const feedback = document.getElementById('blank-feedback');
+  const isCorrect = ans === blankCurrentAnswer.toLowerCase() || ans === blankCurrentMatched.toLowerCase();
+
+  if (isCorrect) {
+    feedback.className = 'spell-feedback correct';
+    feedback.innerText = LOCALIZATION[state.uiLang].blank_correct;
+    input.disabled = true;
+    document.getElementById('blank-sentence').innerHTML = document.getElementById('blank-sentence').innerHTML
+      .replace(/<span class="blank-gap"[^>]*>&nbsp;<\/span>/, `<span class="blank-gap" style="border-bottom-style:solid;">${blankCurrentMatched}</span>`);
+    setTimeout(() => {
+      blankIndex++;
+      if (blankIndex < activeBatch.length) {
+        showBlankSentence();
+      } else {
+        feedback.innerText = LOCALIZATION[state.uiLang].quiz_win;
+        setTimeout(() => { initBlankGame(); }, 1500);
+      }
+    }, 1200);
+  } else {
+    feedback.className = 'spell-feedback wrong';
+    feedback.innerText = LOCALIZATION[state.uiLang].blank_wrong + ` (${blankCurrentAnswer[0]}...?)`;
+  }
+}
+
+/* ---------------- Təkrar (spaced repetition) oyunu ---------------- */
+let reviewQueue = [];
+let reviewTotalToday = 0;
+let reviewFlipped = false;
+
+function initReviewGame() {
+  reviewQueue = getDueReviewWords();
+  reviewTotalToday = reviewQueue.length;
+  reviewFlipped = false;
+  saveState();
+  showReviewCard();
+}
+function updateReviewProgress() {
+  const remaining = reviewQueue.length;
+  const done = reviewTotalToday - remaining;
+  document.getElementById('review-progress-count').innerText = `${done}/${reviewTotalToday}`;
+  const pct = reviewTotalToday ? (done / reviewTotalToday * 100) : 0;
+  document.getElementById('review-fill').style.width = pct + '%';
+}
+function showReviewCard() {
+  const card = document.getElementById('review-card');
+  const actions = document.getElementById('review-actions');
+  updateReviewProgress();
+
+  if (!reviewQueue.length) {
+    actions.style.display = 'none';
+    const msg = reviewTotalToday > 0 ? LOCALIZATION[state.uiLang].review_done : LOCALIZATION[state.uiLang].review_empty;
+    card.innerHTML = `<div class="review-empty-msg">${msg}</div>`;
+    card.onclick = null;
+    return;
+  }
+
+  reviewFlipped = false;
+  actions.style.display = 'none';
+  const word = reviewQueue[0];
+  const item = VOCAB.find(v => v.word === word);
+  if (!item) { reviewQueue.shift(); showReviewCard(); return; }
+
+  const entry = ensureSrsEntry(word);
+  const frontHTML = `
+    <div class="flash-word" style="display:flex; align-items:center; gap:10px; justify-content:center;">${item.word}
+      <button class="speak-btn" title="${state.uiLang === 'az' ? 'Tələffüzü dinlə' : 'Listen to pronunciation'}">${SPEAK_ICON_SVG}</button>
+    </div>
+    <div style="display:flex; justify-content:center; margin-top:6px;">
+      <span class="pos-badge ${posClass(item.part_of_speech)}">${posLabel(item.part_of_speech)}</span>
+    </div>
+    <div class="flash-hint">${LOCALIZATION[state.uiLang].review_flip_hint}</div>
+  `;
+  const backHTML = `
+    <div class="flash-word" style="color:var(--clay);">${item.az_word}</div>
+    <div class="flash-hint">${item.def}</div>
+    <div style="text-align:center;"><span class="review-stage-tag">${state.uiLang === 'az' ? 'Mərhələ' : 'Stage'} ${entry.stage + 1}/${SRS_INTERVALS.length}</span></div>
+  `;
+  card.innerHTML = frontHTML;
+  bindReviewSpeakBtn(item);
+
+  card.onclick = () => {
+    if (reviewFlipped) return;
+    reviewFlipped = true;
+    card.innerHTML = backHTML;
+    actions.style.display = 'flex';
+  };
+}
+function bindReviewSpeakBtn(item) {
+  const card = document.getElementById('review-card');
+  const btn = card.querySelector('.speak-btn');
+  if (btn) btn.addEventListener('click', (e) => { e.stopPropagation(); speakWord(item.word, e.currentTarget); });
+}
+function gradeReview(knewIt) {
+  if (!reviewQueue.length) return;
+  const word = reviewQueue.shift();
+  const entry = ensureSrsEntry(word);
+
+  if (knewIt) {
+    entry.stage = Math.min(entry.stage + 1, SRS_INTERVALS.length - 1);
+    entry.nextReview = addDaysStr(todayStr(), SRS_INTERVALS[entry.stage]);
+  } else {
+    entry.stage = 0;
+    entry.nextReview = addDaysStr(todayStr(), 1);
+  }
+  saveState();
+  showReviewCard();
+}
+
 </script>
 </body>
 </html>
