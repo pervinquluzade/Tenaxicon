@@ -269,6 +269,20 @@
   .translate-input { width: 100%; font-size: 15px; padding: 12px 14px; border-radius: var(--radius); border: 1px solid var(--paper-line); background: var(--paper-card); color: var(--ink); font-family: var(--sans); }
 
   /* Badges & General lists */
+  .search-box-wrap { position: relative; margin-bottom: 16px; }
+  .search-input {
+    width: 100%; font-family: var(--sans); font-size: 14px; padding: 11px 38px 11px 14px;
+    border-radius: var(--radius); border: 1.5px solid var(--paper-line); background: var(--paper-card);
+    color: var(--ink); box-sizing: border-box;
+  }
+  .search-input:focus { outline: none; border-color: var(--teal); }
+  .search-clear-btn {
+    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+    width: 24px; height: 24px; border-radius: 50%; border: none; background: var(--paper-line);
+    color: var(--ink-soft); cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center;
+  }
+  .search-empty-hint { font-size: 13px; color: var(--ink-soft); padding: 16px 4px; text-align: center; }
+  .search-result-def { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; line-height: 1.4; }
   .learned-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--paper-card); border: 1px solid var(--paper-line); border-radius: var(--radius); padding: 12px 16px; margin-bottom: 8px; }
   .mywords-pin-btn { width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--paper-line); background: var(--paper-card); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--ink); }
   .mywords-pin-btn.pinned { background: var(--teal-soft); border-color: var(--teal); color: var(--teal); }
@@ -440,6 +454,10 @@
   </section>
 
   <section class="view" id="view-mywords" role="tabpanel">
+    <div class="search-box-wrap">
+      <input type="text" id="word-search-input" class="search-input" placeholder="Söz axtar (ingiliscə və ya azərbaycanca)...">
+      <button type="button" id="word-search-clear" class="search-clear-btn" style="display:none;">✕</button>
+    </div>
     <div class="stat-strip">
       <div class="stat"><span id="lbl-mywords-stat">Siyahında:</span> <b id="mywords-count">0</b> <span id="lbl-mywords-count-label">söz</span></div>
     </div>
@@ -588,6 +606,7 @@ const LOCALIZATION = {
     lbl_day: "Gün", lbl_learned_stat: "öyrənildi", lbl_streak_stat: "Seriya:", lbl_streak_days: "gün seriya",
     lbl_total_stat: "Ümumi Baza:", lbl_total_words: "söz bazada", lbl_day_progress_title: "Bugünkü irəliləyiş", btn_next_batch: "Yeni 5 söz", btn_goto_game: "Oyunda məşq et",
     lbl_mywords_stat: "Siyahında:", lbl_mywords_count_label: "söz", lbl_match_moves: "Hərəkət:", lbl_match_matches: "Uyğun:",
+    search_placeholder: "Söz axtar (ingiliscə və ya azərbaycanca)...", lbl_search_stat: "Nəticə:", search_empty: "Heç nə tapılmadı. Başqa söz yoxlayın.",
     btn_restart: "Yeni oyun", win_match: "Təbriklər! Hamısını tapdınız.", btn_flash_prev: "Geri", btn_flash_next: "Növbəti",
     flash_hint: "Kliklə və tərcüməsinə bax", quiz_win: "Təbriklər! Bütün sualları bitirdiniz.", spell_placeholder: "İngiliscə sözü yazın və Enter basın",
     spell_btn: "Yoxla", spell_correct: "Mükəmməl! Doğrudur.", spell_wrong: "Səhvdir, yenidən yoxlayın.", translate_placeholder: "Yuxarıdakı mətni İngilis dilinə çevirməyə çalışın...",
@@ -626,6 +645,7 @@ const LOCALIZATION = {
     lbl_day: "Day", lbl_learned_stat: "learned", lbl_streak_stat: "Streak:", lbl_streak_days: "day streak",
     lbl_total_stat: "Total Database:", lbl_total_words: "words in base", lbl_day_progress_title: "Today's Progress", btn_next_batch: "New 5 Words", btn_goto_game: "Practice in Games",
     lbl_mywords_stat: "In your list:", lbl_mywords_count_label: "words", lbl_match_moves: "Moves:", lbl_match_matches: "Matches:",
+    search_placeholder: "Search words (English or Azerbaijani)...", lbl_search_stat: "Results:", search_empty: "No matches found. Try a different word.",
     btn_restart: "New Game", win_match: "Congratulations! You matched all.", btn_flash_prev: "Back", btn_flash_next: "Next",
     flash_hint: "Click to flip and see definition", quiz_win: "Congratulations! You completed the quiz.", spell_placeholder: "Type the English word and press Enter",
     spell_btn: "Check", spell_correct: "Excellent! Correct.", spell_wrong: "Incorrect, try again.", translate_placeholder: "Try translating the text above into English...",
@@ -778,6 +798,14 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('ui-lang-az').addEventListener('click', () => { state.uiLang = 'az'; saveState(); });
   document.getElementById('ui-lang-en').addEventListener('click', () => { state.uiLang = 'en'; saveState(); });
 
+  document.getElementById('word-search-input').addEventListener('input', () => { renderMyWords(); });
+  document.getElementById('word-search-clear').addEventListener('click', () => {
+    const input = document.getElementById('word-search-input');
+    input.value = '';
+    input.focus();
+    renderMyWords();
+  });
+
   document.getElementById('spell-input').addEventListener('keypress', (e) => {
     if (e.key === 'Enter') { doSpellingCheck(); }
   });
@@ -927,8 +955,8 @@ function updateUI() {
   document.getElementById('lbl-total-words').innerText = dict.lbl_total_words;
   document.getElementById('next-batch-btn').innerText = dict.btn_next_batch;
   document.getElementById('goto-game-btn').innerText = dict.btn_goto_game;
-  document.getElementById('lbl-mywords-stat').innerText = dict.lbl_mywords_stat;
   document.getElementById('lbl-mywords-count-label').innerText = dict.lbl_mywords_count_label;
+  document.getElementById('word-search-input').placeholder = dict.search_placeholder;
   document.getElementById('lbl-learned-total-label').innerText = dict.lbl_learned_total_label;
   document.getElementById('learned-empty').innerText = dict.learned_empty;
   document.getElementById('app-footer').innerText = dict.footer_text;
@@ -1079,14 +1107,54 @@ function renderDailyWords() {
 function renderMyWords() {
   const container = document.getElementById('mywords-list');
   container.innerHTML = '';
-  document.getElementById('mywords-count').innerText = state.myWords.length;
-  state.myWords.forEach(w => {
-    let item = VOCAB.find(v => v.word === w);
-    if(!item) return;
+  const dict = LOCALIZATION[state.uiLang];
+  const searchInput = document.getElementById('word-search-input');
+  const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+  document.getElementById('word-search-clear').style.display = query ? 'flex' : 'none';
+
+  let list, statLabel;
+  if (query) {
+    list = VOCAB.filter(v =>
+      (v.word && v.word.toLowerCase().includes(query)) ||
+      (v.az_word && v.az_word.toLowerCase().includes(query)) ||
+      (v.def && v.def.toLowerCase().includes(query)) ||
+      (v.definition && v.definition.toLowerCase().includes(query))
+    );
+    statLabel = dict.lbl_search_stat;
+  } else {
+    list = state.myWords.map(w => VOCAB.find(v => v.word === w)).filter(Boolean);
+    statLabel = dict.lbl_mywords_stat;
+  }
+
+  document.getElementById('lbl-mywords-stat').innerText = statLabel;
+  document.getElementById('mywords-count').innerText = list.length;
+
+  if (!list.length) {
+    const emptyText = query ? dict.search_empty : dict.learned_empty;
+    container.innerHTML = `<div class="search-empty-hint">${emptyText}</div>`;
+    return;
+  }
+
+  list.forEach(item => {
+    const isPinned = state.myWords.includes(item.word);
     let div = document.createElement('div');
     div.className = 'learned-row';
-    div.innerHTML = `<div style="display:flex; align-items:center; gap:8px;"><button class="speak-btn" title="${state.uiLang === 'az' ? 'Tələffüzü dinlə' : 'Listen to pronunciation'}">${SPEAK_ICON_SVG}</button><span><b>${item.word}</b> - ${item.az_word}</span></div>`;
+    div.innerHTML = `
+      <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:0;">
+        <button class="speak-btn" title="${state.uiLang === 'az' ? 'Tələffüzü dinlə' : 'Listen to pronunciation'}">${SPEAK_ICON_SVG}</button>
+        <div style="min-width:0;">
+          <span><b>${item.word}</b> - ${item.az_word || ''}</span>
+          ${query ? `<div class="search-result-def">${item.def || ''}</div>` : ''}
+        </div>
+      </div>
+      <button class="mywords-pin-btn ${isPinned ? 'pinned' : ''}" title="${isPinned ? (state.uiLang === 'az' ? 'Siyahıdan sil' : 'Remove from list') : (state.uiLang === 'az' ? 'Siyahıya əlavə et' : 'Add to list')}">${isPinned ? '✓' : '＋'}</button>
+    `;
     div.querySelector('.speak-btn').addEventListener('click', (e) => speakWord(item.word, e.currentTarget));
+    div.querySelector('.mywords-pin-btn').addEventListener('click', (e) => {
+      if (state.myWords.includes(item.word)) state.myWords = state.myWords.filter(w => w !== item.word);
+      else state.myWords.push(item.word);
+      saveState();
+    });
     container.appendChild(div);
   });
 }
