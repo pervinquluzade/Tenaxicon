@@ -335,6 +335,11 @@
   .word-web-wrap { margin-top: 12px; }
   .word-web-label { font-size: 11px; font-weight: 600; color: var(--ink-soft); margin-bottom: 6px; }
   .word-web-canvas { background: var(--paper-bg); border-radius: var(--radius); padding: 6px 0; }
+  .word-web-info { display: none; margin-top: 8px; padding: 10px 12px; background: var(--paper-bg); border-radius: var(--radius); border: 1px solid var(--paper-line); }
+  .word-web-info.open { display: block; }
+  .web-info-word { font-family: var(--serif); font-size: 14px; margin-bottom: 4px; }
+  .web-info-def { font-size: 13px; color: var(--ink-soft); line-height: 1.45; }
+  .web-info-example { font-size: 12.5px; color: var(--ink-soft); font-style: italic; margin-top: 4px; }
   .word-web-svg .web-node { cursor: pointer; }
   .word-web-svg .web-node:hover circle { stroke-width: 2.5; }
   .word-web-svg text { pointer-events: none; user-select: none; }
@@ -1028,6 +1033,20 @@ function renderDailyWords() {
     card.className = `word-card ${isLearned ? 'word-card-learned' : ''}`;
     const detailsLabel = state.uiLang === 'az' ? 'Tərif və nümunə' : 'Definition & example';
 
+    const relatedWords = VOCAB.filter(v => v.category && v.category === item.category && v.word !== item.word).slice(0, 5);
+    const relLabel = LOCALIZATION[state.uiLang].lbl_related_words;
+    const relatedHTML = relatedWords.length ? `
+      <div class="related-wrap">
+        <div class="related-label">${relLabel} — ${item.category || ''}</div>
+        <div class="related-chips">
+          ${relatedWords.map(r => {
+            const c = categoryColor(r.category);
+            return `<button class="related-chip" data-word="${r.word}" style="background:${c.bg}; color:${c.fg};">${r.word}</button>`;
+          }).join('')}
+        </div>
+        <div class="related-def"></div>
+      </div>` : '';
+
     card.innerHTML = `
       <div class="entry-top">
         <div class="headword-row">
@@ -1049,25 +1068,31 @@ function renderDailyWords() {
           <hr class="entry-rule">
           <p class="def-en">${item.def || ''}</p>
           <div class="example">"${item.example || ''}"</div>
-          <div class="word-web-wrap">
-            <div class="word-web-label">${LOCALIZATION[state.uiLang].lbl_word_web} — ${item.category || ''}</div>
-            <div class="word-web-canvas"></div>
-          </div>
+          ${relatedHTML}
         </div>
       </details>
     `;
-    const webCanvas = card.querySelector('.word-web-canvas');
-    function renderWeb(centerItem) {
-      webCanvas.innerHTML = buildWordWebSVG(centerItem);
-      webCanvas.querySelectorAll('.web-node').forEach(node => {
-        node.addEventListener('click', () => {
-          const nd = VOCAB.find(v => v.word === node.dataset.word);
-          if (nd) renderWeb(nd);
-        });
+    card.querySelectorAll('.related-chip').forEach(chip => {
+      chip.addEventListener('click', (e) => {
+        const w = e.currentTarget.dataset.word;
+        const relItem = VOCAB.find(v => v.word === w);
+        if (!relItem) return;
+        const defBox = card.querySelector('.related-def');
+        const alreadyOpenForThisWord = defBox.classList.contains('open') && defBox.dataset.word === w;
+        if (alreadyOpenForThisWord) {
+          defBox.classList.remove('open');
+          defBox.dataset.word = '';
+          return;
+        }
+        defBox.dataset.word = w;
+        defBox.innerHTML = `
+          <span class="rd-word">${relItem.word}</span>
+          <span class="pos-badge ${posClass(relItem.part_of_speech)}">${posLabel(relItem.part_of_speech)}</span>
+          <div class="rd-az">${relItem.az_word || ''}</div>
+          <div class="rd-def">${relItem.def || ''}</div>
+        `;
+        defBox.classList.add('open');
       });
-    }
-    card.querySelector('.word-details').addEventListener('toggle', (e) => {
-      if (e.target.open && webCanvas.innerHTML.trim() === '') renderWeb(item);
     });
     card.querySelector('.speak-btn').addEventListener('click', (e) => {
       speakWord(item.word, e.currentTarget);
@@ -1152,21 +1177,31 @@ function renderMyWords() {
         <div class="word-web-wrap">
           <div class="word-web-label">${dict.lbl_word_web} — ${item.category || ''}</div>
           <div class="word-web-canvas"></div>
+          <div class="word-web-info"></div>
         </div>
       </div>
     `;
     const webCanvas = details.querySelector('.word-web-canvas');
-    function renderWeb(centerItem) {
+    const webInfo = details.querySelector('.word-web-info');
+    function renderWeb(centerItem, showInfo) {
       webCanvas.innerHTML = buildWordWebSVG(centerItem);
       webCanvas.querySelectorAll('.web-node').forEach(node => {
         node.addEventListener('click', () => {
           const nd = VOCAB.find(v => v.word === node.dataset.word);
-          if (nd) renderWeb(nd);
+          if (nd) renderWeb(nd, true);
         });
       });
+      if (showInfo) {
+        webInfo.innerHTML = `
+          <div class="web-info-word"><b>${centerItem.word}</b> - ${centerItem.az_word || ''}</div>
+          <div class="web-info-def">${centerItem.def || ''}</div>
+          <div class="web-info-example">"${centerItem.example || ''}"</div>
+        `;
+        webInfo.classList.add('open');
+      }
     }
     details.addEventListener('toggle', () => {
-      if (details.open && webCanvas.innerHTML.trim() === '') renderWeb(item);
+      if (details.open && webCanvas.innerHTML.trim() === '') renderWeb(item, false);
     });
     details.querySelector('.speak-btn').addEventListener('click', (e) => {
       e.preventDefault(); e.stopPropagation();
