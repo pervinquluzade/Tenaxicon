@@ -283,6 +283,15 @@
   }
   .search-empty-hint { font-size: 13px; color: var(--ink-soft); padding: 16px 4px; text-align: center; }
   .search-result-def { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; line-height: 1.4; }
+  .learned-row-details { background: var(--paper-card); border: 1px solid var(--paper-line); border-radius: var(--radius); padding: 12px 16px; margin-bottom: 8px; }
+  .learned-row-summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; list-style: none; }
+  .learned-row-summary::-webkit-details-marker { display: none; }
+  .row-left { display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1; }
+  .row-left span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .row-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .row-chevron { font-size: 11px; color: var(--ink-soft); transition: transform 0.15s; }
+  .learned-row-details[open] .row-chevron { transform: rotate(90deg); }
+  .learned-row-body { padding-top: 8px; }
   .learned-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--paper-card); border: 1px solid var(--paper-line); border-radius: var(--radius); padding: 12px 16px; margin-bottom: 8px; }
   .mywords-pin-btn { width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--paper-line); background: var(--paper-card); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--ink); }
   .mywords-pin-btn.pinned { background: var(--teal-soft); border-color: var(--teal); color: var(--teal); }
@@ -1137,25 +1146,36 @@ function renderMyWords() {
 
   list.forEach(item => {
     const isPinned = state.myWords.includes(item.word);
-    let div = document.createElement('div');
-    div.className = 'learned-row';
-    div.innerHTML = `
-      <div style="display:flex; align-items:center; gap:8px; flex:1; min-width:0;">
-        <button class="speak-btn" title="${state.uiLang === 'az' ? 'Tələffüzü dinlə' : 'Listen to pronunciation'}">${SPEAK_ICON_SVG}</button>
-        <div style="min-width:0;">
+    let details = document.createElement('details');
+    details.className = 'learned-row-details';
+    details.innerHTML = `
+      <summary class="learned-row-summary">
+        <div class="row-left">
+          <button class="speak-btn" title="${state.uiLang === 'az' ? 'Tələffüzü dinlə' : 'Listen to pronunciation'}">${SPEAK_ICON_SVG}</button>
           <span><b>${item.word}</b> - ${item.az_word || ''}</span>
-          ${query ? `<div class="search-result-def">${item.def || ''}</div>` : ''}
         </div>
+        <div class="row-right">
+          <span class="row-chevron">▸</span>
+          <button class="mywords-pin-btn ${isPinned ? 'pinned' : ''}" title="${isPinned ? (state.uiLang === 'az' ? 'Siyahıdan sil' : 'Remove from list') : (state.uiLang === 'az' ? 'Siyahıya əlavə et' : 'Add to list')}">${isPinned ? '✓' : '＋'}</button>
+        </div>
+      </summary>
+      <div class="learned-row-body">
+        <hr class="entry-rule">
+        <p class="def-en">${item.def || ''}</p>
+        <div class="example">"${item.example || ''}"</div>
       </div>
-      <button class="mywords-pin-btn ${isPinned ? 'pinned' : ''}" title="${isPinned ? (state.uiLang === 'az' ? 'Siyahıdan sil' : 'Remove from list') : (state.uiLang === 'az' ? 'Siyahıya əlavə et' : 'Add to list')}">${isPinned ? '✓' : '＋'}</button>
     `;
-    div.querySelector('.speak-btn').addEventListener('click', (e) => speakWord(item.word, e.currentTarget));
-    div.querySelector('.mywords-pin-btn').addEventListener('click', (e) => {
+    details.querySelector('.speak-btn').addEventListener('click', (e) => {
+      e.preventDefault(); e.stopPropagation();
+      speakWord(item.word, e.currentTarget);
+    });
+    details.querySelector('.mywords-pin-btn').addEventListener('click', (e) => {
+      e.preventDefault(); e.stopPropagation();
       if (state.myWords.includes(item.word)) state.myWords = state.myWords.filter(w => w !== item.word);
       else state.myWords.push(item.word);
       saveState();
     });
-    container.appendChild(div);
+    container.appendChild(details);
   });
 }
 
