@@ -332,6 +332,12 @@
   /* Related words (category map) */
   .related-wrap { margin-top: 10px; }
   .related-label { font-size: 11px; font-weight: 600; color: var(--ink-soft); margin-bottom: 6px; }
+  .word-web-wrap { margin-top: 12px; }
+  .word-web-label { font-size: 11px; font-weight: 600; color: var(--ink-soft); margin-bottom: 6px; }
+  .word-web-canvas { background: var(--paper-bg); border-radius: var(--radius); padding: 6px 0; }
+  .word-web-svg .web-node { cursor: pointer; }
+  .word-web-svg .web-node:hover circle { stroke-width: 2.5; }
+  .word-web-svg text { pointer-events: none; user-select: none; }
   .related-chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .related-chip {
     font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; cursor: pointer;
@@ -615,7 +621,7 @@ const LOCALIZATION = {
     lbl_day: "Gün", lbl_learned_stat: "öyrənildi", lbl_streak_stat: "Seriya:", lbl_streak_days: "gün seriya",
     lbl_total_stat: "Ümumi Baza:", lbl_total_words: "söz bazada", lbl_day_progress_title: "Bugünkü irəliləyiş", btn_next_batch: "Yeni 5 söz", btn_goto_game: "Oyunda məşq et",
     lbl_mywords_stat: "Siyahında:", lbl_mywords_count_label: "söz", lbl_match_moves: "Hərəkət:", lbl_match_matches: "Uyğun:",
-    search_placeholder: "Söz axtar (ingiliscə və ya azərbaycanca)...", lbl_search_stat: "Nəticə:", search_empty: "Heç nə tapılmadı. Başqa söz yoxlayın.",
+    search_placeholder: "Söz axtar (ingiliscə və ya azərbaycanca)...", lbl_search_stat: "Nəticə:", search_empty: "Heç nə tapılmadı. Başqa söz yoxlayın.", lbl_word_web: "Söz şəbəkəsi",
     btn_restart: "Yeni oyun", win_match: "Təbriklər! Hamısını tapdınız.", btn_flash_prev: "Geri", btn_flash_next: "Növbəti",
     flash_hint: "Kliklə və tərcüməsinə bax", quiz_win: "Təbriklər! Bütün sualları bitirdiniz.", spell_placeholder: "İngiliscə sözü yazın və Enter basın",
     spell_btn: "Yoxla", spell_correct: "Mükəmməl! Doğrudur.", spell_wrong: "Səhvdir, yenidən yoxlayın.", translate_placeholder: "Yuxarıdakı mətni İngilis dilinə çevirməyə çalışın...",
@@ -654,7 +660,7 @@ const LOCALIZATION = {
     lbl_day: "Day", lbl_learned_stat: "learned", lbl_streak_stat: "Streak:", lbl_streak_days: "day streak",
     lbl_total_stat: "Total Database:", lbl_total_words: "words in base", lbl_day_progress_title: "Today's Progress", btn_next_batch: "New 5 Words", btn_goto_game: "Practice in Games",
     lbl_mywords_stat: "In your list:", lbl_mywords_count_label: "words", lbl_match_moves: "Moves:", lbl_match_matches: "Matches:",
-    search_placeholder: "Search words (English or Azerbaijani)...", lbl_search_stat: "Results:", search_empty: "No matches found. Try a different word.",
+    search_placeholder: "Search words (English or Azerbaijani)...", lbl_search_stat: "Results:", search_empty: "No matches found. Try a different word.", lbl_word_web: "Word web",
     btn_restart: "New Game", win_match: "Congratulations! You matched all.", btn_flash_prev: "Back", btn_flash_next: "Next",
     flash_hint: "Click to flip and see definition", quiz_win: "Congratulations! You completed the quiz.", spell_placeholder: "Type the English word and press Enter",
     spell_btn: "Check", spell_correct: "Excellent! Correct.", spell_wrong: "Incorrect, try again.", translate_placeholder: "Try translating the text above into English...",
@@ -1022,20 +1028,6 @@ function renderDailyWords() {
     card.className = `word-card ${isLearned ? 'word-card-learned' : ''}`;
     const detailsLabel = state.uiLang === 'az' ? 'Tərif və nümunə' : 'Definition & example';
 
-    const relatedWords = VOCAB.filter(v => v.category && v.category === item.category && v.word !== item.word).slice(0, 5);
-    const relLabel = LOCALIZATION[state.uiLang].lbl_related_words;
-    const relatedHTML = relatedWords.length ? `
-      <div class="related-wrap">
-        <div class="related-label">${relLabel} — ${item.category || ''}</div>
-        <div class="related-chips">
-          ${relatedWords.map(r => {
-            const c = categoryColor(r.category);
-            return `<button class="related-chip" data-word="${r.word}" style="background:${c.bg}; color:${c.fg};">${r.word}</button>`;
-          }).join('')}
-        </div>
-        <div class="related-def"></div>
-      </div>` : '';
-
     card.innerHTML = `
       <div class="entry-top">
         <div class="headword-row">
@@ -1057,31 +1049,25 @@ function renderDailyWords() {
           <hr class="entry-rule">
           <p class="def-en">${item.def || ''}</p>
           <div class="example">"${item.example || ''}"</div>
-          ${relatedHTML}
+          <div class="word-web-wrap">
+            <div class="word-web-label">${LOCALIZATION[state.uiLang].lbl_word_web} — ${item.category || ''}</div>
+            <div class="word-web-canvas"></div>
+          </div>
         </div>
       </details>
     `;
-    card.querySelectorAll('.related-chip').forEach(chip => {
-      chip.addEventListener('click', (e) => {
-        const w = e.currentTarget.dataset.word;
-        const relItem = VOCAB.find(v => v.word === w);
-        if (!relItem) return;
-        const defBox = card.querySelector('.related-def');
-        const alreadyOpenForThisWord = defBox.classList.contains('open') && defBox.dataset.word === w;
-        if (alreadyOpenForThisWord) {
-          defBox.classList.remove('open');
-          defBox.dataset.word = '';
-          return;
-        }
-        defBox.dataset.word = w;
-        defBox.innerHTML = `
-          <span class="rd-word">${relItem.word}</span>
-          <span class="pos-badge ${posClass(relItem.part_of_speech)}">${posLabel(relItem.part_of_speech)}</span>
-          <div class="rd-az">${relItem.az_word || ''}</div>
-          <div class="rd-def">${relItem.def || ''}</div>
-        `;
-        defBox.classList.add('open');
+    const webCanvas = card.querySelector('.word-web-canvas');
+    function renderWeb(centerItem) {
+      webCanvas.innerHTML = buildWordWebSVG(centerItem);
+      webCanvas.querySelectorAll('.web-node').forEach(node => {
+        node.addEventListener('click', () => {
+          const nd = VOCAB.find(v => v.word === node.dataset.word);
+          if (nd) renderWeb(nd);
+        });
       });
+    }
+    card.querySelector('.word-details').addEventListener('toggle', (e) => {
+      if (e.target.open && webCanvas.innerHTML.trim() === '') renderWeb(item);
     });
     card.querySelector('.speak-btn').addEventListener('click', (e) => {
       speakWord(item.word, e.currentTarget);
@@ -1163,8 +1149,25 @@ function renderMyWords() {
         <hr class="entry-rule">
         <p class="def-en">${item.def || ''}</p>
         <div class="example">"${item.example || ''}"</div>
+        <div class="word-web-wrap">
+          <div class="word-web-label">${dict.lbl_word_web} — ${item.category || ''}</div>
+          <div class="word-web-canvas"></div>
+        </div>
       </div>
     `;
+    const webCanvas = details.querySelector('.word-web-canvas');
+    function renderWeb(centerItem) {
+      webCanvas.innerHTML = buildWordWebSVG(centerItem);
+      webCanvas.querySelectorAll('.web-node').forEach(node => {
+        node.addEventListener('click', () => {
+          const nd = VOCAB.find(v => v.word === node.dataset.word);
+          if (nd) renderWeb(nd);
+        });
+      });
+    }
+    details.addEventListener('toggle', () => {
+      if (details.open && webCanvas.innerHTML.trim() === '') renderWeb(item);
+    });
     details.querySelector('.speak-btn').addEventListener('click', (e) => {
       e.preventDefault(); e.stopPropagation();
       speakWord(item.word, e.currentTarget);
@@ -1301,6 +1304,37 @@ function categoryColor(category) {
   let hash = 0;
   for (let i = 0; i < (category || '').length; i++) hash = (hash * 31 + category.charCodeAt(i)) >>> 0;
   return CATEGORY_PALETTE[hash % CATEGORY_PALETTE.length];
+}
+
+function buildWordWebSVG(item) {
+  const related = VOCAB.filter(v => v.category && v.category === item.category && v.word !== item.word).slice(0, 6);
+  const cx = 160, cy = 125, r = 92;
+  const n = related.length;
+  if (!n) return '';
+  let lines = '', nodes = '';
+  related.forEach((nd, idx) => {
+    const angle = (2 * Math.PI * idx / n) - Math.PI / 2;
+    const x = cx + r * Math.cos(angle);
+    const y = cy + r * Math.sin(angle);
+    const col = categoryColor(nd.category);
+    const fontSize = nd.word.length > 9 ? 8.5 : 10.5;
+    lines += `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="var(--paper-line)" stroke-width="1.5"/>`;
+    nodes += `
+      <g class="web-node" data-word="${nd.word}">
+        <circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="30" fill="${col.bg}" stroke="${col.fg}" stroke-width="1"/>
+        <text x="${x.toFixed(1)}" y="${(y + 3.5).toFixed(1)}" text-anchor="middle" font-size="${fontSize}" font-weight="600" fill="${col.fg}">${nd.word}</text>
+      </g>`;
+  });
+  const centerFont = item.word.length > 9 ? 9 : 11;
+  return `
+    <svg class="word-web-svg" viewBox="0 0 320 250" width="100%" style="max-width:320px; display:block; margin:0 auto;">
+      ${lines}
+      <g>
+        <circle cx="${cx}" cy="${cy}" r="38" fill="var(--teal)"/>
+        <text x="${cx}" y="${cy + 4}" text-anchor="middle" font-size="${centerFont}" font-weight="700" fill="#fff">${item.word}</text>
+      </g>
+      ${nodes}
+    </svg>`;
 }
 
 function todayStr(d) {
