@@ -268,6 +268,35 @@
   .translate-passage { background: var(--teal-soft); border-radius: var(--radius); padding: 16px 18px; font-size: 15px; line-height: 1.6; border-left: 4px solid var(--teal); color: #1b3e3e; }
   .translate-input { width: 100%; font-size: 15px; padding: 12px 14px; border-radius: var(--radius); border: 1px solid var(--paper-line); background: var(--paper-card); color: var(--ink); font-family: var(--sans); }
 
+  /* Crossword */
+  .crossword-wrap { display: flex; flex-direction: column; gap: 14px; }
+  .crossword-top-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .crossword-board-wrap { width: 100%; overflow-x: auto; padding-bottom: 4px; }
+  .crossword-grid { display: inline-grid; gap: 2px; background: var(--paper-line); padding: 2px; border-radius: 6px; }
+  .cw-cell { position: relative; width: 30px; height: 30px; background: var(--paper-card); }
+  .cw-cell.blocked { background: transparent; }
+  .cw-cell input {
+    width: 100%; height: 100%; border: none; background: transparent; text-align: center;
+    font-family: var(--sans); font-size: 15px; font-weight: 700; color: var(--ink);
+    text-transform: uppercase; padding: 0; box-sizing: border-box; border-radius: 4px;
+  }
+  .cw-cell input:focus { outline: none; background: var(--teal-soft); }
+  .cw-cell input.correct { background: var(--leaf-soft); color: var(--leaf); }
+  .cw-cell input.wrong { background: var(--clay-soft); color: var(--clay); }
+  .cw-number {
+    position: absolute; top: 1px; left: 2px; font-size: 8px; font-weight: 700;
+    color: var(--ink-soft); pointer-events: none; line-height: 1;
+  }
+  .crossword-feedback { font-size: 13.5px; font-weight: 600; min-height: 18px; }
+  .crossword-feedback.correct { color: var(--leaf); }
+  .crossword-feedback.wrong { color: var(--clay); }
+  .crossword-clues { display: flex; flex-direction: column; gap: 14px; }
+  .crossword-clue-group h4 { font-family: var(--serif); font-weight: 400; font-size: 15px; margin: 0 0 8px; color: var(--ink); }
+  .crossword-clue-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .crossword-clue-list li { font-size: 13px; color: var(--ink-soft); line-height: 1.4; cursor: pointer; }
+  .crossword-clue-list li b { color: var(--ink); margin-right: 4px; }
+  .crossword-clue-list li.active { color: var(--teal); font-weight: 600; }
+
   /* Badges & General lists */
   .search-box-wrap { position: relative; margin-bottom: 16px; }
   .search-input {
@@ -492,6 +521,7 @@
       <button class="subtab-pill" data-sub="spell" id="subtab-spell">İmla</button>
       <button class="subtab-pill" data-sub="translate" id="subtab-translate">Tərcümə</button>
       <button class="subtab-pill" data-sub="blank" id="subtab-blank">Boşluq</button>
+      <button class="subtab-pill" data-sub="crossword" id="subtab-crossword">Krossvord</button>
     </div>
 
     <div class="game-subview active" id="sub-match">
@@ -562,6 +592,20 @@
           <button class="btn primary" id="blank-submit-btn">Yoxla</button>
         </div>
         <div class="spell-feedback" id="blank-feedback"></div>
+      </div>
+    </div>
+
+    <div class="game-subview" id="sub-crossword">
+      <div class="crossword-wrap">
+        <div class="crossword-top-row">
+          <span class="spell-progress" id="crossword-progress">Krossvord</span>
+          <button class="btn" id="crossword-check-btn">Yoxla</button>
+        </div>
+        <div class="crossword-board-wrap">
+          <div class="crossword-grid" id="crossword-grid"></div>
+        </div>
+        <div class="crossword-feedback" id="crossword-feedback"></div>
+        <div class="crossword-clues" id="crossword-clues"></div>
       </div>
     </div>
   </section>
@@ -645,6 +689,9 @@ const LOCALIZATION = {
     tab_blank: "Boşluq", tab_review: "Təkrar",
     blank_placeholder: "Boşluğa uyğun sözü yazın və Enter basın", blank_btn: "Yoxla",
     blank_correct: "Doğrudur!", blank_wrong: "Səhvdir, yenidən cəhd edin.",
+    tab_crossword: "Krossvord", crossword_across: "Üfüqi", crossword_down: "Şaquli",
+    crossword_check_btn: "Yoxla", crossword_progress: "Krossvord",
+    crossword_win: "Əla! Krossvordu tam doğru həll etdin.", crossword_wrong: "Bəzi xanalar səhvdir, yenidən yoxla.",
     review_flip_hint: "Kliklə və tərcüməsinə bax", review_know_btn: "Bilirəm", review_dontknow_btn: "Bilmirəm",
     review_empty: "Bugün üçün təkrarlanacaq söz yoxdur! 🎉 Yeni sözlər öyrənib bura qaytıdırsınız.",
     review_progress: "Bugünkü təkrar", review_done: "Bugünkü bütün təkrarları bitirdiniz! Sabah görüşərik.",
@@ -684,6 +731,9 @@ const LOCALIZATION = {
     tab_blank: "Fill-in", tab_review: "Review",
     blank_placeholder: "Type the missing word and press Enter", blank_btn: "Check",
     blank_correct: "Correct!", blank_wrong: "Incorrect, try again.",
+    tab_crossword: "Crossword", crossword_across: "Across", crossword_down: "Down",
+    crossword_check_btn: "Check", crossword_progress: "Crossword",
+    crossword_win: "Great! You solved the crossword correctly.", crossword_wrong: "Some cells are wrong, try again.",
     review_flip_hint: "Click to flip and see the translation", review_know_btn: "I know it", review_dontknow_btn: "I don't know it",
     review_empty: "No words are due for review today! 🎉 Learn new words and come back later.",
     review_progress: "Today's review", review_done: "You finished today's reviews! See you tomorrow.",
@@ -836,6 +886,8 @@ window.addEventListener('DOMContentLoaded', () => {
   });
   document.getElementById('blank-submit-btn').addEventListener('click', doBlankCheck);
 
+  document.getElementById('crossword-check-btn').addEventListener('click', checkCrossword);
+
   document.getElementById('flash-know-btn').addEventListener('click', () => gradeFlashcard(true));
   document.getElementById('flash-dontknow-btn').addEventListener('click', () => gradeFlashcard(false));
 
@@ -987,6 +1039,9 @@ function updateUI() {
   document.getElementById('subtab-spell').innerText = dict.tab_spell;
   document.getElementById('subtab-translate').innerText = dict.tab_translate;
   document.getElementById('subtab-blank').innerText = dict.tab_blank;
+  document.getElementById('subtab-crossword').innerText = dict.tab_crossword;
+  document.getElementById('crossword-check-btn').innerText = dict.crossword_check_btn;
+  document.getElementById('crossword-progress').innerText = dict.crossword_progress;
   document.getElementById('blank-input').placeholder = dict.blank_placeholder;
   document.getElementById('blank-submit-btn').innerText = dict.blank_btn;
 
@@ -1496,6 +1551,7 @@ function initGames() {
   initSpellingGame();
   initTranslationGame();
   initBlankGame();
+  initCrosswordGame();
 }
 
 function speakWord(text, btn) {
@@ -1876,6 +1932,271 @@ function doBlankCheck() {
   } else {
     feedback.className = 'spell-feedback wrong';
     feedback.innerText = LOCALIZATION[state.uiLang].blank_wrong + ` (${blankCurrentAnswer[0]}...?)`;
+  }
+}
+
+/* ---------------- Krossvord (Crossword) oyunu ---------------- */
+let currentCrossword = null;
+
+function cwNormalize(w) {
+  return (w || '').toUpperCase().replace(/[^A-ZƏÖÜŞÇĞIİ]/g, '').replace(/[^A-Z]/g, '');
+}
+
+function generateCrossword(items) {
+  const seen = new Set();
+  let entries = [];
+  items.forEach(it => {
+    const letters = cwNormalize(it.word);
+    if (letters.length >= 3 && !seen.has(letters)) {
+      seen.add(letters);
+      entries.push({ item: it, letters });
+    }
+  });
+  if (!entries.length) return null;
+  entries.sort((a, b) => b.letters.length - a.letters.length);
+
+  const cells = new Map();
+  const placements = [];
+  const key = (r, c) => r + ',' + c;
+
+  function canPlace(letters, row, col, dir) {
+    for (let i = 0; i < letters.length; i++) {
+      const r = dir === 'V' ? row + i : row;
+      const c = dir === 'H' ? col + i : col;
+      const k = key(r, c);
+      if (cells.has(k)) {
+        if (cells.get(k) !== letters[i]) return false;
+      } else {
+        if (dir === 'H') {
+          if (cells.has(key(r - 1, c)) || cells.has(key(r + 1, c))) return false;
+        } else {
+          if (cells.has(key(r, c - 1)) || cells.has(key(r, c + 1))) return false;
+        }
+      }
+    }
+    if (dir === 'H') {
+      if (cells.has(key(row, col - 1)) || cells.has(key(row, col + letters.length))) return false;
+    } else {
+      if (cells.has(key(row - 1, col)) || cells.has(key(row + letters.length, col))) return false;
+    }
+    return true;
+  }
+
+  function place(letters, row, col, dir) {
+    for (let i = 0; i < letters.length; i++) {
+      const r = dir === 'V' ? row + i : row;
+      const c = dir === 'H' ? col + i : col;
+      cells.set(key(r, c), letters[i]);
+    }
+  }
+
+  const first = entries[0];
+  place(first.letters, 0, 0, 'H');
+  placements.push({ item: first.item, letters: first.letters, row: 0, col: 0, dir: 'H' });
+
+  for (let idx = 1; idx < entries.length; idx++) {
+    const entry = entries[idx];
+    let placed = false;
+    for (let pi = 0; pi < placements.length && !placed; pi++) {
+      const p = placements[pi];
+      for (let i = 0; i < p.letters.length && !placed; i++) {
+        const pr = p.dir === 'V' ? p.row + i : p.row;
+        const pc = p.dir === 'H' ? p.col + i : p.col;
+        const letter = p.letters[i];
+        for (let j = 0; j < entry.letters.length && !placed; j++) {
+          if (entry.letters[j] === letter) {
+            const newDir = p.dir === 'H' ? 'V' : 'H';
+            let row, col;
+            if (newDir === 'V') { row = pr - j; col = pc; }
+            else { row = pr; col = pc - j; }
+            if (canPlace(entry.letters, row, col, newDir)) {
+              place(entry.letters, row, col, newDir);
+              placements.push({ item: entry.item, letters: entry.letters, row, col, dir: newDir });
+              placed = true;
+            }
+          }
+        }
+      }
+    }
+    if (!placed) {
+      let maxRow = 0;
+      cells.forEach((v, k) => { const r = parseInt(k.split(',')[0], 10); if (r > maxRow) maxRow = r; });
+      const newRow = maxRow + 2;
+      place(entry.letters, newRow, 0, 'H');
+      placements.push({ item: entry.item, letters: entry.letters, row: newRow, col: 0, dir: 'H' });
+    }
+  }
+
+  let minR = Infinity, maxR = -Infinity, minC = Infinity, maxC = -Infinity;
+  cells.forEach((v, k) => {
+    const [r, c] = k.split(',').map(Number);
+    if (r < minR) minR = r; if (r > maxR) maxR = r;
+    if (c < minC) minC = c; if (c > maxC) maxC = c;
+  });
+
+  const rows = maxR - minR + 1, cols = maxC - minC + 1;
+  placements.forEach(p => { p.row -= minR; p.col -= minC; });
+
+  const startsAt = new Map();
+  placements.forEach(p => {
+    const k = p.row + ',' + p.col;
+    if (!startsAt.has(k)) startsAt.set(k, {});
+    if (p.dir === 'H') startsAt.get(k).across = true; else startsAt.get(k).down = true;
+  });
+  const sortedStarts = Array.from(startsAt.keys())
+    .map(k => k.split(',').map(Number))
+    .sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  const numberOf = new Map();
+  let num = 1;
+  sortedStarts.forEach(([r, c]) => { numberOf.set(r + ',' + c, num++); });
+  placements.forEach(p => { p.number = numberOf.get(p.row + ',' + p.col); });
+
+  return { rows, cols, placements };
+}
+
+function renderCrossword(cw) {
+  const gridEl = document.getElementById('crossword-grid');
+  const cluesEl = document.getElementById('crossword-clues');
+  const feedback = document.getElementById('crossword-feedback');
+  feedback.innerText = '';
+  feedback.className = 'crossword-feedback';
+  gridEl.innerHTML = '';
+  cluesEl.innerHTML = '';
+
+  if (!cw) { gridEl.innerHTML = ''; return; }
+
+  const occupied = new Map(); // "r,c" -> {number, letter}
+  cw.placements.forEach(p => {
+    for (let i = 0; i < p.letters.length; i++) {
+      const r = p.dir === 'V' ? p.row + i : p.row;
+      const c = p.dir === 'H' ? p.col + i : p.col;
+      const k = r + ',' + c;
+      if (!occupied.has(k)) occupied.set(k, { letter: p.letters[i] });
+      if (i === 0) {
+        occupied.get(k).number = p.number;
+      } else if (!occupied.get(k).number && numberAt(cw, r, c)) {
+        occupied.get(k).number = numberAt(cw, r, c);
+      }
+    }
+  });
+
+  gridEl.style.gridTemplateColumns = `repeat(${cw.cols}, 30px)`;
+  gridEl.style.gridTemplateRows = `repeat(${cw.rows}, 30px)`;
+
+  for (let r = 0; r < cw.rows; r++) {
+    for (let c = 0; c < cw.cols; c++) {
+      const k = r + ',' + c;
+      const cell = document.createElement('div');
+      if (occupied.has(k)) {
+        cell.className = 'cw-cell';
+        const info = occupied.get(k);
+        if (info.number) {
+          const numSpan = document.createElement('span');
+          numSpan.className = 'cw-number';
+          numSpan.innerText = info.number;
+          cell.appendChild(numSpan);
+        }
+        const input = document.createElement('input');
+        input.setAttribute('maxlength', '1');
+        input.dataset.r = r;
+        input.dataset.c = c;
+        input.dataset.answer = info.letter;
+        input.id = `cw-cell-${r}-${c}`;
+        input.addEventListener('input', () => {
+          input.value = input.value.toUpperCase().replace(/[^A-Z]/g, '');
+          input.classList.remove('correct', 'wrong');
+          if (input.value) focusNextCrosswordCell(r, c);
+        });
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Backspace' && !input.value) {
+            focusPrevCrosswordCell(r, c);
+          } else if (e.key === 'ArrowRight') { focusCrosswordCell(r, c + 1); }
+          else if (e.key === 'ArrowLeft') { focusCrosswordCell(r, c - 1); }
+          else if (e.key === 'ArrowDown') { focusCrosswordCell(r + 1, c); }
+          else if (e.key === 'ArrowUp') { focusCrosswordCell(r - 1, c); }
+        });
+        cell.appendChild(input);
+      } else {
+        cell.className = 'cw-cell blocked';
+      }
+      gridEl.appendChild(cell);
+    }
+  }
+
+  const dict = LOCALIZATION[state.uiLang];
+  const across = cw.placements.filter(p => p.dir === 'H').sort((a, b) => a.number - b.number);
+  const down = cw.placements.filter(p => p.dir === 'V').sort((a, b) => a.number - b.number);
+
+  function clueText(p) {
+    return p.item.az_word ? p.item.az_word.split(' / ')[0] : (p.item.def || '');
+  }
+
+  function buildGroup(title, list) {
+    if (!list.length) return '';
+    const items = list.map(p => `<li data-r="${p.row}" data-c="${p.col}"><b>${p.number}.</b>${clueText(p)}</li>`).join('');
+    return `<div class="crossword-clue-group"><h4>${title}</h4><ul class="crossword-clue-list">${items}</ul></div>`;
+  }
+
+  cluesEl.innerHTML = buildGroup(dict.crossword_across, across) + buildGroup(dict.crossword_down, down);
+  cluesEl.querySelectorAll('.crossword-clue-list li').forEach(li => {
+    li.addEventListener('click', () => {
+      focusCrosswordCell(parseInt(li.dataset.r, 10), parseInt(li.dataset.c, 10));
+    });
+  });
+}
+
+function numberAt(cw, r, c) {
+  const p = cw.placements.find(pp => pp.row === r && pp.col === c);
+  return p ? p.number : null;
+}
+
+function focusCrosswordCell(r, c) {
+  const el = document.getElementById(`cw-cell-${r}-${c}`);
+  if (el) el.focus();
+}
+function focusNextCrosswordCell(r, c) {
+  for (const [dr, dc] of [[0, 1], [1, 0]]) {
+    const el = document.getElementById(`cw-cell-${r + dr}-${c + dc}`);
+    if (el) { el.focus(); return; }
+  }
+}
+function focusPrevCrosswordCell(r, c) {
+  for (const [dr, dc] of [[0, -1], [-1, 0]]) {
+    const el = document.getElementById(`cw-cell-${r + dr}-${c + dc}`);
+    if (el) { el.focus(); return; }
+  }
+}
+
+function initCrosswordGame() {
+  if (!activeBatch.length) return;
+  currentCrossword = generateCrossword(activeBatch);
+  renderCrossword(currentCrossword);
+}
+
+function checkCrossword() {
+  if (!currentCrossword) return;
+  const inputs = document.querySelectorAll('#crossword-grid input');
+  let allCorrect = true;
+  let allFilled = true;
+  inputs.forEach(input => {
+    if (!input.value) { allFilled = false; return; }
+    if (input.value.toUpperCase() === input.dataset.answer) {
+      input.classList.add('correct');
+      input.classList.remove('wrong');
+    } else {
+      input.classList.add('wrong');
+      input.classList.remove('correct');
+      allCorrect = false;
+    }
+  });
+  const feedback = document.getElementById('crossword-feedback');
+  const dict = LOCALIZATION[state.uiLang];
+  if (allFilled && allCorrect) {
+    feedback.className = 'crossword-feedback correct';
+    feedback.innerText = dict.crossword_win;
+  } else {
+    feedback.className = 'crossword-feedback wrong';
+    feedback.innerText = dict.crossword_wrong;
   }
 }
 
